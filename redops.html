@@ -1021,6 +1021,233 @@
       color: #FFFFFF;
     }
 
+    /* ========== 模块 4:商家陪跑舱 ========== */
+    .merchants-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding: 12px 18px;
+      background: var(--card);
+      border-radius: 12px;
+      box-shadow: var(--shadow-card);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .merchants-filters {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .merchants-sort {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: 4px;
+      padding-left: 12px;
+      border-left: 1px solid var(--border);
+    }
+    .merchants-sort-label {
+      font-size: 12px;
+      color: var(--text-3);
+      margin-right: 2px;
+    }
+    .merchants-sort-dir {
+      width: 32px; height: 32px;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-2);
+      transition: all 0.2s ease;
+      padding: 0;
+    }
+    .merchants-sort-dir:hover {
+      border-color: var(--brand);
+      color: var(--brand);
+    }
+    .merchants-sort-dir svg {
+      width: 14px; height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.25s ease;
+    }
+    .merchants-sort-dir.asc svg { transform: rotate(180deg); }
+    .merchants-count {
+      font-size: 13px;
+      color: var(--text-2);
+    }
+    .merchants-count .num {
+      color: var(--text-1);
+      font-weight: 700;
+      margin: 0 2px;
+    }
+
+    .merchants-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 16px;
+    }
+
+    .merchant-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: var(--shadow-card);
+      transition: all 0.2s ease;
+    }
+    .merchant-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-card-hover);
+      border-color: rgba(255,36,66,0.18);
+    }
+
+    .merchant-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .merchant-head-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+    .merchant-emoji {
+      width: 40px; height: 40px;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+    .merchant-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-1);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .merchant-tier-tag {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      flex-shrink: 0;
+      white-space: nowrap;
+      line-height: 1.6;
+    }
+    .tier-super-bench { background: var(--brand); color: #FFFFFF; }
+    .tier-bench       { background: rgba(255,36,66,0.08); color: var(--brand); border: 1px solid rgba(255,36,66,0.25); }
+    .tier-grow        { background: rgba(255,149,0,0.08); color: var(--warn);  border: 1px solid rgba(255,149,0,0.30); }
+    .tier-pot         { background: #F5F5F5; color: var(--text-2); border: 1px solid var(--border); }
+
+    .merchant-storytag {
+      font-size: 12px;
+      color: var(--text-2);
+      line-height: 1.5;
+      padding-left: 50px;
+      margin-top: -4px;
+      font-style: italic;
+    }
+
+    .merchant-body {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 14px;
+      align-items: center;
+      padding: 10px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .merchant-radar-wrap { width: 90px; height: 90px; }
+    .merchant-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 16px;
+    }
+    .merchant-stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 12px;
+    }
+    .merchant-stat-key { color: var(--text-3); }
+    .merchant-stat-val {
+      font-family: var(--font-num);
+      font-weight: 700;
+      color: var(--text-1);
+      font-variant-numeric: tabular-nums;
+    }
+    .merchant-stat-val .unit {
+      font-family: var(--font-cn);
+      font-weight: 500;
+      color: var(--text-2);
+      font-size: 11px;
+      margin-left: 1px;
+    }
+
+    .merchant-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .merchant-belt {
+      font-size: 12px;
+      color: var(--text-3);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .merchant-belt::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--brand);
+      flex-shrink: 0;
+      opacity: 0.6;
+    }
+    .merchant-coach-btn {
+      font-size: 13px;
+      color: var(--brand);
+      font-weight: 600;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px 0;
+      font-family: var(--font-cn);
+      transition: all 0.15s ease;
+    }
+    .merchant-coach-btn:hover { text-decoration: underline; }
+
+    .merchants-empty {
+      grid-column: 1 / -1;
+      padding: 60px 20px;
+      text-align: center;
+      color: var(--text-3);
+      font-size: 14px;
+      background: var(--card);
+      border-radius: var(--radius-card);
+      border: 1px dashed var(--border);
+    }
+
     /* 通用 Modal(Step 3 引入,Step 7 复用) */
     .modal-mask {
       position: fixed;
@@ -1417,10 +1644,40 @@
     </section>
 
     <section id="merchants" class="module">
-      <div class="placeholder-block">
-        <div class="ph-title">模块 4：头部商家陪跑舱</div>
-        <div class="ph-desc">商家健康度 · 30/60/90 陪跑计划 · 周报与 showcase 生成（Step 5 实现）</div>
+      <div class="merchants-toolbar">
+        <div class="merchants-filters">
+          <div class="dropdown" id="m-tier-dropdown">
+            <button class="dropdown-trigger" id="m-tier-trigger" type="button">
+              <span class="dropdown-value" id="m-tier-value">全部等级</span>
+              <svg class="dropdown-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <ul class="dropdown-menu" id="m-tier-menu" hidden></ul>
+          </div>
+          <div class="dropdown" id="m-belt-dropdown">
+            <button class="dropdown-trigger" id="m-belt-trigger" type="button">
+              <span class="dropdown-value" id="m-belt-value">全部产业带</span>
+              <svg class="dropdown-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <ul class="dropdown-menu" id="m-belt-menu" hidden></ul>
+          </div>
+          <div class="merchants-sort">
+            <span class="merchants-sort-label">排序</span>
+            <div class="dropdown" id="m-sort-dropdown">
+              <button class="dropdown-trigger" id="m-sort-trigger" type="button">
+                <span class="dropdown-value" id="m-sort-value">GMV</span>
+                <svg class="dropdown-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <ul class="dropdown-menu" id="m-sort-menu" hidden></ul>
+            </div>
+            <button class="merchants-sort-dir" id="m-sort-dir" type="button" title="切换升降序">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="6 13 12 19 18 13"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="merchants-count">共 <span id="m-count" class="num">9</span> 个商家</div>
       </div>
+
+      <div class="merchants-grid" id="merchants-grid"></div>
     </section>
 
     <section id="creators" class="module">
@@ -1466,9 +1723,14 @@
        ============================================================ */
     const state = {
       category: '服饰穿搭',
-      belt:     null,          // 当前选中产业带 name(初始化时按品类自动取第一个)
+      belt:     'ALL',         // 全局产业带状态;'ALL' 或具体产业带名
       range:    30,
       module:   'dashboard',
+      merchants: {
+        tier:    'ALL',        // 全部 / 超级标杆 / 标杆 / 成长 / 潜力
+        sort:    'gmv',        // gmv / health / noteCount / creatorCount / repurchaseRate
+        sortDir: 'desc',       // desc / asc
+      },
     };
 
     /* ============================================================
@@ -2807,6 +3069,214 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
       ],
     };
 
+    /* ============================================================
+       MERCHANTS_DATA —— 5 品类 × 9 个头部商家(模块 4 用)
+       关键设计:
+         · 每品类 9 个里至少 5 个与 BELTS_DATA.topMerchants 重合(跨模块叙事)
+         · tier 分布(每品类):1 超级标杆 + 3 标杆 + 4 成长 + 1 潜力
+         · 健康度埋点:
+            - 服饰 素白衣橱:conversion 48(承接模块 1 + 4-2 「素白衣橱」预警叙事)
+            - 家居 白塘瓷舍:product 55(承接 BELTS Top 1 缺货预警洞察)
+            - 3C  极客实验室:repurchase 55(承接客诉率超线洞察)
+            - 食品 茶语山房:conversion 62(承接「内容强 / 转化弱」洞察)
+       ============================================================ */
+    const MERCHANTS_DATA = {
+      '服饰穿搭': [
+        { id: 'm_001', name: '素白衣橱', emoji: '👗', belt: '杭州四季青', tier: '超级标杆',
+          gmv: 2420, noteCount: 2480, creatorCount: 78, repurchaseRate: 32,
+          health: { content: 65, product: 88, creator: 82, conversion: 48, repurchase: 78 },
+          storyTag: '杭州四季青头部 · 极简素衣典范(健康度预警)' },
+        { id: 'm_002', name: '稚野风物', emoji: '🌿', belt: '广州十三行', tier: '标杆',
+          gmv: 1820, noteCount: 1240, creatorCount: 38, repurchaseRate: 28,
+          health: { content: 85, product: 76, creator: 82, conversion: 68, repurchase: 72 },
+          storyTag: '新中式女装快反典范' },
+        { id: 'm_003', name: '鹿衣社', emoji: '🦌', belt: '深圳南油', tier: '标杆',
+          gmv: 1420, noteCount: 1080, creatorCount: 32, repurchaseRate: 24,
+          health: { content: 80, product: 78, creator: 82, conversion: 72, repurchase: 68 },
+          storyTag: '潮牌街头风设计先锋' },
+        { id: 'm_004', name: '苏意皮坊', emoji: '🧥', belt: '海宁皮革城', tier: '标杆',
+          gmv: 2120, noteCount: 980, creatorCount: 28, repurchaseRate: 22,
+          health: { content: 72, product: 88, creator: 75, conversion: 78, repurchase: 70 },
+          storyTag: '三代皮草手作工艺标杆' },
+        { id: 'm_005', name: '缦言衣坊', emoji: '👚', belt: '广州十三行', tier: '成长',
+          gmv: 1240, noteCount: 860, creatorCount: 28, repurchaseRate: 22,
+          health: { content: 72, product: 70, creator: 68, conversion: 66, repurchase: 65 },
+          storyTag: '都市知性风快反新锐' },
+        { id: 'm_006', name: '栖野家', emoji: '🌾', belt: '杭州四季青', tier: '成长',
+          gmv: 1240, noteCount: 920, creatorCount: 26, repurchaseRate: 25,
+          health: { content: 78, product: 68, creator: 72, conversion: 65, repurchase: 70 },
+          storyTag: '山系户外女装黑马' },
+        { id: 'm_007', name: '月隐', emoji: '🌙', belt: '深圳南油', tier: '成长',
+          gmv: 860, noteCount: 680, creatorCount: 22, repurchaseRate: 18,
+          health: { content: 75, product: 72, creator: 70, conversion: 62, repurchase: 60 },
+          storyTag: '深色系小众潮牌' },
+        { id: 'm_008', name: '川山衣坊', emoji: '👔', belt: '虎门服装', tier: '成长',
+          gmv: 1620, noteCount: 720, creatorCount: 24, repurchaseRate: 20,
+          health: { content: 65, product: 78, creator: 62, conversion: 70, repurchase: 65 },
+          storyTag: '男装休闲服批发链路顶配' },
+        { id: 'm_009', name: '雾里', emoji: '🌫️', belt: '虎门服装', tier: '潜力',
+          gmv: 580, noteCount: 420, creatorCount: 12, repurchaseRate: 15,
+          health: { content: 62, product: 58, creator: 55, conversion: 60, repurchase: 52 },
+          storyTag: '男装情绪色系挑战者' },
+      ],
+
+      '美妆个护': [
+        { id: 'm_010', name: '肌研社', emoji: '🧴', belt: '广州白云', tier: '超级标杆',
+          gmv: 2820, noteCount: 3200, creatorCount: 82, repurchaseRate: 35,
+          health: { content: 90, product: 88, creator: 85, conversion: 82, repurchase: 86 },
+          storyTag: '油皮护肤赛道内容力 Top 1' },
+        { id: 'm_011', name: '白皙研究所', emoji: '✨', belt: '广州白云', tier: '标杆',
+          gmv: 1820, noteCount: 1480, creatorCount: 48, repurchaseRate: 28,
+          health: { content: 82, product: 78, creator: 80, conversion: 75, repurchase: 74 },
+          storyTag: '国货美白功效线代表' },
+        { id: 'm_012', name: '韵颜', emoji: '💄', belt: '上海奉贤', tier: '标杆',
+          gmv: 1680, noteCount: 1320, creatorCount: 42, repurchaseRate: 26,
+          health: { content: 80, product: 82, creator: 76, conversion: 72, repurchase: 72 },
+          storyTag: '国际研发标准国货品牌' },
+        { id: 'm_013', name: '启莱实验室', emoji: '🔬', belt: '上海奉贤', tier: '标杆',
+          gmv: 1420, noteCount: 1180, creatorCount: 38, repurchaseRate: 25,
+          health: { content: 78, product: 84, creator: 72, conversion: 75, repurchase: 68 },
+          storyTag: '抗衰精华临床数据领跑' },
+        { id: 'm_014', name: '晨曦护肤', emoji: '🌅', belt: '广州白云', tier: '成长',
+          gmv: 1480, noteCount: 1080, creatorCount: 35, repurchaseRate: 22,
+          health: { content: 76, product: 72, creator: 68, conversion: 72, repurchase: 65 },
+          storyTag: '早C晚A 组合赛道老牌' },
+        { id: 'm_015', name: '成分实验室', emoji: '🧪', belt: '广州白云', tier: '成长',
+          gmv: 1240, noteCount: 980, creatorCount: 32, repurchaseRate: 21,
+          health: { content: 75, product: 76, creator: 65, conversion: 70, repurchase: 68 },
+          storyTag: '配方透明化先行者' },
+        { id: 'm_016', name: '川流美研', emoji: '🌊', belt: '上海奉贤', tier: '成长',
+          gmv: 1180, noteCount: 920, creatorCount: 30, repurchaseRate: 20,
+          health: { content: 72, product: 75, creator: 68, conversion: 68, repurchase: 65 },
+          storyTag: '长三角美妆研发新势力' },
+        { id: 'm_017', name: '染色师', emoji: '🎨', belt: '上海奉贤', tier: '成长',
+          gmv: 820, noteCount: 720, creatorCount: 24, repurchaseRate: 18,
+          health: { content: 70, product: 68, creator: 72, conversion: 62, repurchase: 60 },
+          storyTag: '色彩肤色匹配技术派' },
+        { id: 'm_018', name: '净肤记', emoji: '🌸', belt: '广州白云', tier: '潜力',
+          gmv: 580, noteCount: 480, creatorCount: 14, repurchaseRate: 14,
+          health: { content: 60, product: 58, creator: 55, conversion: 52, repurchase: 50 },
+          storyTag: '平价油皮赛道黑马' },
+      ],
+
+      '食品饮料': [
+        { id: 'm_019', name: '稻乡纪事', emoji: '🍚', belt: '五常', tier: '超级标杆',
+          gmv: 2680, noteCount: 2840, creatorCount: 65, repurchaseRate: 38,
+          health: { content: 88, product: 90, creator: 82, conversion: 85, repurchase: 90 },
+          storyTag: '五常稻米品牌化标杆' },
+        { id: 'm_020', name: '潮巷牛肉', emoji: '🥟', belt: '潮汕', tier: '标杆',
+          gmv: 1820, noteCount: 2120, creatorCount: 48, repurchaseRate: 32,
+          health: { content: 86, product: 82, creator: 80, conversion: 76, repurchase: 75 },
+          storyTag: '潮汕手作牛肉丸 3 代传承' },
+        { id: 'm_021', name: '蟹满堂', emoji: '🦐', belt: '阳澄湖', tier: '标杆',
+          gmv: 2420, noteCount: 1980, creatorCount: 52, repurchaseRate: 35,
+          health: { content: 82, product: 85, creator: 78, conversion: 82, repurchase: 82 },
+          storyTag: '阳澄湖大闸蟹品牌头号' },
+        { id: 'm_022', name: '茶语山房', emoji: '🍵', belt: '安溪', tier: '标杆',
+          gmv: 1820, noteCount: 2240, creatorCount: 58, repurchaseRate: 28,
+          health: { content: 88, product: 72, creator: 75, conversion: 62, repurchase: 72 },
+          storyTag: '铁观音内容种草王(转化偏弱)' },
+        { id: 'm_023', name: '阳澄一品', emoji: '🦞', belt: '阳澄湖', tier: '成长',
+          gmv: 1480, noteCount: 1080, creatorCount: 36, repurchaseRate: 26,
+          health: { content: 72, product: 78, creator: 68, conversion: 75, repurchase: 72 },
+          storyTag: '大闸蟹礼盒包装设计派' },
+        { id: 'm_024', name: '五常人家', emoji: '🌾', belt: '五常', tier: '成长',
+          gmv: 1820, noteCount: 1320, creatorCount: 38, repurchaseRate: 28,
+          health: { content: 75, product: 80, creator: 68, conversion: 76, repurchase: 75 },
+          storyTag: '五常米合作社品牌代表' },
+        { id: 'm_025', name: '林记牛肉丸', emoji: '🐂', belt: '潮汕', tier: '成长',
+          gmv: 1280, noteCount: 1080, creatorCount: 32, repurchaseRate: 25,
+          health: { content: 72, product: 75, creator: 65, conversion: 70, repurchase: 68 },
+          storyTag: '潮汕牛丸老字号' },
+        { id: 'm_026', name: '大红袍堂', emoji: '🍂', belt: '武夷山', tier: '成长',
+          gmv: 1280, noteCount: 920, creatorCount: 28, repurchaseRate: 22,
+          health: { content: 70, product: 72, creator: 62, conversion: 68, repurchase: 65 },
+          storyTag: '武夷岩茶非遗世家' },
+        { id: 'm_027', name: '老枞水仙', emoji: '🍃', belt: '武夷山', tier: '潜力',
+          gmv: 380, noteCount: 280, creatorCount: 8, repurchaseRate: 12,
+          health: { content: 58, product: 62, creator: 55, conversion: 60, repurchase: 52 },
+          storyTag: '武夷岩茶老枞稀缺货源' },
+      ],
+
+      '家居生活': [
+        { id: 'm_028', name: '棉本家纺', emoji: '🛏️', belt: '南通家纺', tier: '超级标杆',
+          gmv: 2680, noteCount: 2480, creatorCount: 62, repurchaseRate: 32,
+          health: { content: 88, product: 90, creator: 82, conversion: 85, repurchase: 86 },
+          storyTag: '南通棉麻床品赛道头号' },
+        { id: 'm_029', name: '无垠木作', emoji: '🪑', belt: '东莞家具', tier: '标杆',
+          gmv: 2120, noteCount: 1480, creatorCount: 42, repurchaseRate: 26,
+          health: { content: 82, product: 85, creator: 76, conversion: 80, repurchase: 75 },
+          storyTag: '东莞家具原木设计派' },
+        { id: 'm_030', name: '白塘瓷舍', emoji: '🏺', belt: '佛山陶瓷', tier: '标杆',
+          gmv: 1820, noteCount: 1280, creatorCount: 35, repurchaseRate: 24,
+          health: { content: 75, product: 55, creator: 72, conversion: 70, repurchase: 72 },
+          storyTag: '佛山陶瓷头部(缺货预警)' },
+        { id: 'm_031', name: '蓝染棉麻', emoji: '🪡', belt: '南通家纺', tier: '标杆',
+          gmv: 1820, noteCount: 1380, creatorCount: 38, repurchaseRate: 25,
+          health: { content: 80, product: 78, creator: 75, conversion: 76, repurchase: 74 },
+          storyTag: '南通植物染家纺先锋' },
+        { id: 'm_032', name: '落日松林', emoji: '🌲', belt: '东莞家具', tier: '成长',
+          gmv: 1480, noteCount: 980, creatorCount: 30, repurchaseRate: 22,
+          health: { content: 75, product: 72, creator: 68, conversion: 72, repurchase: 68 },
+          storyTag: '东莞家具北欧风转型者' },
+        { id: 'm_033', name: '浮光釉瓷', emoji: '🌟', belt: '佛山陶瓷', tier: '成长',
+          gmv: 980, noteCount: 820, creatorCount: 26, repurchaseRate: 20,
+          health: { content: 72, product: 75, creator: 65, conversion: 70, repurchase: 68 },
+          storyTag: '佛山日用瓷美学派' },
+        { id: 'm_034', name: '一缕苎麻', emoji: '🧵', belt: '南通家纺', tier: '成长',
+          gmv: 1180, noteCount: 920, creatorCount: 28, repurchaseRate: 22,
+          health: { content: 70, product: 72, creator: 68, conversion: 68, repurchase: 65 },
+          storyTag: '南通苎麻纤维专精' },
+        { id: 'm_035', name: '栖息陶坊', emoji: '🍃', belt: '景德镇陶瓷', tier: '成长',
+          gmv: 1380, noteCount: 1080, creatorCount: 32, repurchaseRate: 23,
+          health: { content: 78, product: 76, creator: 70, conversion: 72, repurchase: 70 },
+          storyTag: '景德镇新中式手作典范' },
+        { id: 'm_036', name: '山泉瓷屋', emoji: '💧', belt: '景德镇陶瓷', tier: '潜力',
+          gmv: 380, noteCount: 280, creatorCount: 9, repurchaseRate: 12,
+          health: { content: 62, product: 58, creator: 52, conversion: 55, repurchase: 50 },
+          storyTag: '景德镇手作潜力新店' },
+      ],
+
+      '数码3C': [
+        { id: 'm_037', name: '方阵智能', emoji: '🏠', belt: '深圳华强北', tier: '超级标杆',
+          gmv: 2420, noteCount: 2680, creatorCount: 68, repurchaseRate: 28,
+          health: { content: 86, product: 90, creator: 82, conversion: 82, repurchase: 72 },
+          storyTag: '智能家居整屋方案领跑' },
+        { id: 'm_038', name: '极客实验室', emoji: '🔧', belt: '深圳华强北', tier: '标杆',
+          gmv: 1820, noteCount: 1620, creatorCount: 45, repurchaseRate: 16,
+          health: { content: 88, product: 82, creator: 86, conversion: 85, repurchase: 55 },
+          storyTag: '桌搭外设社区代言人(客诉预警)' },
+        { id: 'm_039', name: '微造科技', emoji: '⚙️', belt: '东莞松山湖', tier: '标杆',
+          gmv: 2180, noteCount: 1480, creatorCount: 42, repurchaseRate: 22,
+          health: { content: 78, product: 86, creator: 76, conversion: 82, repurchase: 72 },
+          storyTag: '松山湖智能硬件研发派' },
+        { id: 'm_040', name: '形物所', emoji: '📐', belt: '东莞松山湖', tier: '标杆',
+          gmv: 1620, noteCount: 1280, creatorCount: 38, repurchaseRate: 20,
+          health: { content: 82, product: 78, creator: 75, conversion: 76, repurchase: 68 },
+          storyTag: '桌搭美学独立设计先锋' },
+        { id: 'm_041', name: '桌物研究室', emoji: '⌨️', belt: '深圳华强北', tier: '成长',
+          gmv: 1480, noteCount: 1180, creatorCount: 35, repurchaseRate: 18,
+          health: { content: 80, product: 72, creator: 72, conversion: 72, repurchase: 65 },
+          storyTag: '桌搭品牌内容化典范' },
+        { id: 'm_042', name: '像素工房', emoji: '📷', belt: '深圳华强北', tier: '成长',
+          gmv: 1280, noteCount: 1080, creatorCount: 32, repurchaseRate: 18,
+          health: { content: 75, product: 72, creator: 68, conversion: 70, repurchase: 62 },
+          storyTag: '复古影像数码改造派' },
+        { id: 'm_043', name: '启橙数研', emoji: '🔌', belt: '东莞松山湖', tier: '成长',
+          gmv: 1380, noteCount: 980, creatorCount: 30, repurchaseRate: 20,
+          health: { content: 72, product: 78, creator: 68, conversion: 68, repurchase: 65 },
+          storyTag: 'IoT 协议自研实验室' },
+        { id: 'm_044', name: '触界实验室', emoji: '🖱️', belt: '东莞松山湖', tier: '成长',
+          gmv: 980, noteCount: 720, creatorCount: 24, repurchaseRate: 18,
+          health: { content: 70, product: 75, creator: 62, conversion: 72, repurchase: 62 },
+          storyTag: '触感设备技术派' },
+        { id: 'm_045', name: '北辰实验室', emoji: '🌌', belt: '东莞松山湖', tier: '潜力',
+          gmv: 480, noteCount: 320, creatorCount: 12, repurchaseRate: 13,
+          health: { content: 62, product: 58, creator: 55, conversion: 58, repurchase: 52 },
+          storyTag: '极客向小众配件挑战者' },
+      ],
+    };
+
     // 产业带 GMV 曲线生成(沿用品类形态、缩放到产业带量级、加种子小抖动)
     function genBeltGmvCurve(catCurve, beltGmv, seed) {
       const catSum = catCurve.reduce((a, b) => a + b, 0);
@@ -2837,6 +3307,7 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
         belts:             belts,
         beltsSubtitle:     BELTS_SUBTITLES[cat],
         aiRecommendations: AI_RECOMMENDATIONS[cat] || [],
+        merchants:         MERCHANTS_DATA[cat] || [],
       };
     });
 
@@ -2977,10 +3448,10 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
       if (!CATEGORY_REGIONS[cat]) return;
       state.category = cat;
 
-      // 切品类:state.belt 默认重置为该品类的第一个产业带
-      const firstBelt = (MOCK_DATA[cat] && MOCK_DATA[cat].belts && MOCK_DATA[cat].belts[0])
-        ? MOCK_DATA[cat].belts[0].name : null;
-      state.belt = firstBelt;
+      // 切品类:state.belt 默认重置为「全部」(模块 3 显示聚合视图,模块 4 显示全部商家)
+      state.belt = 'ALL';
+      // 商家筛选也复位
+      state.merchants.tier = 'ALL';
 
       document.querySelectorAll('.cat-tab').forEach(el => {
         el.classList.toggle('active', el.dataset.cat === cat);
@@ -2991,7 +3462,7 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
         { value: 'ALL', label: '全部产地' },
         ...CATEGORY_REGIONS[cat].map(r => ({ value: r, label: r })),
       ];
-      regionDropdown.setItems(items, firstBelt || 'ALL');
+      regionDropdown.setItems(items, 'ALL');
 
       rerenderAll();
     }
@@ -4249,14 +4720,14 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
       if (foundLabel) valueEl.textContent = foundLabel;
     }
 
-    // setBelt:任何来源都过这个 setter(地图气泡点击 / 顶部下拉)
+    // setBelt:任何来源都过这个 setter(地图气泡点击 / 顶部下拉 / 模块 4 belt 下拉)
     function setBelt(beltName) {
       state.belt = beltName;
 
-      // 同步下拉
+      // 同步顶部产地下拉
       syncRegionDropdownSelection(beltName);
 
-      // 地图气泡 highlight(不重渲)
+      // 模块 3:地图气泡 highlight(不重渲)
       const chart = charts.get('belts-map');
       if (chart) {
         chart.dispatchAction({ type: 'downplay', seriesName: 'belts-scatter' });
@@ -4267,8 +4738,14 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
         }
       }
 
-      // 详情面板
+      // 模块 3:详情面板
       renderBeltsDetail(beltName);
+
+      // 模块 4:商家网格(belt 是筛选维度,与顶部下拉同步)
+      if (typeof renderMerchantsList === 'function'
+          && document.getElementById('merchants-grid')) {
+        renderMerchantsList();
+      }
     }
 
     // AI 推荐区:20 个商家卡片(横滚)
@@ -4345,6 +4822,247 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
     }
 
     moduleRenderers.belts = renderBelts;
+
+    /* ============================================================
+       模块 4:头部商家陪跑舱
+       ============================================================ */
+    const MERCHANT_TIERS = ['ALL', '超级标杆', '标杆', '成长', '潜力'];
+    const MERCHANT_SORTS = {
+      gmv:            'GMV',
+      health:         '健康度均值',
+      noteCount:      '笔记数',
+      creatorCount:   '达人数',
+      repurchaseRate: '复购率',
+    };
+
+    function tierMerchantClass(tier) {
+      if (tier === '超级标杆') return 'tier-super-bench';
+      if (tier === '标杆')     return 'tier-bench';
+      if (tier === '成长')     return 'tier-grow';
+      return 'tier-pot';
+    }
+
+    function avg5(h) {
+      return (h.content + h.product + h.creator + h.conversion + h.repurchase) / 5;
+    }
+
+    // 小雷达图 option(9 张图共用,只 health 数据不同)
+    function buildRadarOption(health) {
+      return {
+        ...BASE_CHART_OPTION,
+        tooltip: { show: false },
+        radar: {
+          indicator: [
+            { name: '内容力', max: 100 },
+            { name: '商品力', max: 100 },
+            { name: '达人力', max: 100 },
+            { name: '转化力', max: 100 },
+            { name: '复购力', max: 100 },
+          ],
+          shape: 'polygon',
+          center: ['50%', '50%'],
+          radius: '72%',
+          splitNumber: 2,
+          axisName: { show: false },
+          splitLine: { lineStyle: { color: '#EEEEEE', width: 1 } },
+          splitArea: { show: false },
+          axisLine: { lineStyle: { color: '#F0F0F0' } },
+        },
+        series: [{
+          type: 'radar',
+          data: [{
+            value: [
+              health.content, health.product, health.creator,
+              health.conversion, health.repurchase,
+            ],
+            lineStyle: { color: '#FF2442', width: 1.5 },
+            areaStyle: { color: 'rgba(255,36,66,0.20)' },
+            symbol: 'circle',
+            symbolSize: 3,
+            itemStyle: { color: '#FF2442' },
+          }],
+        }],
+        animation: false,
+      };
+    }
+
+    function createMerchantCard(m) {
+      const card = document.createElement('div');
+      card.className = 'merchant-card';
+
+      // Head: emoji + name + tier
+      const head = document.createElement('div');
+      head.className = 'merchant-head';
+      const left = document.createElement('div');
+      left.className = 'merchant-head-left';
+      const emoji = document.createElement('span');
+      emoji.className = 'merchant-emoji';
+      emoji.textContent = m.emoji;
+      const name = document.createElement('span');
+      name.className = 'merchant-name';
+      name.textContent = m.name;
+      left.appendChild(emoji);
+      left.appendChild(name);
+      const tier = document.createElement('span');
+      tier.className = 'merchant-tier-tag ' + tierMerchantClass(m.tier);
+      tier.textContent = m.tier;
+      head.appendChild(left);
+      head.appendChild(tier);
+
+      const tag = document.createElement('div');
+      tag.className = 'merchant-storytag';
+      tag.textContent = m.storyTag;
+
+      // Body: radar + 2x2 stats
+      const body = document.createElement('div');
+      body.className = 'merchant-body';
+      const radarWrap = document.createElement('div');
+      radarWrap.className = 'merchant-radar-wrap';
+      const stats = document.createElement('div');
+      stats.className = 'merchant-stats';
+
+      const mkStat = (label, value, unit) => {
+        const row = document.createElement('div');
+        row.className = 'merchant-stat-row';
+        const k = document.createElement('span');
+        k.className = 'merchant-stat-key';
+        k.textContent = label;
+        const v = document.createElement('span');
+        v.className = 'merchant-stat-val';
+        v.textContent = value;
+        if (unit) {
+          const u = document.createElement('span');
+          u.className = 'unit';
+          u.textContent = unit;
+          v.appendChild(u);
+        }
+        row.appendChild(k);
+        row.appendChild(v);
+        return row;
+      };
+
+      stats.appendChild(mkStat('GMV',  m.gmv.toLocaleString(), '万'));
+      stats.appendChild(mkStat('笔记', m.noteCount.toLocaleString(), ''));
+      stats.appendChild(mkStat('达人', m.creatorCount.toString(), ''));
+      stats.appendChild(mkStat('复购', m.repurchaseRate.toString(), '%'));
+
+      body.appendChild(radarWrap);
+      body.appendChild(stats);
+
+      // Foot: belt + 陪跑按钮
+      const foot = document.createElement('div');
+      foot.className = 'merchant-foot';
+      const belt = document.createElement('span');
+      belt.className = 'merchant-belt';
+      belt.textContent = m.belt;
+      const btn = document.createElement('button');
+      btn.className = 'merchant-coach-btn';
+      btn.textContent = '进入陪跑 →';
+      btn.onclick = () => {
+        console.log('[陪跑工作台]', m.name, m);
+        tempToast('陪跑工作台(Commit 5-2 实现) · ' + m.name);
+      };
+      foot.appendChild(belt);
+      foot.appendChild(btn);
+
+      card.appendChild(head);
+      card.appendChild(tag);
+      card.appendChild(body);
+      card.appendChild(foot);
+      return card;
+    }
+
+    function renderMerchantsList() {
+      const cat = state.category;
+      const all = MOCK_DATA[cat].merchants || [];
+
+      // 筛选
+      let list = [...all];
+      if (state.merchants.tier !== 'ALL') {
+        list = list.filter(m => m.tier === state.merchants.tier);
+      }
+      if (state.belt && state.belt !== 'ALL') {
+        list = list.filter(m => m.belt === state.belt);
+      }
+
+      // 排序
+      const sortKey = state.merchants.sort;
+      const dir = state.merchants.sortDir === 'asc' ? 1 : -1;
+      list.sort((a, b) => {
+        const av = sortKey === 'health' ? avg5(a.health) : a[sortKey];
+        const bv = sortKey === 'health' ? avg5(b.health) : b[sortKey];
+        return (av - bv) * dir;
+      });
+
+      // 同步下拉
+      merchantsTierDropdown.setItems(
+        MERCHANT_TIERS.map(t => ({ value: t, label: t === 'ALL' ? '全部等级' : t })),
+        state.merchants.tier
+      );
+      const belts = MOCK_DATA[cat].belts;
+      merchantsBeltDropdown.setItems(
+        [{ value: 'ALL', label: '全部产业带' }, ...belts.map(b => ({ value: b.name, label: b.name }))],
+        state.belt || 'ALL'
+      );
+      merchantsSortDropdown.setItems(
+        Object.entries(MERCHANT_SORTS).map(([k, v]) => ({ value: k, label: v })),
+        state.merchants.sort
+      );
+
+      // 升降序方向按钮
+      const dirBtn = document.getElementById('m-sort-dir');
+      if (dirBtn) dirBtn.classList.toggle('asc', state.merchants.sortDir === 'asc');
+
+      // 计数
+      const cntEl = document.getElementById('m-count');
+      if (cntEl) cntEl.textContent = list.length;
+
+      // 网格渲染
+      const grid = document.getElementById('merchants-grid');
+      if (!grid) return;
+      grid.replaceChildren();
+      if (list.length === 0) {
+        const empty = document.createElement('div');
+        empty.className = 'merchants-empty';
+        empty.textContent = '当前筛选条件下没有商家。试试调整等级或产业带筛选。';
+        grid.appendChild(empty);
+        return;
+      }
+      list.forEach(m => {
+        const card = createMerchantCard(m);
+        grid.appendChild(card);
+        const radarDom = card.querySelector('.merchant-radar-wrap');
+        const chart = getOrCreateChart(`m-radar-${m.id}`, radarDom);
+        chart.setOption(buildRadarOption(m.health), { notMerge: true });
+      });
+    }
+
+    // 三个下拉
+    const merchantsTierDropdown = bindDropdown({
+      triggerId: 'm-tier-trigger',
+      menuId:    'm-tier-menu',
+      valueId:   'm-tier-value',
+      onSelect:  v => { state.merchants.tier = v; renderMerchantsList(); },
+    });
+    const merchantsBeltDropdown = bindDropdown({
+      triggerId: 'm-belt-trigger',
+      menuId:    'm-belt-menu',
+      valueId:   'm-belt-value',
+      onSelect:  v => { setBelt(v); /* setBelt 内部已触发 renderMerchantsList */ },
+    });
+    const merchantsSortDropdown = bindDropdown({
+      triggerId: 'm-sort-trigger',
+      menuId:    'm-sort-menu',
+      valueId:   'm-sort-value',
+      onSelect:  v => { state.merchants.sort = v; renderMerchantsList(); },
+    });
+
+    document.getElementById('m-sort-dir').onclick = () => {
+      state.merchants.sortDir = state.merchants.sortDir === 'desc' ? 'asc' : 'desc';
+      renderMerchantsList();
+    };
+
+    moduleRenderers.merchants = renderMerchantsList;
 
     /* ============================================================
        初始化
