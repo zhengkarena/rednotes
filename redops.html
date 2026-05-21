@@ -166,8 +166,11 @@
       font-weight: 600;
       color: var(--text-1);
       min-width: 200px;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
     }
-    .topbar-title .sub { font-size: 12px; color: var(--text-3); font-weight: 400; margin-left: 8px; }
+    .topbar-title .sub { font-size: 12px; color: var(--text-3); font-weight: 400; }
 
     /* 品类 tabs */
     .cat-tabs {
@@ -197,19 +200,76 @@
 
     .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
 
-    .region-select {
-      padding: 7px 12px;
+    /* 自定义下拉(全局可复用) */
+    .dropdown { position: relative; }
+    .dropdown-trigger {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 12px 7px 14px;
+      background: #FFFFFF;
       border: 1px solid var(--border);
-      border-radius: 8px;
-      background: #FFF;
+      border-radius: 16px;
       font-family: var(--font-cn);
       font-size: 13px;
       color: var(--text-1);
       cursor: pointer;
+      min-width: 140px;
+      transition: all 0.2s ease;
       outline: none;
-      transition: border-color 0.2s ease;
     }
-    .region-select:hover { border-color: var(--brand); }
+    .dropdown-trigger:hover,
+    .dropdown-trigger.open { border-color: var(--brand); }
+    .dropdown-trigger .dropdown-value { flex: 1; text-align: left; }
+    .dropdown-chevron {
+      width: 14px; height: 14px;
+      stroke: var(--text-3);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+    .dropdown-trigger.open .dropdown-chevron { transform: rotate(180deg); stroke: var(--brand); }
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      min-width: 100%;
+      background: #FFFFFF;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      list-style: none;
+      margin: 0;
+      padding: 6px;
+      z-index: 25;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+    .dropdown-menu[hidden] { display: none; }
+    .dropdown-item {
+      position: relative;
+      padding: 8px 12px 8px 24px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--text-1);
+      cursor: pointer;
+      transition: background 0.15s ease;
+      white-space: nowrap;
+    }
+    .dropdown-item:hover { background: var(--brand-light); }
+    .dropdown-item.active { color: var(--brand); font-weight: 600; }
+    .dropdown-item.active::before {
+      content: '';
+      position: absolute;
+      left: 10px; top: 50%;
+      transform: translateY(-50%);
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--brand);
+    }
 
     .range-pills { display: flex; background: #F5F4F0; padding: 3px; border-radius: 8px; }
     .range-pill {
@@ -379,8 +439,9 @@
 
   <!-- ========== 顶部控制栏 ========== -->
   <header class="topbar">
-    <div class="topbar-title" id="topbar-title">
-      行业大盘<span class="sub">驾驶舱</span>
+    <div class="topbar-title">
+      <span id="topbar-title-main">行业大盘</span>
+      <span class="sub" id="topbar-title-sub">驾驶舱</span>
     </div>
 
     <div class="cat-tabs" id="cat-tabs">
@@ -392,9 +453,13 @@
     </div>
 
     <div class="topbar-right">
-      <select class="region-select" id="region-select">
-        <option value="ALL">全部产地</option>
-      </select>
+      <div class="dropdown" id="region-dropdown">
+        <button class="dropdown-trigger" id="region-trigger" type="button">
+          <span class="dropdown-value" id="region-value">全部产地</span>
+          <svg class="dropdown-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <ul class="dropdown-menu" id="region-menu" hidden></ul>
+      </div>
 
       <div class="range-pills" id="range-pills">
         <div class="range-pill" data-range="7">7天</div>
@@ -497,7 +562,62 @@
     };
 
     /* ============================================================
-       路由：模块切换
+       自定义下拉(可复用)
+       ============================================================ */
+    function bindDropdown({ triggerId, menuId, valueId, onSelect }) {
+      const trigger = document.getElementById(triggerId);
+      const menu    = document.getElementById(menuId);
+      const valueEl = document.getElementById(valueId);
+
+      const close = () => { menu.hidden = true;  trigger.classList.remove('open'); };
+      const open  = () => { menu.hidden = false; trigger.classList.add('open');    };
+
+      trigger.addEventListener('click', e => {
+        e.stopPropagation();
+        menu.hidden ? open() : close();
+      });
+      document.addEventListener('click', e => {
+        if (!menu.hidden && !trigger.contains(e.target) && !menu.contains(e.target)) close();
+      });
+      menu.addEventListener('click', e => {
+        const li = e.target.closest('.dropdown-item');
+        if (!li) return;
+        menu.querySelectorAll('.dropdown-item').forEach(el =>
+          el.classList.toggle('active', el === li));
+        valueEl.textContent = li.textContent;
+        close();
+        onSelect && onSelect(li.dataset.value);
+      });
+
+      return {
+        setItems(items, activeValue) {
+          menu.replaceChildren();
+          const frag = document.createDocumentFragment();
+          items.forEach(it => {
+            const li = document.createElement('li');
+            li.className = 'dropdown-item';
+            li.dataset.value = it.value;
+            li.textContent = it.label;
+            if (it.value === activeValue) {
+              li.classList.add('active');
+              valueEl.textContent = it.label;
+            }
+            frag.appendChild(li);
+          });
+          menu.appendChild(frag);
+        }
+      };
+    }
+
+    const regionDropdown = bindDropdown({
+      triggerId: 'region-trigger',
+      menuId:    'region-menu',
+      valueId:   'region-value',
+      onSelect:  v => { state.region = v; rerenderAll(); },
+    });
+
+    /* ============================================================
+       路由:模块切换
        ============================================================ */
     function switchModule(name) {
       if (!MODULE_TITLES[name]) return;
@@ -506,13 +626,13 @@
       document.querySelectorAll('.nav-item').forEach(el => {
         el.classList.toggle('active', el.dataset.module === name);
       });
-
       document.querySelectorAll('section.module').forEach(el => {
         el.classList.toggle('active', el.id === name);
       });
 
       const [t, s] = MODULE_TITLES[name];
-      document.getElementById('topbar-title').innerHTML = `${t}<span class="sub">${s}</span>`;
+      document.getElementById('topbar-title-main').textContent = t;
+      document.getElementById('topbar-title-sub').textContent  = s;
     }
 
     document.getElementById('nav-list').addEventListener('click', e => {
@@ -526,32 +646,25 @@
     function switchCategory(cat) {
       if (!CATEGORY_REGIONS[cat]) return;
       state.category = cat;
-      state.region = 'ALL';
+      state.region   = 'ALL';
 
       document.querySelectorAll('.cat-tab').forEach(el => {
         el.classList.toggle('active', el.dataset.cat === cat);
       });
 
       // 重建产地下拉
-      const sel = document.getElementById('region-select');
-      sel.innerHTML = '<option value="ALL">全部产地</option>' +
-        CATEGORY_REGIONS[cat].map(r => `<option value="${r}">${r}</option>`).join('');
+      const items = [
+        { value: 'ALL', label: '全部产地' },
+        ...CATEGORY_REGIONS[cat].map(r => ({ value: r, label: r })),
+      ];
+      regionDropdown.setItems(items, 'ALL');
 
-      // Step 2+ 在此调用各模块的 render 函数
       rerenderAll();
     }
 
     document.getElementById('cat-tabs').addEventListener('click', e => {
       const tab = e.target.closest('.cat-tab');
       if (tab) switchCategory(tab.dataset.cat);
-    });
-
-    /* ============================================================
-       产地 / 时间范围（Step 1 仅打通状态切换）
-       ============================================================ */
-    document.getElementById('region-select').addEventListener('change', e => {
-      state.region = e.target.value;
-      rerenderAll();
     });
 
     document.getElementById('range-pills').addEventListener('click', e => {
@@ -564,11 +677,17 @@
     });
 
     /* ============================================================
-       全局重渲染入口（Step 2+ 填充各模块 render）
+       模块渲染注册表
+       —— 任一模块 init 后调用 moduleRenderers.<name> = (state) => {...}
+          rerenderAll 自动遍历;新增模块无需改主代码。
        ============================================================ */
+    const moduleRenderers = {};
+
     function rerenderAll() {
-      // dashboard / trends / belts / merchants / creators 的 render 函数
-      // 将在 Step 2-6 中按需注入到此处。
+      Object.entries(moduleRenderers).forEach(([key, fn]) => {
+        try { fn(state); }
+        catch (err) { console.error(`[renderer:${key}]`, err); }
+      });
     }
 
     /* ============================================================
