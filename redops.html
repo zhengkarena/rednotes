@@ -1723,13 +1723,14 @@
        ============================================================ */
     const state = {
       category: '服饰穿搭',
-      belt:     'ALL',         // 全局产业带状态;'ALL' 或具体产业带名
+      belt:     null,          // 模块 3 用:查看哪个产业带详情(顶部下拉同步,switchCategory 时设为首个产业带)
       range:    30,
       module:   'dashboard',
       merchants: {
-        tier:    'ALL',        // 全部 / 超级标杆 / 标杆 / 成长 / 潜力
-        sort:    'gmv',        // gmv / health / noteCount / creatorCount / repurchaseRate
-        sortDir: 'desc',       // desc / asc
+        filterBelt: 'ALL',     // 模块 4 用:产业带筛选(纯本地,与 state.belt 解耦)
+        tier:       'ALL',     // 全部 / 超级标杆 / 标杆 / 成长 / 潜力
+        sort:       'gmv',     // gmv / health / noteCount / creatorCount / repurchaseRate
+        sortDir:    'desc',    // desc / asc
       },
     };
 
@@ -3448,21 +3449,24 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
       if (!CATEGORY_REGIONS[cat]) return;
       state.category = cat;
 
-      // 切品类:state.belt 默认重置为「全部」(模块 3 显示聚合视图,模块 4 显示全部商家)
-      state.belt = 'ALL';
-      // 商家筛选也复位
-      state.merchants.tier = 'ALL';
+      // 模块 3:默认显示首个产业带(详情面板需要默认值)
+      const firstBelt = (MOCK_DATA[cat] && MOCK_DATA[cat].belts && MOCK_DATA[cat].belts[0])
+        ? MOCK_DATA[cat].belts[0].name : null;
+      state.belt = firstBelt;
+      // 模块 4:筛选维度复位为「全部」(产品语义:看本品类所有商家)
+      state.merchants.filterBelt = 'ALL';
+      state.merchants.tier       = 'ALL';
 
       document.querySelectorAll('.cat-tab').forEach(el => {
         el.classList.toggle('active', el.dataset.cat === cat);
       });
 
-      // 重建产地下拉(items = 当前品类的产业带 + 全部产地选项)
+      // 顶部产地下拉:items = 当前品类的产业带 + 全部产地;默认选中首个产业带(与 state.belt 一致)
       const items = [
         { value: 'ALL', label: '全部产地' },
         ...CATEGORY_REGIONS[cat].map(r => ({ value: r, label: r })),
       ];
-      regionDropdown.setItems(items, 'ALL');
+      regionDropdown.setItems(items, firstBelt || 'ALL');
 
       rerenderAll();
     }
@@ -4720,7 +4724,8 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
       if (foundLabel) valueEl.textContent = foundLabel;
     }
 
-    // setBelt:任何来源都过这个 setter(地图气泡点击 / 顶部下拉 / 模块 4 belt 下拉)
+    // setBelt:模块 3 专用 setter(地图气泡点击 / 顶部下拉)
+    // 注意:不再触发模块 4 的 renderMerchantsList —— 模块 4 用独立的 state.merchants.filterBelt
     function setBelt(beltName) {
       state.belt = beltName;
 
@@ -4740,12 +4745,6 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
 
       // 模块 3:详情面板
       renderBeltsDetail(beltName);
-
-      // 模块 4:商家网格(belt 是筛选维度,与顶部下拉同步)
-      if (typeof renderMerchantsList === 'function'
-          && document.getElementById('merchants-grid')) {
-        renderMerchantsList();
-      }
     }
 
     // AI 推荐区:20 个商家卡片(横滚)
@@ -4976,13 +4975,14 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
       const cat = state.category;
       const all = MOCK_DATA[cat].merchants || [];
 
-      // 筛选
+      // 筛选(本地 filterBelt,与 state.belt 解耦)
       let list = [...all];
       if (state.merchants.tier !== 'ALL') {
         list = list.filter(m => m.tier === state.merchants.tier);
       }
-      if (state.belt && state.belt !== 'ALL') {
-        list = list.filter(m => m.belt === state.belt);
+      const filterBelt = state.merchants.filterBelt;
+      if (filterBelt && filterBelt !== 'ALL') {
+        list = list.filter(m => m.belt === filterBelt);
       }
 
       // 排序
@@ -5002,7 +5002,7 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
       const belts = MOCK_DATA[cat].belts;
       merchantsBeltDropdown.setItems(
         [{ value: 'ALL', label: '全部产业带' }, ...belts.map(b => ({ value: b.name, label: b.name }))],
-        state.belt || 'ALL'
+        filterBelt
       );
       merchantsSortDropdown.setItems(
         Object.entries(MERCHANT_SORTS).map(([k, v]) => ({ value: k, label: v })),
@@ -5048,7 +5048,8 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
       triggerId: 'm-belt-trigger',
       menuId:    'm-belt-menu',
       valueId:   'm-belt-value',
-      onSelect:  v => { setBelt(v); /* setBelt 内部已触发 renderMerchantsList */ },
+      // 只更新本地 filterBelt,不动 state.belt,不联动顶部下拉
+      onSelect:  v => { state.merchants.filterBelt = v; renderMerchantsList(); },
     });
     const merchantsSortDropdown = bindDropdown({
       triggerId: 'm-sort-trigger',
