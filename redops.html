@@ -102,8 +102,11 @@
       transition: all 0.2s ease;
     }
     .nav-item:hover { background: #FAFAFA; color: var(--text-1); }
-    .nav-item .nav-icon { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; }
-    .nav-item .nav-icon svg { width: 18px; height: 18px; stroke: currentColor; }
+    .nav-item .nav-icon { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .nav-item .nav-icon svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .btn-upload-sidebar svg,
+    .btn-upload-top svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .ai-fab svg { width: 26px; height: 26px; stroke: #FFF; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
     .nav-item.active {
       background: var(--brand-light);
       color: var(--brand);
@@ -335,28 +338,41 @@
 
     <nav class="nav-list" id="nav-list">
       <div class="nav-item active" data-module="dashboard">
-        <span class="nav-icon">📊</span><span>行业大盘</span>
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        </span><span>行业大盘</span>
       </div>
       <div class="nav-item" data-module="trends">
-        <span class="nav-icon">🎯</span><span>趋势雷达</span>
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        </span><span>趋势雷达</span>
       </div>
       <div class="nav-item" data-module="belts">
-        <span class="nav-icon">🗺️</span><span>产业带作战图</span>
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+        </span><span>产业带作战图</span>
       </div>
       <div class="nav-item" data-module="merchants">
-        <span class="nav-icon">🏪</span><span>商家陪跑舱</span>
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V9"/><path d="M9 21v-8h6v8"/></svg>
+        </span><span>商家陪跑舱</span>
       </div>
       <div class="nav-item" data-module="creators">
-        <span class="nav-icon">✨</span><span>达人 × 内容</span>
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24"><path d="M11 3l1.6 4.4L17 9l-4.4 1.6L11 15l-1.6-4.4L5 9l4.4-1.6z"/><path d="M18 14l.9 2.1L21 17l-2.1.9L18 20l-.9-2.1L15 17l2.1-.9z"/></svg>
+        </span><span>达人 × 内容</span>
       </div>
       <div class="nav-item" data-module="assistant">
-        <span class="nav-icon">🤖</span><span>AI 助手</span>
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="12" rx="2.5"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/><path d="M9.5 17.5h5"/><line x1="12" y1="4" x2="12" y2="8"/><circle cx="12" cy="3" r="0.8"/><line x1="2" y1="13" x2="4" y2="13"/><line x1="20" y1="13" x2="22" y2="13"/></svg>
+        </span><span>AI 助手</span>
       </div>
     </nav>
 
     <div class="sidebar-footer">
       <button class="btn-upload-sidebar" id="btn-upload-sidebar">
-        <span>↑</span><span>上传数据</span>
+        <svg viewBox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><polyline points="7 9 12 4 17 9"/><line x1="12" y1="4" x2="12" y2="16"/></svg>
+        <span>上传数据</span>
       </button>
     </div>
   </aside>
@@ -387,7 +403,8 @@
       </div>
 
       <button class="btn-upload-top" id="btn-upload-top">
-        <span>↑</span><span>上传</span>
+        <svg viewBox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><polyline points="7 9 12 4 17 9"/><line x1="12" y1="4" x2="12" y2="16"/></svg>
+        <span>上传</span>
       </button>
 
       <div class="avatar">运</div>
@@ -444,7 +461,7 @@
   <!-- ========== AI 浮窗 ========== -->
   <div class="ai-fab" id="ai-fab" title="问问 RedOps AI">
     <span class="pulse"></span>
-    <span>🤖</span>
+    <svg viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="12" rx="2.5"/><circle cx="9" cy="14" r="1.2"/><circle cx="15" cy="14" r="1.2"/><path d="M9.5 17.5h5"/><line x1="12" y1="4" x2="12" y2="8"/><circle cx="12" cy="3" r="0.9"/><line x1="2" y1="13" x2="4" y2="13"/><line x1="20" y1="13" x2="22" y2="13"/></svg>
   </div>
 
 
