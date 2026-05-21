@@ -556,8 +556,8 @@
       line-height: 1.4;
     }
     .word-cloud-item:hover { transform: scale(1.08); color: var(--brand) !important; }
-    .word-cloud-item.tier-hot  { font-size: 26px; font-weight: 700; color: var(--brand); }
-    .word-cloud-item.tier-warm { font-size: 19px; font-weight: 600; color: var(--text-1); }
+    .word-cloud-item.tier-hot  { font-size: 24px; font-weight: 700; color: var(--brand); }
+    .word-cloud-item.tier-warm { font-size: 18px; font-weight: 600; color: var(--text-1); }
     .word-cloud-item.tier-mild { font-size: 14px; font-weight: 500; color: var(--text-2); }
     .word-cloud-item.tier-cool { font-size: 12px; font-weight: 400; color: var(--text-3); }
 
@@ -658,6 +658,105 @@
       color: #FFF;
       transform: translateY(-1px);
     }
+    .opp-btn.ghost {
+      background: #FFFFFF;
+      color: var(--text-2);
+      border: 1px solid var(--border);
+    }
+    .opp-btn.ghost:hover {
+      background: #FAFAFA;
+      color: var(--text-1);
+      border-color: var(--text-2);
+    }
+    .opp-actions { display: flex; gap: 6px; flex-wrap: nowrap; }
+
+    /* 通用 Modal(Step 3 引入,Step 7 复用) */
+    .modal-mask {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .modal-mask.open { opacity: 1; pointer-events: auto; }
+    .modal {
+      background: #FFFFFF;
+      border-radius: var(--radius-card);
+      width: 560px;
+      max-width: 92vw;
+      max-height: 86vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+      transform: translateY(8px) scale(0.98);
+      transition: transform 0.2s ease;
+    }
+    .modal-mask.open .modal { transform: translateY(0) scale(1); }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-title { font-size: 15px; font-weight: 600; color: var(--text-1); display: flex; align-items: center; gap: 8px; }
+    .modal-title .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--brand-light);
+      color: var(--brand);
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 6px;
+    }
+    .modal-title .sub { font-size: 12px; color: var(--text-3); font-weight: 400; margin-left: 4px; }
+    .modal-close {
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--text-3);
+      transition: all 0.2s ease;
+    }
+    .modal-close:hover { background: #F5F5F5; color: var(--text-1); }
+    .modal-close svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+    .modal-body {
+      padding: 20px 22px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .modal-footer {
+      padding: 14px 22px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    .bd-script {
+      font-size: 13.5px;
+      line-height: 1.85;
+      color: var(--text-1);
+      white-space: pre-wrap;
+      min-height: 200px;
+      font-family: var(--font-cn);
+    }
+    .bd-script-meta {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px dashed var(--border);
+      font-size: 12px;
+      color: var(--text-3);
+    }
+    .bd-script-meta span { display: inline-flex; align-items: center; gap: 4px; }
+    .bd-script-meta .label { color: var(--text-2); font-weight: 500; }
 
     /* ========== 通用卡片 ========== */
     .card {
@@ -898,10 +997,10 @@
                 <th style="width:50px">#</th>
                 <th>赛道</th>
                 <th class="col-num">内容热度</th>
-                <th class="col-num">供给商家数</th>
                 <th>缺口指数</th>
+                <th class="col-num">当前供给</th>
                 <th>建议引入商家画像</th>
-                <th style="width:120px">操作</th>
+                <th style="width:200px">操作</th>
               </tr>
             </thead>
             <tbody id="opp-tbody"></tbody>
@@ -939,6 +1038,20 @@
     </section>
 
   </main>
+
+  <!-- ========== 通用 Modal(Step 3 引入,Step 7 复用) ========== -->
+  <div class="modal-mask" id="modal-mask">
+    <div class="modal" id="modal" role="dialog">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-title"></div>
+        <div class="modal-close" id="modal-close" title="关闭">
+          <svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+        </div>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer" id="modal-footer"></div>
+    </div>
+  </div>
 
   <!-- ========== AI 浮窗 ========== -->
   <div class="ai-fab" id="ai-fab" title="问问 RedOps AI">
@@ -1282,6 +1395,357 @@
       ],
     };
 
+    /* ============================================================
+       模块 2:趋势雷达 数据
+       —— wordCloud: 30 个/品类(超热 5 / 热 10 / 温 15)
+       —— quadrant: 12 个/品类基础品类,quadrant ∈ blue/red/sleep/cold
+       —— bdScript: 300 字招商话术
+       ============================================================ */
+    const TRENDS = {
+      '服饰穿搭': {
+        wordCloud: [
+          // 超热
+          { word: '多巴胺穿搭', heat: 95, trend: 340 },
+          { word: '新中式',     heat: 92, trend: 186 },
+          { word: '老钱风',     heat: 88, trend: 156 },
+          { word: 'Y2K复古',    heat: 84, trend: 92  },
+          { word: '美拉德',     heat: 82, trend: 128 },
+          // 热
+          { word: '山系穿搭',     heat: 76, trend: 58 },
+          { word: '极简通勤',     heat: 72, trend: 34 },
+          { word: '户外功能服',   heat: 70, trend: 88 },
+          { word: '学院风',       heat: 68, trend: 22 },
+          { word: '法式优雅',     heat: 65, trend: 18 },
+          { word: '千金风',       heat: 62, trend: 26 },
+          { word: 'citywalk穿搭', heat: 60, trend: 72 },
+          { word: '干净系',       heat: 58, trend: 14 },
+          { word: '慵懒度假',     heat: 55, trend: 12 },
+          { word: '古着复古',     heat: 52, trend: 44 },
+          // 温
+          { word: '工装风',     heat: 48, trend: 5  },
+          { word: '巴黎街拍',   heat: 45, trend: 16 },
+          { word: '港风复古',   heat: 42, trend: 3  },
+          { word: '阔腿裤',     heat: 40, trend: -2 },
+          { word: '黑酷辣妹',   heat: 38, trend: 8  },
+          { word: '蕾丝叠穿',   heat: 36, trend: 9  },
+          { word: '学院制服',   heat: 32, trend: 6  },
+          { word: '简约小香',   heat: 30, trend: 2  },
+          { word: '民族风',     heat: 28, trend: 12 },
+          { word: '流苏元素',   heat: 26, trend: 18 },
+          { word: '巴洛克',     heat: 23, trend: 4  },
+          { word: '鼠灰色',     heat: 22, trend: 8  },
+          { word: '奶茶色',     heat: 20, trend: 1  },
+          { word: '显瘦黑',     heat: 21, trend: -4 },
+          { word: '冷白皮配色', heat: 25, trend: 6  },
+        ],
+        quadrant: [
+          // 蓝海 4
+          { name: '羽绒服',     content: 320, gap: 8.2, supply: 180, gmv: 24, quadrant: 'blue',  profile: '国货新锐羽绒 / 380-980元客单 / 海宁皮革城' },
+          { name: '裙装套装',   content: 380, gap: 8.8, supply: 150, gmv: 22, quadrant: 'blue',  profile: '新中式连身设计 / 280-580元客单 / 杭州四季青' },
+          { name: '户外功能服', content: 280, gap: 9.1, supply:  95, gmv: 12, quadrant: 'blue',  profile: '三防户外品牌 / 600-1500元客单 / 福建莆田/深圳产业带' },
+          { name: '古着复古',   content: 280, gap: 7.5, supply:  80, gmv:  8, quadrant: 'blue',  profile: '中古店主理人 / 200-450元客单 / 上海北外滩 / 北京三里屯' },
+          // 红海 2
+          { name: '连衣裙',     content: 480, gap: 2.4, supply: 580, gmv: 52, quadrant: 'red',   profile: '原创设计师品牌 / 280-580元客单 / 杭州四季青' },
+          { name: '卫衣',       content: 320, gap: 3.1, supply: 420, gmv: 38, quadrant: 'red',   profile: '街头潮牌联名 / 180-380元客单 / 广州沙河' },
+          // 沉睡 2
+          { name: 'T恤',        content: 240, gap: 3.5, supply: 480, gmv: 32, quadrant: 'sleep', profile: '重磅美式印花T / 80-180元客单 / 广州十三行' },
+          { name: '牛仔裤',     content: 180, gap: 3.8, supply: 320, gmv: 28, quadrant: 'sleep', profile: '美式重磅丹宁 / 280-580元客单 / 中山大涌' },
+          // 冷启 2
+          { name: '西装',       content:  95, gap: 6.5, supply: 220, gmv: 15, quadrant: 'cold',  profile: '通勤小西装 / 320-720元客单 / 苏州震泽' },
+          { name: '衬衫',       content: 120, gap: 6.0, supply: 180, gmv: 18, quadrant: 'cold',  profile: '意式定制小厂 / 280-680元客单 / 宁波雅戈尔产业带' },
+        ],
+        bdScript:
+`致服饰品牌方/产业带工厂主理人:
+
+您好,我是小红书电商行业运营。本月数据显示,新中式连衣裙赛道笔记数环比 +186%、户外功能服环比 +88%,小红书 18-35 岁女性月活用户已突破 8000 万,客单价 280-580 元区间贡献了服饰品类 62% 的 GMV。
+
+针对您所在的产业带,我们识别出三个机会窗口:
+1. 新中式连衣裙缺口指数 8.8/10,需要 30 家以内的小批量快反商家
+2. 户外功能服站内供给仅 95 家但搜索量月环比 +88%
+3. 古着复古赛道用户客单价高出大盘 32%,适合中古店主理人
+
+首批入驻可获:日均 30 万曝光的「新中式」「多巴胺」话题资源位、行业 Top 20 时尚达人定向匹配、90 天专属运营陪跑(选品建议、笔记代写、详情页优化)。
+
+落地节奏:第 1 周完成入驻审批,第 2-4 周完成首批 30-50 个 SKU 上架及 3-5 单达人合作,第 2 月进入「成长商家」陪跑池获得 BD 1V1 支持。
+
+诚邀贵司加入小红书电商生态,共建品类标杆案例。请于本周内联系:[BD 经理 王浅 / wangqian@xhs]。
+
+—— 小红书电商服饰行业运营组`,
+      },
+
+      '美妆个护': {
+        wordCloud: [
+          { word: '早C晚A',     heat: 94, trend: 220 },
+          { word: '油皮护肤',   heat: 88, trend: 68  },
+          { word: '玻色因',     heat: 85, trend: 92  },
+          { word: '男士护肤',   heat: 82, trend: 88  },
+          { word: '烟酰胺',     heat: 80, trend: 45  },
+          { word: '黄金A醇',     heat: 76, trend: 72 },
+          { word: '屏障修复',   heat: 72, trend: 58 },
+          { word: '抗初老',     heat: 68, trend: 32 },
+          { word: '童颜素颜',   heat: 65, trend: 88 },
+          { word: '哑光肌',     heat: 62, trend: 18 },
+          { word: '奶油肌',     heat: 60, trend: 24 },
+          { word: '雾面唇',     heat: 58, trend: 12 },
+          { word: '早八妆',     heat: 55, trend: 34 },
+          { word: '通勤底妆',   heat: 52, trend: 8  },
+          { word: '持妆12小时', heat: 50, trend: 18 },
+          { word: '物理防晒',   heat: 48, trend: 22 },
+          { word: '学生平价',   heat: 45, trend: 6  },
+          { word: '闭口痘急救', heat: 42, trend: 12 },
+          { word: '干皮急救',   heat: 40, trend: 16 },
+          { word: '修护精华',   heat: 38, trend: 8  },
+          { word: '多巴胺妆',   heat: 36, trend: 24 },
+          { word: '防晒霜',     heat: 35, trend: 2  },
+          { word: '限定香水',   heat: 32, trend: 9  },
+          { word: '油田控油',   heat: 30, trend: 5  },
+          { word: '妆容速成',   heat: 28, trend: 11 },
+          { word: '头皮护理',   heat: 26, trend: 18 },
+          { word: '卷发器',     heat: 25, trend: 4  },
+          { word: '伪素颜',     heat: 22, trend: 8  },
+          { word: '医美级',     heat: 21, trend: 178 },
+          { word: '直发夹',     heat: 20, trend: 2  },
+        ],
+        quadrant: [
+          // 蓝海 4
+          { name: '香水',        content: 380, gap: 7.8, supply: 220, gmv: 10, quadrant: 'blue',  profile: '原创香调小众沙龙 / 280-680元客单 / 试香装标配' },
+          { name: '男士护肤',    content: 280, gap: 9.2, supply:  95, gmv:  9, quadrant: 'blue',  profile: '新锐男士专研 / 180-380元客单 / 男性创始人优先' },
+          { name: '早C晚A套装',  content: 480, gap: 9.4, supply: 150, gmv:  6, quadrant: 'blue',  profile: '功效型护肤组合品牌 / 480-980元客单 / 上海/广州研发' },
+          { name: '头皮护理',    content: 280, gap: 7.5, supply:  80, gmv:  5, quadrant: 'blue',  profile: '头皮专研医研品牌 / 220-480元客单 / 进口配方' },
+          // 红海 2
+          { name: '精华',        content: 380, gap: 2.8, supply: 480, gmv: 22, quadrant: 'red',   profile: '功效抗老精华 / 480-980元客单 / 院线背书优先' },
+          { name: '面霜',        content: 300, gap: 3.6, supply: 380, gmv: 18, quadrant: 'red',   profile: '高端抗老面霜 / 380-880元客单 / 院线推荐' },
+          // 沉睡 2
+          { name: '唇釉口红',    content: 180, gap: 3.8, supply: 320, gmv: 14, quadrant: 'sleep', profile: '古风国潮唇釉 / 80-180元客单 / 国货新锐' },
+          { name: '眼影',        content: 120, gap: 3.4, supply: 350, gmv:  8, quadrant: 'sleep', profile: '多色盘平价品牌 / 60-140元客单 / 学生消费' },
+          // 冷启 2
+          { name: '防晒',        content: 180, gap: 5.2, supply: 200, gmv: 12, quadrant: 'cold',  profile: '纯物理防晒新锐 / 180-320元客单 / 敏感肌专研' },
+          { name: '身体护理',    content: 150, gap: 5.8, supply: 180, gmv:  9, quadrant: 'cold',  profile: '身体精华品类 / 150-320元客单 / 美拉德香调' },
+        ],
+        bdScript:
+`致功效护肤品牌主理人:
+
+您好。小红书美妆品类近 30 天 GMV 同比 +56.8%,其中早C晚A套装搜索量环比 +220%、男士护肤 GMV 同比 +88%,18-24 岁年轻人群成为增量主力。我们目前的供给侧仍有显著空缺:头部「早C晚A组合」站内仅 150 家品牌覆盖,缺口指数 9.4/10。
+
+针对您所在的功效护肤赛道,平台可提供三项核心权益:
+1. 双11 期间「早C晚A」品类页 Top 3 优先资源位
+2. 与平台「成分党」达人池 50+ 人定向匹配,首笔 0 佣金
+3. 「医美级」概念背书及奉贤产业带定向流量包
+
+入驻流程:7 天内完成资质审核,首批 SKU 建议覆盖精华+面霜+眼霜组合,客单价区间 480-980 元最为活跃。后续可申请进入「内容力商家」标杆陪跑池,每月 1V1 运营复盘。
+
+商家应允:具备成分溯源能力、提供试用装支持、配合月度内容共创计划。
+
+请于本周内确认合作意向,联系:[BD 经理 林夏 / linxia@xhs]。期待共同打造小红书美妆下一个标杆案例。
+
+—— 小红书电商美妆行业运营组`,
+      },
+
+      '食品饮料': {
+        wordCloud: [
+          { word: '潮汕牛肉丸',   heat: 92, trend: 412 },
+          { word: '阳澄湖大闸蟹', heat: 90, trend: 85  },
+          { word: '低卡轻食',     heat: 86, trend: 156 },
+          { word: '安溪铁观音',   heat: 82, trend: 18  },
+          { word: '五常稻花香',   heat: 80, trend: 24  },
+          { word: '武夷岩茶',     heat: 76, trend: 32 },
+          { word: '打工人代餐',   heat: 72, trend: 88 },
+          { word: '手作糕点',     heat: 68, trend: 72 },
+          { word: '地方零食',     heat: 65, trend: 48 },
+          { word: '桂林米粉',     heat: 62, trend: 22 },
+          { word: '螺蛳粉',       heat: 60, trend: 12 },
+          { word: '自热火锅',     heat: 58, trend: 8  },
+          { word: '0卡气泡水',    heat: 55, trend: 45 },
+          { word: '减脂便当',     heat: 53, trend: 62 },
+          { word: '燕窝即食',     heat: 50, trend: 38 },
+          { word: '抹茶甜品',     heat: 48, trend: 26 },
+          { word: '手工酱料',     heat: 45, trend: 15 },
+          { word: '茶叶礼盒',     heat: 42, trend: 8  },
+          { word: '进口零食',     heat: 40, trend: 5  },
+          { word: '中式糕点',     heat: 38, trend: 18 },
+          { word: '干果脆片',     heat: 36, trend: 22 },
+          { word: '海鲜礼盒',     heat: 35, trend: 12 },
+          { word: '现包水饺',     heat: 32, trend: 9  },
+          { word: '速食面点',     heat: 30, trend: 6  },
+          { word: '鸭脖周黑',     heat: 28, trend: 3  },
+          { word: '益生菌',       heat: 26, trend: 32 },
+          { word: '蛋白棒',       heat: 24, trend: 45 },
+          { word: '咖啡冷萃',     heat: 22, trend: 58 },
+          { word: '农家自制',     heat: 20, trend: 8  },
+          { word: '茶颜悦色',     heat: 21, trend: 12 },
+        ],
+        quadrant: [
+          // 蓝海 4
+          { name: '地方特产',  content: 380, gap: 8.5, supply: 220, gmv: 22, quadrant: 'blue',  profile: '产地直采农企 / 65-180元客单 / 持有 SC 认证' },
+          { name: '生鲜',      content: 320, gap: 7.8, supply: 180, gmv: 16, quadrant: 'blue',  profile: '冷链直发生鲜 / 180-580元客单 / 顺丰冷链合作' },
+          { name: '季节限定',  content: 280, gap: 9.2, supply:  95, gmv: 12, quadrant: 'blue',  profile: '节庆主题食品工坊 / 88-280元客单 / 中秋/春节供货' },
+          { name: '减脂代餐',  content: 380, gap: 8.8, supply: 150, gmv: 14, quadrant: 'blue',  profile: '运动营养品牌 / 120-380元客单 / 体脂率标签清晰' },
+          // 红海 2
+          { name: '即食方便',  content: 280, gap: 2.8, supply: 480, gmv: 30, quadrant: 'red',   profile: '速食面点品牌 / 25-85元客单 / 食品大厂' },
+          { name: '零食',      content: 320, gap: 2.4, supply: 580, gmv: 28, quadrant: 'red',   profile: '休闲零食品牌 / 25-65元客单 / 三只松鼠类目' },
+          // 沉睡 2
+          { name: '烘焙甜品',  content: 240, gap: 3.8, supply: 380, gmv: 18, quadrant: 'sleep', profile: '手作私房 / 88-280元客单 / 当日配送' },
+          { name: '茶饮',      content: 180, gap: 3.5, supply: 320, gmv: 14, quadrant: 'sleep', profile: '新中式茶饮 / 25-85元客单 / 配方公开' },
+          // 冷启 2
+          { name: '酒水',      content:  95, gap: 6.0, supply: 200, gmv:  8, quadrant: 'cold',  profile: '国货精酿小众 / 220-480元客单 / 设计感包装' },
+          { name: '茶叶礼盒',  content: 120, gap: 5.5, supply: 180, gmv: 10, quadrant: 'cold',  profile: '原产地茶园 / 280-880元客单 / 礼盒装' },
+        ],
+        bdScript:
+`致地方特产/产地直采食品商家:
+
+您好。近 30 天小红书食品赛道笔记数环比 +156%,其中潮汕牛肉丸 +412%、低卡轻食 +156%、季节限定品类缺口指数 9.2/10——目前站内具备自营资质的产业带商家覆盖明显不足。
+
+针对您所在的地方产业带,平台已准备好三类合作权益:
+1. 产地直采专属流量包,日均曝光 25 万+
+2. 「地方风味」「美食探店」达人定向匹配 30 位
+3. 顺丰冷链供应链合作通道(适用于生鲜/季节限定品类)
+
+我们最需要的商家画像:持有 SC 食品生产许可证、能够保证 24h 内发货、有产地溯源能力。客单价 88-280 元区间最适配小红书用户消费习惯。
+
+落地周期:第 1 周完成入驻+店铺基础搭建,第 2 周上架首批 20-30 个 SKU,第 3-4 周启动达人合作与笔记内容矩阵搭建,第 2 月进入「产地标杆」陪跑池。
+
+诚邀贵司加入。如有意向请于本周内联系:[BD 经理 陈港 / chengang@xhs]。期待共同打造产地标杆案例。
+
+—— 小红书电商食品行业运营组`,
+      },
+
+      '家居生活': {
+        wordCloud: [
+          { word: '新中式',       heat: 92, trend: 96 },
+          { word: '侘寂风',       heat: 88, trend: 112 },
+          { word: '露营风',       heat: 84, trend: 88 },
+          { word: '景德镇手作',   heat: 82, trend: 52 },
+          { word: '法式古典',     heat: 80, trend: 42 },
+          { word: '北欧极简',     heat: 76, trend: 12 },
+          { word: '奶油风',       heat: 72, trend: 58 },
+          { word: '美拉德家居',   heat: 70, trend: 128 },
+          { word: '哑光釉瓷',     heat: 65, trend: 45 },
+          { word: '香薰蜡烛',     heat: 62, trend: 38 },
+          { word: '收纳神器',     heat: 60, trend: 18 },
+          { word: '棉麻床品',     heat: 58, trend: 8  },
+          { word: '苎麻窗帘',     heat: 55, trend: 22 },
+          { word: '复古挂画',     heat: 52, trend: 15 },
+          { word: '桌面摆件',     heat: 50, trend: 12 },
+          { word: '香氛精油',     heat: 48, trend: 26 },
+          { word: '黄铜灯具',     heat: 45, trend: 22 },
+          { word: '编织地毯',     heat: 42, trend: 18 },
+          { word: '干花艺术',     heat: 40, trend: 8  },
+          { word: '多肉绿植',     heat: 38, trend: 12 },
+          { word: '餐桌花艺',     heat: 36, trend: 15 },
+          { word: '极简衣架',     heat: 32, trend: 5  },
+          { word: '折叠桌椅',     heat: 30, trend: 88 },
+          { word: '户外帐篷',     heat: 28, trend: 128 },
+          { word: '露营椅',       heat: 26, trend: 92 },
+          { word: '冷淡风',       heat: 25, trend: 3  },
+          { word: '治愈系',       heat: 22, trend: 8  },
+          { word: '仪式感',       heat: 21, trend: 12 },
+          { word: '一人食',       heat: 20, trend: 18 },
+          { word: '卧室改造',     heat: 23, trend: 15 },
+        ],
+        quadrant: [
+          // 蓝海 4
+          { name: '香薰',         content: 380, gap: 7.6, supply: 220, gmv: 11, quadrant: 'blue',  profile: '原创香调蜡烛工坊 / 180-480元客单 / 手工浇注' },
+          { name: '绿植',         content: 320, gap: 8.4, supply: 150, gmv:  9, quadrant: 'blue',  profile: '原产地直发绿植 / 65-280元客单 / 顺丰特殊包装' },
+          { name: '户外露营装备', content: 380, gap: 9.5, supply:  95, gmv: 11, quadrant: 'blue',  profile: '露营周边设计师 / 280-880元客单 / 户外品牌孵化' },
+          { name: '手作陶瓷',     content: 280, gap: 9.0, supply:  80, gmv:  7, quadrant: 'blue',  profile: '景德镇/龙泉青瓷工作室 / 280-680元客单 / 独立窑口' },
+          // 红海 2
+          { name: '餐具',         content: 320, gap: 2.6, supply: 480, gmv: 16, quadrant: 'red',   profile: '骨瓷/玻璃餐具品牌 / 180-480元客单 / 国货新锐' },
+          { name: '床品',         content: 280, gap: 3.0, supply: 380, gmv: 14, quadrant: 'red',   profile: '天丝/苎麻床品 / 480-1280元客单 / 进口面料' },
+          // 沉睡 2
+          { name: '收纳',         content: 240, gap: 3.2, supply: 580, gmv: 18, quadrant: 'sleep', profile: '极简收纳系统 / 95-280元客单 / 模块化设计' },
+          { name: '灯具',         content: 220, gap: 3.5, supply: 380, gmv: 12, quadrant: 'sleep', profile: '黄铜/水泥工业灯具 / 380-1280元客单 / 设计师品牌' },
+          // 冷启 2
+          { name: '装饰画',       content: 180, gap: 6.0, supply: 200, gmv:  6, quadrant: 'cold',  profile: '原创版画/挂画品牌 / 180-580元客单 / 限量编号' },
+          { name: '桌布',         content:  95, gap: 6.0, supply: 180, gmv:  5, quadrant: 'cold',  profile: '原创桌旗/桌布 / 65-180元客单 / 棉麻+苎麻' },
+        ],
+        bdScript:
+`致家居生活方式品牌主理人:
+
+您好。近 30 天小红书家居赛道整体 GMV 同比 +24.6%,但侘寂风(+112%)、户外露营装备(+88%)、新中式餐具(+96%)等子赛道增速远超大盘——其中户外露营装备缺口指数高达 9.5/10,站内仅 95 家商家覆盖。
+
+针对您所在的家居产业带,平台可提供:
+1. 「新中式」「侘寂风」「美拉德」主题专区资源位
+2. 25 位生活方式向腰部达人定向匹配,内容共创预算 5 万起
+3. 景德镇/佛山陶瓷产业带定向运营对接
+
+我们关注的商家画像:具备原创设计能力、客单价 280-880 元区间、产能稳定支持 30 天内发货。手作工作室主理人优先。
+
+落地节奏:第 1 周完成入驻审核,第 2-3 周首批 SKU 上架并启动达人种草,第 2 月进入「家居美学」陪跑池获得 BD 1V1 周报支持。
+
+请于本周内联系 BD:[BD 经理 苏宁 / suning@xhs]。我们期待与您共同沉淀小红书家居 showcase 案例。
+
+—— 小红书电商家居行业运营组`,
+      },
+
+      '数码3C': {
+        wordCloud: [
+          { word: '桌搭好物',     heat: 92, trend: 228 },
+          { word: '复古数码',     heat: 88, trend: 180 },
+          { word: '智能家居',     heat: 84, trend: 156 },
+          { word: '复古胶片',     heat: 82, trend: 340 },
+          { word: '机械键盘',     heat: 80, trend: 88  },
+          { word: '小众耳机',     heat: 76, trend: 66 },
+          { word: '高刷显示器',   heat: 72, trend: 42 },
+          { word: '平板配件',     heat: 68, trend: 28 },
+          { word: 'iPad好物',     heat: 65, trend: 34 },
+          { word: '极客好物',     heat: 62, trend: 48 },
+          { word: '罗技MX',       heat: 60, trend: 22 },
+          { word: 'HHKB',         heat: 58, trend: 38 },
+          { word: 'Switch游戏',   heat: 55, trend: 18 },
+          { word: '摄影器材',     heat: 52, trend: 25 },
+          { word: '桌面整理',     heat: 50, trend: 62 },
+          { word: '触屏笔',       heat: 48, trend: 15 },
+          { word: '投影仪',       heat: 45, trend: 22 },
+          { word: '智能音箱',     heat: 42, trend: 18 },
+          { word: '蓝牙音响',     heat: 40, trend: 8  },
+          { word: '数码控',       heat: 38, trend: 12 },
+          { word: '数字工具',     heat: 36, trend: 5  },
+          { word: '折叠屏',       heat: 35, trend: 25 },
+          { word: '充电收纳',     heat: 32, trend: 18 },
+          { word: '桌面美学',     heat: 30, trend: 45 },
+          { word: '极致美学',     heat: 28, trend: 22 },
+          { word: '全屋智能',     heat: 26, trend: 38 },
+          { word: '桌搭1.0',      heat: 24, trend: 15 },
+          { word: 'kindle',       heat: 22, trend: 8  },
+          { word: 'Pro Display',  heat: 20, trend: 12 },
+          { word: '数显仪',       heat: 21, trend: 5  },
+        ],
+        quadrant: [
+          // 蓝海 4
+          { name: '相机配件',     content: 340, gap: 7.8, supply: 220, gmv: 10, quadrant: 'blue',  profile: '复古镜头/胶片相机配件 / 280-880元客单 / 摄影社群' },
+          { name: '智能家居',     content: 350, gap: 9.4, supply:  95, gmv: 18, quadrant: 'blue',  profile: '全屋智能方案商 / 1280-4800元客单 / 全屋整装能力' },
+          { name: '桌搭配件',     content: 380, gap: 8.6, supply: 150, gmv:  9, quadrant: 'blue',  profile: '小众外设品牌 / 240-680元客单 / 东莞松山湖' },
+          { name: '复古数码',     content: 380, gap: 9.2, supply:  80, gmv:  6, quadrant: 'blue',  profile: '复古胶片相机/随身听品牌 / 680-1800元客单 / 95 后社群' },
+          // 红海 2
+          { name: '耳机',         content: 380, gap: 2.4, supply: 580, gmv: 22, quadrant: 'red',   profile: 'HiFi 头戴耳机 / 580-2800元客单 / 发烧友定位' },
+          { name: '键盘',         content: 280, gap: 3.5, supply: 380, gmv: 12, quadrant: 'red',   profile: '客制化机械键盘 / 480-1280元客单 / 东莞松山湖' },
+          // 沉睡 2
+          { name: '鼠标',         content: 220, gap: 4.2, supply: 350, gmv:  9, quadrant: 'sleep', profile: '人体工学鼠标 / 180-480元客单 / 罗技替代品牌' },
+          { name: '充电器',       content: 180, gap: 3.5, supply: 480, gmv: 11, quadrant: 'sleep', profile: '快充氮化镓 / 95-280元客单 / 配件大厂' },
+          // 冷启 2
+          { name: '桌面音响',     content: 180, gap: 6.2, supply: 180, gmv:  7, quadrant: 'cold',  profile: '复古蓝牙音响 / 380-980元客单 / 设计师品牌' },
+          { name: '笔记本周边',   content: 220, gap: 5.8, supply: 240, gmv:  8, quadrant: 'cold',  profile: '笔记本立架/扩展坞 / 180-580元客单 / 通用品类' },
+        ],
+        bdScript:
+`致 3C 数码 / 桌面美学品牌主理人:
+
+您好。近 30 天小红书 3C 品类 GMV 同比 +32.1%,桌搭配件(+228%)、复古数码(+180%)、智能家居(+156%)成为增量主力——其中智能家居整屋方案缺口指数 9.4/10,站内仅 95 家商家具备相关供给能力。
+
+针对您所在的赛道,平台已规划三项合作权益:
+1. 「桌搭好物」「极客好物」固定话题资源位,日均 20 万曝光
+2. 50+ 数码垂直达人池定向匹配,首笔合作 0 佣金
+3. 站内新品首发档期权益,单日突增流量 92%+ 验证有效
+
+我们需要的商家画像:具备原创设计或独特货源能力、客单价 240-1280 元区间、能够配合站内首发节奏。东莞松山湖、深圳华强北产业带优先。
+
+落地节奏:第 1 周完成入驻+首笔达人合作,第 2-4 周首批 SKU 上架并锁定首发档期,第 2 月进入「3C 标杆商家」陪跑池获得每月 1V1 运营复盘。
+
+诚邀贵司加入小红书数码生态。请于本周联系:[BD 经理 周野 / zhouye@xhs]。期待共建新品首发标杆。
+
+—— 小红书电商数码行业运营组`,
+      },
+    };
+
     // 统一组装 MOCK_DATA
     const MOCK_DATA = {};
     Object.keys(CAT_CONFIG).forEach(cat => {
@@ -1294,6 +1758,7 @@
         benchmarkCurve:  benchmark,
         niches:          NICHES[cat],
         insights:        INSIGHTS[cat],
+        trends:          TRENDS[cat],
       };
     });
 
@@ -1840,6 +2305,349 @@
       dashboardFirstLoad = true;
       renderInsights(MOCK_DATA[state.category]);
     });
+
+    /* ============================================================
+       通用 Modal(Step 3 引入,Step 7 复用)
+       ============================================================ */
+    function openModal() {
+      document.getElementById('modal-mask').classList.add('open');
+    }
+    function closeModal() {
+      cancelTypewriters();
+      document.getElementById('modal-mask').classList.remove('open');
+    }
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    document.getElementById('modal-mask').addEventListener('click', e => {
+      if (e.target === e.currentTarget) closeModal();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' &&
+          document.getElementById('modal-mask').classList.contains('open')) closeModal();
+    });
+
+    /* ============================================================
+       模块 2:趋势雷达
+       ============================================================ */
+
+    const QUADRANT_LABEL = {
+      blue: '蓝海机会', red: '红海竞争', sleep: '沉睡赛道', cold: '冷启赛道',
+    };
+
+    // 词云(seeded shuffle 保证演示稳定)
+    function renderWordCloud(words, seed) {
+      const container = document.getElementById('word-cloud');
+      container.replaceChildren();
+
+      const rng = mulberry32(seed);
+      const shuffled = [...words];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(rng() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+
+      shuffled.forEach(w => {
+        const span = document.createElement('span');
+        const tier = w.heat >= 80 ? 'tier-hot'
+                   : w.heat >= 50 ? 'tier-warm'
+                   : w.heat >= 20 ? 'tier-mild' : 'tier-cool';
+        span.className = 'word-cloud-item ' + tier;
+        span.textContent = w.word;
+        const sign = w.trend >= 0 ? '+' : '';
+        span.title = `热度 ${w.heat} · 近 7 天环比 ${sign}${w.trend}%`;
+        container.appendChild(span);
+      });
+    }
+
+    // 供需象限散点图
+    function renderQuadrant(items) {
+      const dom = document.getElementById('chart-quadrant');
+      if (!dom) return;
+      const chart = getOrCreateChart('quadrant', dom);
+
+      const maxGmv = Math.max(...items.map(d => d.gmv));
+      const contentMid = 250;   // log 中线视觉位置
+      const gapMid = 5;
+
+      const option = {
+        ...BASE_CHART_OPTION,
+        grid: { top: 40, right: 90, bottom: 56, left: 70, containLabel: true },
+        tooltip: {
+          ...BASE_CHART_OPTION.tooltip,
+          trigger: 'item',
+          formatter: (p) => {
+            const d = p.data;
+            const qColor = d.quadrant === 'blue' ? '#FF2442' : '#6B6B6B';
+            const star = d.quadrant === 'blue' ? ' ★' : '';
+            return `<div style="font-weight:600;margin-bottom:6px;font-size:13.5px">${d.name}</div>
+              <div style="display:flex;justify-content:space-between;gap:18px;font-size:12px;line-height:1.85">
+                <span style="color:#9B9B9B">内容热度</span><span style="font-family:'SF Mono',Menlo,monospace">${d.content}K 笔记</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;gap:18px;font-size:12px;line-height:1.85">
+                <span style="color:#9B9B9B">缺口指数</span><span style="font-family:'SF Mono',Menlo,monospace;color:#FF2442;font-weight:600">${d.gap}/10</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;gap:18px;font-size:12px;line-height:1.85">
+                <span style="color:#9B9B9B">当前商家</span><span style="font-family:'SF Mono',Menlo,monospace">${d.supply} 家</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;gap:18px;font-size:12px;line-height:1.85">
+                <span style="color:#9B9B9B">30天 GMV</span><span style="font-family:'SF Mono',Menlo,monospace">${d.gmv} 亿</span>
+              </div>
+              <div style="margin-top:6px;padding-top:6px;border-top:1px dashed #EEE;font-size:11px;color:#9B9B9B">
+                象限: <span style="color:${qColor};font-weight:600">${QUADRANT_LABEL[d.quadrant]}${star}</span>
+              </div>`;
+          },
+        },
+        xAxis: {
+          type: 'log', logBase: 10,
+          name: '内容热度(K 笔记)',
+          nameLocation: 'middle', nameGap: 32,
+          nameTextStyle: { color: '#6B6B6B', fontSize: 12, fontFamily: FONT_FAMILY },
+          min: 70, max: 600,
+          ...AXIS_STYLE,
+        },
+        yAxis: {
+          type: 'value',
+          name: '供给缺口指数 (0-10)',
+          nameLocation: 'middle', nameGap: 42,
+          nameTextStyle: { color: '#6B6B6B', fontSize: 12, fontFamily: FONT_FAMILY },
+          min: 0, max: 10,
+          ...AXIS_STYLE,
+        },
+        visualMap: {
+          show: true,
+          min: 0, max: 10,
+          dimension: 1,
+          right: 8, top: 'middle',
+          itemWidth: 10, itemHeight: 120,
+          text: ['缺口大', '缺口小'],
+          textStyle: { color: '#9B9B9B', fontSize: 11, fontFamily: FONT_FAMILY },
+          textGap: 8,
+          inRange: { color: ['#FFE8EC', '#FFA07A', '#FF2442'] },
+          calculable: false,
+        },
+        series: [{
+          type: 'scatter',
+          data: items.map(d => ({
+            name: d.name,
+            value: [d.content, d.gap],
+            content: d.content, gap: d.gap, supply: d.supply, gmv: d.gmv, quadrant: d.quadrant,
+          })),
+          symbolSize: (val, p) => {
+            const base = 22 + (p.data.gmv / maxGmv) * 26;
+            return p.data.quadrant === 'blue' ? base * 1.2 : base;
+          },
+          label: {
+            show: true,
+            formatter: (p) => p.data.name,
+            position: 'top',
+            color: '#1F1F1F',
+            fontSize: 11,
+            fontFamily: FONT_FAMILY,
+            distance: 6,
+          },
+          itemStyle: { opacity: 0.88, borderColor: '#FFF', borderWidth: 1.5 },
+          emphasis: {
+            label: { fontSize: 13, fontWeight: 600 },
+            itemStyle: { opacity: 1, shadowBlur: 18, shadowColor: 'rgba(255,36,66,0.4)' },
+            scale: 1.1,
+          },
+          markLine: {
+            silent: true,
+            symbol: 'none',
+            lineStyle: { color: '#E5E5E5', type: 'dashed', width: 1 },
+            label: { show: false },
+            data: [{ xAxis: contentMid }, { yAxis: gapMid }],
+          },
+          animationDuration: 700,
+          animationEasing: 'cubicOut',
+        }],
+        graphic: [
+          { type: 'text', left: 80,  top: 32,
+            style: { text: '冷启赛道', fill: '#BBBBBB', fontSize: 11, fontFamily: FONT_FAMILY } },
+          { type: 'text', right: 108, top: 32,
+            style: { text: '蓝海机会 ★', fill: '#FF2442', fontSize: 12, fontWeight: 700, fontFamily: FONT_FAMILY, textAlign: 'right' } },
+          { type: 'text', left: 80,  bottom: 64,
+            style: { text: '沉睡赛道', fill: '#BBBBBB', fontSize: 11, fontFamily: FONT_FAMILY } },
+          { type: 'text', right: 108, bottom: 64,
+            style: { text: '红海竞争', fill: '#BBBBBB', fontSize: 11, fontFamily: FONT_FAMILY, textAlign: 'right' } },
+        ],
+      };
+
+      chart.setOption(option, { notMerge: true });
+    }
+
+    // 机会清单(仅蓝海象限,按缺口指数降序)
+    function renderOpportunities(items) {
+      const tbody = document.getElementById('opp-tbody');
+      tbody.replaceChildren();
+
+      const opps = items
+        .filter(d => d.quadrant === 'blue')
+        .sort((a, b) => b.gap - a.gap);
+
+      opps.forEach((opp, idx) => {
+        const tr = document.createElement('tr');
+
+        // #
+        const tdNum = document.createElement('td');
+        const rank = document.createElement('span');
+        rank.className = 'opp-rank' + (idx < 3 ? ' top3' : '');
+        rank.textContent = String(idx + 1);
+        tdNum.appendChild(rank);
+        tr.appendChild(tdNum);
+
+        // 赛道
+        const tdName = document.createElement('td');
+        tdName.className = 'opp-name';
+        tdName.textContent = opp.name;
+        tr.appendChild(tdName);
+
+        // 内容热度
+        const tdHeat = document.createElement('td');
+        tdHeat.className = 'col-num';
+        tdHeat.textContent = opp.content + 'K';
+        tr.appendChild(tdHeat);
+
+        // 缺口指数(条 + 数字)
+        const tdGap = document.createElement('td');
+        const wrap = document.createElement('div');
+        wrap.className = 'opp-gap';
+        const bar = document.createElement('div');
+        bar.className = 'opp-gap-bar';
+        const fill = document.createElement('div');
+        fill.className = 'opp-gap-fill';
+        fill.style.width = (opp.gap * 10) + '%';
+        bar.appendChild(fill);
+        const num = document.createElement('span');
+        num.className = 'opp-gap-num';
+        num.textContent = opp.gap.toFixed(1);
+        wrap.appendChild(bar);
+        wrap.appendChild(num);
+        tdGap.appendChild(wrap);
+        tr.appendChild(tdGap);
+
+        // 当前供给
+        const tdSupply = document.createElement('td');
+        tdSupply.className = 'col-num';
+        tdSupply.textContent = opp.supply + ' 家';
+        tr.appendChild(tdSupply);
+
+        // 画像
+        const tdProfile = document.createElement('td');
+        tdProfile.className = 'opp-profile';
+        tdProfile.textContent = opp.profile;
+        tr.appendChild(tdProfile);
+
+        // 操作
+        const tdAction = document.createElement('td');
+        const actions = document.createElement('div');
+        actions.className = 'opp-actions';
+
+        const bdBtn = document.createElement('button');
+        bdBtn.className = 'opp-btn';
+        bdBtn.textContent = '生成招商方案';
+        bdBtn.onclick = () => openBdScriptModal(opp);
+
+        const todoBtn = document.createElement('button');
+        todoBtn.className = 'opp-btn ghost';
+        todoBtn.textContent = '加入待办';
+        todoBtn.onclick = () => {
+          todoBtn.textContent = '已加入 ✓';
+          todoBtn.disabled = true;
+          setTimeout(() => { todoBtn.textContent = '加入待办'; todoBtn.disabled = false; }, 1500);
+        };
+
+        actions.appendChild(bdBtn);
+        actions.appendChild(todoBtn);
+        tdAction.appendChild(actions);
+        tr.appendChild(tdAction);
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    // 招商话术 Modal
+    function openBdScriptModal(opp) {
+      const cat = state.category;
+      const script = MOCK_DATA[cat].trends.bdScript;
+
+      const titleEl  = document.getElementById('modal-title');
+      const bodyEl   = document.getElementById('modal-body');
+      const footerEl = document.getElementById('modal-footer');
+
+      // 标题
+      titleEl.replaceChildren();
+      const tag = document.createElement('span');
+      tag.className = 'tag';
+      tag.textContent = 'AI 生成';
+      titleEl.appendChild(tag);
+      titleEl.appendChild(document.createTextNode(` 招商话术 · ${opp.name}`));
+      const sub = document.createElement('span');
+      sub.className = 'sub';
+      sub.textContent = `· ${cat}`;
+      titleEl.appendChild(sub);
+
+      // 内容
+      bodyEl.replaceChildren();
+      const meta = document.createElement('div');
+      meta.className = 'bd-script-meta';
+      [
+        ['目标赛道', opp.name],
+        ['内容热度', opp.content + 'K'],
+        ['缺口指数', opp.gap.toFixed(1) + '/10'],
+        ['当前供给', opp.supply + ' 家'],
+      ].forEach(([l, v]) => {
+        const sp = document.createElement('span');
+        const lb = document.createElement('span');
+        lb.className = 'label';
+        lb.textContent = l + ':';
+        sp.appendChild(lb);
+        sp.appendChild(document.createTextNode(' ' + v));
+        meta.appendChild(sp);
+      });
+      bodyEl.appendChild(meta);
+
+      const scriptBox = document.createElement('div');
+      scriptBox.className = 'bd-script';
+      bodyEl.appendChild(scriptBox);
+
+      // 底部
+      footerEl.replaceChildren();
+      const closeBtn = document.createElement('button');
+      closeBtn.className = 'opp-btn ghost';
+      closeBtn.textContent = '关闭';
+      closeBtn.onclick = closeModal;
+
+      const copyBtn = document.createElement('button');
+      copyBtn.className = 'opp-btn';
+      copyBtn.textContent = '复制全文';
+      copyBtn.onclick = () => {
+        const restore = () => { copyBtn.textContent = '复制全文'; };
+        try {
+          navigator.clipboard.writeText(script).then(
+            () => { copyBtn.textContent = '已复制 ✓'; setTimeout(restore, 1500); },
+            () => { copyBtn.textContent = '复制失败'; setTimeout(restore, 1500); }
+          );
+        } catch (e) {
+          copyBtn.textContent = '复制失败'; setTimeout(restore, 1500);
+        }
+      };
+
+      footerEl.appendChild(closeBtn);
+      footerEl.appendChild(copyBtn);
+
+      openModal();
+      typewriter(scriptBox, script, 12);
+    }
+
+    function renderTrends(s) {
+      const data = MOCK_DATA[s.category]?.trends;
+      if (!data) return;
+      renderWordCloud(data.wordCloud, CAT_SEED[s.category]);
+      renderQuadrant(data.quadrant);
+      renderOpportunities(data.quadrant);
+    }
+
+    moduleRenderers.trends = renderTrends;
 
     /* ============================================================
        初始化
