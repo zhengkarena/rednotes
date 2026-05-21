@@ -526,6 +526,139 @@
     }
     .insight-link:hover { text-decoration: underline; }
 
+    /* ========== 模块 2:趋势雷达 ========== */
+    .trends-top-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+      align-items: stretch;
+    }
+    .trends-top-grid > .chart-card { display: flex; flex-direction: column; min-height: 420px; }
+
+    /* 简易词云 */
+    .word-cloud {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-content: center;
+      gap: 4px 14px;
+      padding: 12px 6px;
+      overflow: hidden;
+    }
+    .word-cloud-item {
+      display: inline-block;
+      padding: 2px 4px;
+      cursor: default;
+      transition: transform 0.2s ease, color 0.2s ease;
+      letter-spacing: 0.2px;
+      line-height: 1.4;
+    }
+    .word-cloud-item:hover { transform: scale(1.08); color: var(--brand) !important; }
+    .word-cloud-item.tier-hot  { font-size: 26px; font-weight: 700; color: var(--brand); }
+    .word-cloud-item.tier-warm { font-size: 19px; font-weight: 600; color: var(--text-1); }
+    .word-cloud-item.tier-mild { font-size: 14px; font-weight: 500; color: var(--text-2); }
+    .word-cloud-item.tier-cool { font-size: 12px; font-weight: 400; color: var(--text-3); }
+
+    .word-cloud-legend {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      font-size: 11px;
+      color: var(--text-3);
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+      margin-top: 4px;
+    }
+    .word-cloud-legend-item { display: flex; align-items: center; gap: 4px; }
+    .word-cloud-legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* 机会清单表格 */
+    .opp-table-wrap { overflow-x: auto; }
+    .opp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .opp-table thead th {
+      text-align: left;
+      padding: 12px 14px;
+      font-weight: 600;
+      color: var(--text-2);
+      font-size: 12px;
+      letter-spacing: 0.4px;
+      background: #FAFAFA;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .opp-table thead th.col-num { text-align: right; }
+    .opp-table tbody td {
+      padding: 14px;
+      border-bottom: 1px solid #F5F5F5;
+      color: var(--text-1);
+      vertical-align: middle;
+    }
+    .opp-table tbody tr { transition: background 0.15s ease; }
+    .opp-table tbody tr:hover { background: #FAFAFA; }
+    .opp-table tbody tr:last-child td { border-bottom: none; }
+    .opp-table .col-num { text-align: right; font-family: var(--font-num); font-variant-numeric: tabular-nums; }
+    .opp-rank {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px; height: 22px;
+      border-radius: 6px;
+      background: #F5F5F5;
+      color: var(--text-2);
+      font-family: var(--font-num);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .opp-rank.top3 { background: var(--brand); color: #FFF; }
+    .opp-name { font-weight: 600; }
+    .opp-profile { color: var(--text-2); font-size: 12.5px; line-height: 1.5; }
+    .opp-gap {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .opp-gap-bar {
+      width: 60px; height: 6px;
+      background: #F5F5F5;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .opp-gap-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #FFA07A, #FF2442);
+      border-radius: 3px;
+    }
+    .opp-gap-num {
+      font-family: var(--font-num);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--brand);
+    }
+    .opp-btn {
+      padding: 6px 12px;
+      font-size: 12px;
+      font-family: var(--font-cn);
+      color: var(--brand);
+      background: var(--brand-light);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .opp-btn:hover {
+      background: var(--brand);
+      color: #FFF;
+      transform: translateY(-1px);
+    }
+
     /* ========== 通用卡片 ========== */
     .card {
       background: var(--card);
@@ -717,9 +850,63 @@
     </section>
 
     <section id="trends" class="module">
-      <div class="placeholder-block">
-        <div class="ph-title">模块 2：趋势雷达 × 内容供需匹配</div>
-        <div class="ph-desc">趋势词云 · 供需象限 · AI 机会清单（Step 3 实现）</div>
+      <div class="trends-top-grid">
+
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <span class="chart-card-title">趋势词热度图谱</span>
+            <span class="chart-card-caliber">· 近 7 天搜索 + 笔记互动加权</span>
+          </div>
+          <div class="word-cloud" id="word-cloud"></div>
+          <div class="word-cloud-legend">
+            <div class="word-cloud-legend-item"><span class="word-cloud-legend-dot" style="background:#FF2442"></span>超热</div>
+            <div class="word-cloud-legend-item"><span class="word-cloud-legend-dot" style="background:#1F1F1F"></span>热</div>
+            <div class="word-cloud-legend-item"><span class="word-cloud-legend-dot" style="background:#6B6B6B"></span>温</div>
+            <div class="word-cloud-legend-item"><span class="word-cloud-legend-dot" style="background:#9B9B9B"></span>长尾</div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-card-header">
+            <span class="chart-card-title">供需匹配象限</span>
+            <span class="chart-card-caliber">· 内容热度 × 商品供给</span>
+          </div>
+          <div class="chart-info" tabindex="0">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="9"/>
+              <line x1="12" y1="11" x2="12" y2="16"/>
+              <line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+            <div class="chart-info-tip">
+              横轴=内容热度指数(笔记数 × 互动量归一至 0-100),纵轴=商品供给商家数。象限切分基于本品类的中位线,跨品类不可直接对比。
+            </div>
+          </div>
+          <div class="chart-canvas" id="chart-quadrant" style="height:380px"></div>
+        </div>
+
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-header">
+          <span class="chart-card-title">AI 机会清单 · Top 10「高内容热度 + 低供给」赛道</span>
+          <span class="chart-card-caliber">· 缺口指数从高到低排序</span>
+        </div>
+        <div class="opp-table-wrap">
+          <table class="opp-table">
+            <thead>
+              <tr>
+                <th style="width:50px">#</th>
+                <th>赛道</th>
+                <th class="col-num">内容热度</th>
+                <th class="col-num">供给商家数</th>
+                <th>缺口指数</th>
+                <th>建议引入商家画像</th>
+                <th style="width:120px">操作</th>
+              </tr>
+            </thead>
+            <tbody id="opp-tbody"></tbody>
+          </table>
+        </div>
       </div>
     </section>
 
