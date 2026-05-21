@@ -553,13 +553,342 @@
     };
 
     const MODULE_TITLES = {
-      dashboard:  ['行业大盘', '驾驶舱'],
-      trends:     ['趋势雷达', '内容供需匹配'],
-      belts:      ['产业带作战地图', '商圈运营'],
-      merchants:  ['商家陪跑舱', '头部 showcase'],
-      creators:   ['达人 × 内容', '协同矩阵'],
-      assistant:  ['AI 助手', '全局对话'],
+      dashboard:  ['行业大盘',         '驾驶舱'],
+      trends:     ['趋势雷达',         '内容供需匹配'],
+      belts:      ['产业带作战地图',    '商圈运营'],
+      merchants:  ['商家陪跑舱',       '头部 showcase'],
+      creators:   ['达人 × 内容',     '协同矩阵'],
+      assistant:  ['AI 助手',          '全局对话'],
     };
+
+    /* ============================================================
+       工具:种子 PRNG / CountUp / 打字机令牌 / ECharts 管理
+       ============================================================ */
+
+    // 种子伪随机(每个品类用固定种子,演示稳定)
+    function mulberry32(seed) {
+      let s = seed >>> 0;
+      return function () {
+        s = (s + 0x6D2B79F5) >>> 0;
+        let t = s;
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    // CountUp(easeOutQuart)
+    function countUp(el, to, opts = {}) {
+      const { from = 0, duration = 900, decimals = 1, suffix = '', prefix = '' } = opts;
+      const start = performance.now();
+      const ease = t => 1 - Math.pow(1 - t, 4);
+      function frame(now) {
+        const p = Math.min(1, (now - start) / duration);
+        const v = from + (to - from) * ease(p);
+        el.textContent = prefix + v.toFixed(decimals) + suffix;
+        if (p < 1) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    // 打字机令牌:任何 UI 切换调用 cancelTypewriters() 立即中断所有进行中的任务
+    let typewriterToken = 0;
+    function cancelTypewriters() { typewriterToken++; }
+
+    async function typewriter(el, text, speed = 38) {
+      const myToken = ++typewriterToken;
+      el.textContent = '';
+      for (const ch of text) {
+        if (myToken !== typewriterToken) return;
+        el.textContent += ch;
+        await new Promise(r => setTimeout(r, speed));
+      }
+    }
+
+    // ECharts 实例管理
+    const charts = new Map();
+    function getOrCreateChart(id, dom) {
+      if (!charts.has(id)) charts.set(id, echarts.init(dom));
+      return charts.get(id);
+    }
+    function disposeChart(id) {
+      const c = charts.get(id);
+      if (c) { c.dispose(); charts.delete(id); }
+    }
+    window.addEventListener('resize', () => charts.forEach(c => c.resize()));
+
+    /* ============================================================
+       MOCK_DATA 工厂 —— 5 个品类形态特征化
+         · 服饰:春秋双峰(day 8 / day 23)
+         · 美妆:大促前 7-10 天爬坡(day 18 起平方爬升至 day 30)
+         · 食品:周末效应(周六周日 ×1.42)
+         · 家居:月初波峰(day 1-5 +22%)
+         · 3C:  新品发布单日尖峰(day 12 ×1.95, day 24 ×2.20)
+       ============================================================ */
+
+    const CAT_SEED = {
+      '服饰穿搭': 20240101,
+      '美妆个护': 20240202,
+      '食品饮料': 20240303,
+      '家居生活': 20240404,
+      '数码3C':   20240505,
+    };
+
+    const CAT_CONFIG = {
+      '服饰穿搭': {
+        base: 9.0,
+        seasonalPeaks: [
+          { day: 8,  mag: 0.42, width: 3.0 },
+          { day: 23, mag: 0.55, width: 3.2 },
+        ],
+        jitter: 0.08,
+        kpi: { gmv: 285.6, gmvYoY: 42.3, gmvMoM: 8.1,
+               newMerchants: 1842, newMerchantsYoY: 18.5,
+               topMerchants: 156,  topMerchantsYoY: 12.0,
+               penetration: 38.5,  penetrationYoY: 5.2 },
+      },
+      '美妆个护': {
+        base: 5.5,
+        ramp: { start: 18, end: 30, mag: 1.55 },
+        jitter: 0.05,
+        kpi: { gmv: 198.4, gmvYoY: 56.8, gmvMoM: 22.4,
+               newMerchants: 1156, newMerchantsYoY: 28.2,
+               topMerchants: 98,   topMerchantsYoY: 18.5,
+               penetration: 32.8,  penetrationYoY: 6.8 },
+      },
+      '食品饮料': {
+        base: 4.2,
+        weekendBoost: 1.42,
+        jitter: 0.06,
+        kpi: { gmv: 142.7, gmvYoY: 38.2, gmvMoM: 11.5,
+               newMerchants: 982,  newMerchantsYoY: 22.4,
+               topMerchants: 87,   topMerchantsYoY: 16.8,
+               penetration: 28.6,  penetrationYoY: 8.4 },
+      },
+      '家居生活': {
+        base: 3.6,
+        monthStart: { days: [1,2,3,4,5], mag: 0.22 },
+        jitter: 0.035,
+        kpi: { gmv: 118.2, gmvYoY: 24.6, gmvMoM: 4.2,
+               newMerchants: 642,  newMerchantsYoY: 15.8,
+               topMerchants: 72,   topMerchantsYoY: 9.2,
+               penetration: 22.4,  penetrationYoY: 3.8 },
+      },
+      '数码3C': {
+        base: 4.8,
+        spikes: [
+          { day: 12, mag: 1.95 },
+          { day: 24, mag: 2.20 },
+        ],
+        jitter: 0.04,
+        kpi: { gmv: 158.3, gmvYoY: 32.1, gmvMoM: 14.8,
+               newMerchants: 528,  newMerchantsYoY: 18.6,
+               topMerchants: 64,   topMerchantsYoY: 11.4,
+               penetration: 18.9,  penetrationYoY: 4.6 },
+      },
+    };
+
+    // 30 天 GMV 曲线生成(亿/天)
+    function genCurve(cat) {
+      const cfg = CAT_CONFIG[cat];
+      const rng = mulberry32(CAT_SEED[cat]);
+      const arr = [];
+      for (let i = 1; i <= 30; i++) {
+        let v = cfg.base;
+
+        if (cfg.seasonalPeaks) {
+          cfg.seasonalPeaks.forEach(({ day, mag, width }) => {
+            const d = i - day;
+            v += cfg.base * mag * Math.exp(-(d * d) / (2 * width * width));
+          });
+        }
+        if (cfg.weekendBoost) {
+          const dow = ((i - 1) % 7) + 1;        // day 1 = 周一
+          if (dow === 6 || dow === 7) v *= cfg.weekendBoost;
+        }
+        if (cfg.ramp) {
+          const { start, end, mag } = cfg.ramp;
+          if (i >= start) {
+            const p = Math.min(1, (i - start) / (end - start));
+            v *= 1 + mag * p * p;
+          }
+        }
+        if (cfg.monthStart && cfg.monthStart.days.includes(i)) {
+          v *= 1 + cfg.monthStart.mag;
+        }
+        if (cfg.spikes) {
+          cfg.spikes.forEach(({ day, mag }) => { if (i === day) v *= mag; });
+        }
+        v *= 1 + (rng() - 0.5) * cfg.jitter;
+        arr.push(+v.toFixed(2));
+      }
+      return arr;
+    }
+
+    // 行业 Top 3 平均(灰虚线对比,平滑 + 量级下浮 26%)
+    function genBenchmark(curve, seed) {
+      const rng = mulberry32(seed + 999);
+      const smoothed = curve.map((v, i, a) => {
+        const prev = a[Math.max(0, i - 1)];
+        const next = a[Math.min(a.length - 1, i + 1)];
+        return (prev + v + next) / 3;
+      });
+      return smoothed.map(v => +(v * 0.74 * (1 + (rng() - 0.5) * 0.04)).toFixed(2));
+    }
+
+    // 细分赛道(热力散点图用)
+    const NICHES = {
+      '服饰穿搭': [
+        { name: '连衣裙',     price: 280, growth:  28, gmv: 52, penetration: 65 },
+        { name: '卫衣外套',   price: 220, growth:  35, gmv: 38, penetration: 58 },
+        { name: '牛仔裤',     price: 180, growth:  12, gmv: 28, penetration: 52 },
+        { name: '半身裙',     price: 160, growth:  42, gmv: 22, penetration: 48 },
+        { name: '西装',       price: 380, growth:  -8, gmv: 15, penetration: 32 },
+        { name: '针织衫',     price: 200, growth:  18, gmv: 26, penetration: 55 },
+        { name: 'T恤',        price:  95, growth:   6, gmv: 32, penetration: 71 },
+        { name: '衬衫',       price: 175, growth:  14, gmv: 18, penetration: 46 },
+        { name: '羽绒服',     price: 580, growth:  52, gmv: 24, penetration: 38 },
+        { name: '多巴胺套装', price: 240, growth: 340, gmv:  8, penetration: 18 },
+      ],
+      '美妆个护': [
+        { name: '精华',        price: 420, growth:  45, gmv: 22, penetration: 72 },
+        { name: '面霜',        price: 320, growth:  28, gmv: 18, penetration: 68 },
+        { name: '面膜',        price: 150, growth:  52, gmv: 16, penetration: 78 },
+        { name: '唇釉口红',    price: 180, growth:  22, gmv: 14, penetration: 65 },
+        { name: '底妆',        price: 280, growth:  38, gmv: 15, penetration: 58 },
+        { name: '防晒',        price: 220, growth:  66, gmv: 12, penetration: 71 },
+        { name: '香水',        price: 480, growth:  18, gmv: 10, penetration: 42 },
+        { name: '眼影',        price: 195, growth:  12, gmv:  8, penetration: 48 },
+        { name: '男士护肤',    price: 260, growth:  88, gmv:  9, penetration: 31 },
+        { name: '早C晚A套装',  price: 580, growth: 220, gmv:  6, penetration: 22 },
+      ],
+      '食品饮料': [
+        { name: '潮汕牛肉丸',   price: 180, growth: 412, gmv:  3.2, penetration: 17 },
+        { name: '阳澄湖大闸蟹', price: 480, growth:  85, gmv: 18,   penetration: 38 },
+        { name: '五常稻花香米', price: 220, growth:  24, gmv: 12,   penetration: 42 },
+        { name: '安溪铁观音',   price: 280, growth:  18, gmv: 10,   penetration: 36 },
+        { name: '武夷岩茶',     price: 360, growth:  32, gmv:  8,   penetration: 28 },
+        { name: '低卡轻食',     price: 120, growth: 156, gmv: 14,   penetration: 48 },
+        { name: '地方零食',     price:  65, growth:  48, gmv: 22,   penetration: 62 },
+        { name: '坚果炒货',     price:  95, growth:  28, gmv: 16,   penetration: 55 },
+        { name: '手作糕点',     price: 140, growth:  72, gmv: 11,   penetration: 41 },
+        { name: '海鲜干货',     price: 320, growth:  38, gmv: 12,   penetration: 33 },
+      ],
+      '家居生活': [
+        { name: '新中式餐具',   price: 280, growth:  96, gmv:  8, penetration: 23 },
+        { name: '侘寂风家居',   price: 580, growth: 112, gmv: 14, penetration: 28 },
+        { name: '露营风家居',   price: 380, growth:  88, gmv: 11, penetration: 32 },
+        { name: '景德镇手作',   price: 460, growth:  52, gmv:  6, penetration: 18 },
+        { name: '香氛蜡烛',     price: 180, growth:  42, gmv:  9, penetration: 38 },
+        { name: '收纳神器',     price:  95, growth:  28, gmv: 12, penetration: 55 },
+        { name: '床品四件套',   price: 320, growth:  18, gmv: 16, penetration: 48 },
+        { name: '装饰画',       price: 220, growth:  35, gmv:  5, penetration: 26 },
+        { name: '桌面摆件',     price: 120, growth:  48, gmv:  7, penetration: 35 },
+        { name: '灯具',         price: 280, growth:  22, gmv: 10, penetration: 42 },
+      ],
+      '数码3C': [
+        { name: '桌搭配件',     price:  240, growth: 228, gmv:  9, penetration: 32 },
+        { name: '复古胶片相机', price:  680, growth: 340, gmv:  5, penetration: 15 },
+        { name: '机械键盘',     price:  480, growth:  88, gmv: 12, penetration: 38 },
+        { name: '小众耳机',     price:  580, growth:  66, gmv: 14, penetration: 45 },
+        { name: '智能家居全屋', price: 1280, growth: 156, gmv: 18, penetration: 22 },
+        { name: '高刷显示器',   price: 1450, growth:  42, gmv: 16, penetration: 35 },
+        { name: '平板配件',     price:  220, growth:  28, gmv: 10, penetration: 48 },
+        { name: '充电收纳',     price:   95, growth:  18, gmv:  8, penetration: 52 },
+        { name: '游戏外设',     price:  420, growth:  52, gmv: 11, penetration: 41 },
+        { name: '复古数码',     price:  380, growth: 180, gmv:  6, penetration: 18 },
+      ],
+    };
+
+    // AI 洞察(每条:icon + title + body),5 条/品类,共 25 条
+    const INSIGHTS = {
+      '服饰穿搭': [
+        { icon: '🔥', title: '多巴胺穿搭出现明显供给缺口',
+          body: '多巴胺穿搭话题近 7 天搜索量环比 +340%,但供给侧仅 23 家商家覆盖,缺口指数 8.7/10。建议优先从广州十三行引入色彩鲜艳的小批量快反商家 5-8 家,预计可承接 1200 万 GMV 增量。' },
+        { icon: '💡', title: '新中式连衣裙赛道客单价高 38%',
+          body: '新中式连衣裙赛道平均客单价 480 元,高于服饰大盘 38%,复购率 22% 显著优于品类均值。已识别 14 家潜力商家(主要来自杭州四季青),建议本月内启动定向招商。' },
+        { icon: '⚠️', title: '杭州四季青头部商家健康度预警',
+          body: '杭州四季青头部商家「素白衣橱」近 14 天 GMV 环比 -28%,健康度评分由 82 降至 67,主因笔记互动率下滑 41%。建议陪跑同学本周内介入诊断,重点复盘内容策略。' },
+        { icon: '🔥', title: '老钱风出现内容跑赢供给格局',
+          body: '老钱风内容笔记数环比 +156%,但匹配商品供给增速仅 +43%,典型「内容跑得比货快」格局。建议向海宁皮革、虎门头部商家定向输出该风格选品建议,系统已生成 32 个款式参考。' },
+        { icon: '💡', title: 'Y2K 复古在年轻人群渗透领先',
+          body: 'Y2K 复古单品在 18-24 岁人群渗透率 47%,远超服饰大盘 12%。建议在「青年潮流」专题中放大露出权重,并联动 30 位腰部达人做种草矩阵,预计可拉新 8.2 万 GMV 增量用户。' },
+      ],
+      '美妆个护': [
+        { icon: '🔥', title: '双 11 倒计时进入供给关键期',
+          body: '距离双 11 还有 11 天,「早 C 晚 A 套装」搜索量已环比 +220%,供给增速 +95%,缺口指数 6.4/10。建议加紧引入功效型护肤标杆 3-5 家,本周内完成入驻审核。' },
+        { icon: '💡', title: '油皮护肤赛道笔记 CTR 行业领先',
+          body: '油皮护肤赛道客单价 320 元,30 天 GMV 同比 +68%。头部「肌研所」店铺笔记 CTR 12.8%,显著高于美妆均值 4.5%,建议作为平台「内容力商家」典型 case 对外推荐。' },
+        { icon: '⚠️', title: '香水赛道退货率超出警戒线',
+          body: '香水赛道平均退货率 18.5%,远高于美妆品类 7% 警戒线,主因「试香装缺失」与「香调描述不符」。建议商家陪跑团本月推动 Top 30 商家试香装标配,预计可降至 11%。' },
+        { icon: '🔥', title: '上海奉贤产业带渗透率仅 28%',
+          body: '上海奉贤产业带「医美级」联名概念笔记环比 +178%,但产业带渗透率仅 28%,新商挖掘空间充足。系统已基于站外数据反向识别 47 家潜力商家,触达意向评分 Top 10 已生成。' },
+        { icon: '💡', title: '男士护肤年轻人群心智突破 31%',
+          body: '男士护肤 18-24 岁人群心智份额突破 31%,且增速 +88%。建议在该子赛道试点「场景化套装」运营策略(健身/通勤/约会),并联动 15 位男士向腰部达人做内容渗透。' },
+      ],
+      '食品饮料': [
+        { icon: '🔥', title: '潮汕牛肉丸内容暴涨但持牌商家不足',
+          body: '潮汕手打牛肉丸近 30 天笔记数环比 +412%,但有自营资质的产业带商家仅 17 家。建议本周内联动潮汕政府招商办,定向引入 8-10 家持牌商家,承接当前 240 万/天的搜索流量。' },
+        { icon: '💡', title: '阳澄湖大闸蟹 Top 5 复购达 31%',
+          body: '阳澄湖大闸蟹季节窗口期还剩 24 天,Top 5 商家累计 GMV 已达 2.6 亿,复购率 31%。建议陪跑团给到 Top 10 商家定制化达人共创计划,预计大盘可再拉升 18%。' },
+        { icon: '⚠️', title: '五常稻花香米中长尾商家健康度预警',
+          body: '五常稻花香米赛道供给商家 89 家,但 Top 3 占据 64% GMV,中长尾商家健康度普遍低于 60。建议启动腰部商家流量扶持计划,目标本季把 CR3 集中度降至 50% 以内。' },
+        { icon: '🔥', title: '低卡轻食工作日晚间需求是周末 2.3 倍',
+          body: '低卡轻食在工作日 19-21 点搜索量是周末同时段的 2.3 倍,但匹配商品「即食方便」标签覆盖率仅 41%。建议推动「打工人代餐」专属标签接入,并联动 12 家头部商家做场景化货品改造。' },
+        { icon: '💡', title: '安溪铁观音内容种草强但转化弱',
+          body: '安溪铁观音内容笔记互动率 8.7%,远高于茶饮赛道 3.2%,但商品转化率仅 1.8%,典型「内容强、链路弱」。建议本月内推动 Top 10 商家做笔记直挂改造,预估可拉升转化至 4-5%。' },
+      ],
+      '家居生活': [
+        { icon: '🔥', title: '新中式餐具产业带承接率仅 23%',
+          body: '新中式餐具 30 天 GMV 同比 +96%,但景德镇产业带承接率仅 23%,剩余 GMV 流向 1688 等站外平台。建议本月内引入 15-20 家景德镇手作工作室,预计可挽回 2200 万 GMV 流失。' },
+        { icon: '💡', title: '侘寂风客单价高出大盘 62%',
+          body: '侘寂风家居整体客单价 580 元,高于家居大盘 62%,且 25-30 岁女性渗透率 38%,与小红书用户画像高度契合。建议设立专题资源位放大露出,联动腰部生活方式达人 25 位。' },
+        { icon: '⚠️', title: '佛山陶瓷「白塘瓷舍」缺货预警',
+          body: '佛山陶瓷头部商家「白塘瓷舍」近 7 天 GMV 环比 -31%,主因主力 SKU 缺货达 12 天。系统已自动触发供应链预警,建议陪跑同学今日内确认补货时间,避免本月 KPI 失守。' },
+        { icon: '🔥', title: '露营风家居站内供给仅 134 家',
+          body: '露营风家居在户外向用户中渗透率 52%,但站内供给仅 134 家商家,且头部集中度过高(CR3=58%)。建议向南通家纺、东莞家具等产业带挖掘 30 家新商,扩大长尾供给。' },
+        { icon: '💡', title: '月初家居 GMV 高出月均 24%',
+          body: '月初 1-5 号家居 GMV 显著高于月均 24%,主要由「换季布置」「新月仪式感」相关搜索驱动。建议在月初前 3 天集中投放产业带商家流量包,把握这个稳定的窗口期。' },
+      ],
+      '数码3C': [
+        { icon: '🔥', title: '桌搭赛道笔记 +228% 但 SPU 不足',
+          body: '桌搭赛道近 30 天笔记数 +228%,但站内匹配商品 SPU 仅 1.2 万,缺口指数 7.9/10。建议从东莞松山湖引入 20 家小众外设商家,目标本月新增 SPU 8000+。' },
+        { icon: '💡', title: '复古数码在 95 后人群增速 +340%',
+          body: '复古数码(胶片相机、随身听)在 95 后人群中搜索量同比 +340%,客单价 680 元,笔记互动率 11.2%。已识别 23 家潜力卖家,建议本周启动招商,优先级最高。' },
+        { icon: '⚠️', title: '华强北「极客实验室」客诉率超线',
+          body: '深圳华强北头部商家「极客实验室」近 14 天 GMV 环比 +156%,但客诉率同步上升至 5.8%(品类警戒线 3%)。建议陪跑团本周复盘售后流程,避免高速增长反噬商家口碑。' },
+        { icon: '🔥', title: '智能家居整屋方案互动量是单品 4.2 倍',
+          body: '智能家居「全屋方案」内容笔记互动量是单品笔记的 4.2 倍,但仅 8 家商家具备整屋售卖能力。建议联动「方阵智能」等 8 家做整屋场景化内容共创,沉淀平台样板案例。' },
+        { icon: '💡', title: '新品发布日 GMV 单日突增 92%+',
+          body: '11/14 和 11/26 两个新品发布日单日 GMV 突增 92% 和 118%,验证「站内首发权益」对 3C 商家招商的强吸引力。建议本季继续锁定 8-10 个新品首发档期,作为头部商家拉新核心抓手。' },
+      ],
+    };
+
+    // 统一组装 MOCK_DATA
+    const MOCK_DATA = {};
+    Object.keys(CAT_CONFIG).forEach(cat => {
+      const curve     = genCurve(cat);
+      const benchmark = genBenchmark(curve, CAT_SEED[cat]);
+      MOCK_DATA[cat] = {
+        seed:            CAT_SEED[cat],
+        kpi:             CAT_CONFIG[cat].kpi,
+        gmvCurve:        curve,
+        benchmarkCurve:  benchmark,
+        niches:          NICHES[cat],
+        insights:        INSIGHTS[cat],
+      };
+    });
+
+    // 公共图表色板
+    const CHART_PALETTE = ['#FF2442', '#FF6B6B', '#FFA07A', '#FFD93D', '#6BCB77', '#4D96FF'];
+
+    // Commit 1 验证:5 个品类 GMV 曲线前 10 天对比
+    console.log('%c[RedOps] MOCK_DATA 已就绪,5 个品类前 10 天 GMV(亿/日):',
+      'color:#FF2442;font-weight:bold');
+    Object.keys(MOCK_DATA).forEach(cat => {
+      console.log(`  ${cat.padEnd(8, ' ')}:`,
+        MOCK_DATA[cat].gmvCurve.slice(0, 10).join(', '));
+    });
 
     /* ============================================================
        自定义下拉(可复用)
