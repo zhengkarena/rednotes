@@ -4866,19 +4866,33 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
     // 生成函数:陪跑计划
     function generateCoachPlan(m) {
       const rng = mulberry32(hashId(m.id));
-      const pick = arr => arr[Math.floor(rng() * arr.length)];
+      // 替换顺序:长 placeholder 先替,避免 %N 误匹配 %NAME% 内部
       const fillVars = s => s
-        .replace(/%N/g,  () => 3 + Math.floor(rng() * 6))
-        .replace(/%X/g,  () => 4 + Math.floor(rng() * 5))
-        .replace(/%Y/g,  () => 380 + Math.floor(rng() * 5) * 80)
         .replace(/%BELT%/g, m.belt)
         .replace(/%NAME%/g, m.name)
-        .replace(/%CAT%/g, '本品类');
+        .replace(/%CAT%/g,  '本品类')
+        .replace(/%N/g,  () => 3 + Math.floor(rng() * 6))
+        .replace(/%X/g,  () => 4 + Math.floor(rng() * 5))
+        .replace(/%Y/g,  () => 380 + Math.floor(rng() * 5) * 80);
+
+      // 不重复采样:维护每个池的已选索引
+      const pickUnique = (pool, used) => {
+        if (used.length >= pool.length) used.length = 0;  // 池耗尽则重置
+        let idx;
+        do { idx = Math.floor(rng() * pool.length); } while (used.includes(idx));
+        used.push(idx);
+        return pool[idx];
+      };
+      const seen = new Map();  // 每个池独立的 used 列表
+      const pickFrom = pool => {
+        if (!seen.has(pool)) seen.set(pool, []);
+        return pickUnique(pool, seen.get(pool));
+      };
+
       const dims = sortDimsByWeakness(m.health);
       const goals = PHASE_GOALS[m.tier] || PHASE_GOALS['成长'];
-
-      const fixForDim = dim => fillVars(pick(FIX_ACTIONS[dim]));
-      const genFor    = phase => fillVars(pick(GENERAL_ACTIONS[phase]));
+      const fixForDim = dim => fillVars(pickFrom(FIX_ACTIONS[dim]));
+      const genFor    = phase => fillVars(pickFrom(GENERAL_ACTIONS[phase]));
 
       return {
         phase30: { goal: fillVars(goals[30]),
@@ -4946,11 +4960,11 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
         repurchase: ['搭建会员体系,30/60/90 天权益梯度,复购率 +%N pp','启动「老客回流」专项,Top %X% 用户 1V1 触达','优化售后 SLA,响应时间从 %D h 压至 %X h'],
       };
       const fillVars = s => s
+        .replace(/%BELT%/g, m.belt)
+        .replace(/%NAME%/g, m.name)
         .replace(/%N/g, () => 3 + Math.floor(rng() * 6))
         .replace(/%X/g, () => 5 + Math.floor(rng() * 8))
-        .replace(/%D/g, () => 7 + Math.floor(rng() * 18))
-        .replace(/%BELT%/g, m.belt)
-        .replace(/%NAME%/g, m.name);
+        .replace(/%D/g, () => 7 + Math.floor(rng() * 18));
       return dims.slice(0, 3).map(d => {
         const pool = suggestionPool[d];
         return fillVars(pool[Math.floor(rng() * pool.length)]);
