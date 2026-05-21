@@ -670,6 +670,155 @@
     }
     .opp-actions { display: flex; gap: 6px; flex-wrap: nowrap; }
 
+    /* ========== 模块 3:产业带作战地图 ========== */
+    .belts-layout {
+      display: grid;
+      grid-template-columns: 1fr 460px;
+      gap: 20px;
+      margin-bottom: 20px;
+      align-items: stretch;
+    }
+    .belts-map-card { display: flex; flex-direction: column; }
+    .belts-detail-card {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      max-height: 640px;
+      overflow-y: auto;
+      padding-right: 14px;
+    }
+    .belts-detail-head { border-bottom: 1px solid var(--border); padding-bottom: 14px; }
+    .belts-detail-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+    .belts-detail-name { font-size: 19px; font-weight: 700; color: var(--text-1); }
+    .belts-tier-tag {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .tier-super     { background: var(--brand);         color: #FFFFFF; }
+    .tier-flagship  { background: rgba(255,36,66,0.10); color: var(--brand); }
+    .tier-growth    { background: rgba(0,181,120,0.10); color: var(--success); }
+    .tier-potential { background: rgba(255,149,0,0.12); color: var(--warn); }
+    .belts-detail-story {
+      font-size: 12.5px;
+      color: var(--text-2);
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    .belts-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .belts-stat {
+      padding: 12px 14px;
+      background: #FAFAFA;
+      border-radius: 10px;
+    }
+    .belts-stat-label { font-size: 11px; color: var(--text-3); margin-bottom: 4px; letter-spacing: 0.3px; }
+    .belts-stat-value-row { display: flex; align-items: baseline; gap: 3px; }
+    .belts-stat-value {
+      font-family: var(--font-num);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-1);
+      font-variant-numeric: tabular-nums;
+    }
+    .belts-stat-unit { font-size: 12px; color: var(--text-2); font-weight: 500; }
+
+    .belts-mini-section { }
+    .belts-mini-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-1);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .belts-mini-title-sub { font-size: 11px; color: var(--text-3); font-weight: 400; }
+
+    .belts-top-list { display: flex; flex-direction: column; gap: 4px; }
+    .belts-top-row {
+      display: grid;
+      grid-template-columns: 20px 1fr 36px 70px 56px;
+      gap: 8px;
+      align-items: center;
+      padding: 7px 0;
+      font-size: 12.5px;
+      border-bottom: 1px solid #F5F5F5;
+    }
+    .belts-top-row:last-child { border-bottom: none; }
+    .belts-top-rank {
+      font-family: var(--font-num);
+      font-size: 11px;
+      color: var(--text-3);
+      font-variant-numeric: tabular-nums;
+    }
+    .belts-top-rank.top3 { color: var(--brand); font-weight: 700; }
+    .belts-top-name {
+      color: var(--text-1);
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .belts-top-tier-tag {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .belts-top-gmv {
+      font-family: var(--font-num);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-1);
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    .belts-top-bar {
+      height: 5px;
+      background: #F5F5F5;
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative;
+    }
+    .belts-top-bar-fill {
+      position: absolute;
+      top: 0; left: 0;
+      height: 100%;
+      background: linear-gradient(90deg, #FFA07A, #FF2442);
+      border-radius: 3px;
+      transition: width 0.4s ease;
+    }
+
+    /* AI 商家推荐占位(Commit 4-2 替换) */
+    .belts-ai-placeholder {
+      padding: 36px;
+      text-align: center;
+      color: var(--text-3);
+      background: var(--card);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      border: 1px dashed var(--border);
+    }
+    .belts-ai-placeholder .ph-title { font-size: 14px; color: var(--text-2); font-weight: 600; margin-bottom: 4px; }
+    .belts-ai-placeholder .ph-desc { font-size: 12px; }
+
     /* 通用 Modal(Step 3 引入,Step 7 复用) */
     .modal-mask {
       position: fixed;
@@ -1010,12 +1159,54 @@
     </section>
 
     <section id="belts" class="module">
-      <div class="chart-card">
-        <div class="chart-card-header">
-          <span class="chart-card-title">产业带作战地图</span>
-          <span class="chart-card-caliber">· Step 4 前置:省级轮廓注册测试</span>
+      <div class="belts-layout">
+
+        <div class="chart-card belts-map-card">
+          <div class="chart-card-header">
+            <span class="chart-card-title">产业带作战地图</span>
+            <span class="chart-card-caliber" id="belts-subtitle">· 5 个核心产业带覆盖</span>
+          </div>
+          <div class="chart-canvas" id="chart-belts-map" style="height:560px"></div>
         </div>
-        <div class="chart-canvas" id="chart-belts-map" style="height:560px"></div>
+
+        <div class="chart-card belts-detail-card" id="belts-detail-card">
+          <div class="belts-detail-head">
+            <div class="belts-detail-title">
+              <span class="belts-detail-name" id="belts-detail-name"></span>
+              <span class="belts-tier-tag" id="belts-tier-tag"></span>
+            </div>
+            <div class="belts-detail-story" id="belts-detail-story"></div>
+          </div>
+
+          <div class="belts-stats-grid" id="belts-stats-grid"></div>
+
+          <div class="belts-mini-section">
+            <div class="belts-mini-title">
+              30 天 GMV 走势
+              <span class="belts-mini-title-sub" id="belts-mini-gmv-sub"></span>
+            </div>
+            <div class="chart-canvas" id="belts-mini-gmv" style="height:110px"></div>
+          </div>
+
+          <div class="belts-mini-section">
+            <div class="belts-mini-title">头部商家 Top 10</div>
+            <div class="belts-top-list" id="belts-top-list"></div>
+          </div>
+
+          <div class="belts-mini-section">
+            <div class="belts-mini-title">
+              新商挖掘漏斗
+              <span class="belts-mini-title-sub">线索池 → 触达 → 意向 → 完成开店</span>
+            </div>
+            <div class="chart-canvas" id="belts-funnel" style="height:200px"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="belts-ai-placeholder">
+        <div class="ph-title">AI 商家推荐</div>
+        <div class="ph-desc">基于站外数据反向挖掘的 20 个潜力商家(Commit 4-2 实现)</div>
       </div>
     </section>
 
@@ -1069,9 +1260,9 @@
        ============================================================ */
     const state = {
       category: '服饰穿搭',
-      region: 'ALL',
-      range: 30,
-      module: 'dashboard',
+      belt:     null,          // 当前选中产业带 name(初始化时按品类自动取第一个)
+      range:    30,
+      module:   'dashboard',
     };
 
     /* ============================================================
@@ -1767,11 +1958,306 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
       },
     };
 
+    /* ============================================================
+       BELTS_DATA —— 18 个产业带 × 144 个头部商家(模块 3 用)
+       ============================================================ */
+    const BELTS_DATA = {
+      '服饰穿搭': [
+        { name: '广州十三行', shortName: '十三行', storyTag: '中国女装快反产业带核心',
+          coord: [113.26, 23.13], gmv: 78.2, tier: '超级产业带',
+          totalMerchants: 3420, joinedMerchants: 1240,
+          funnel: { pool: 4800, reached: 1620, intent: 480, signed: 142 },
+          topMerchants: [
+            { name: '稚野风物',   tier: '标杆', gmv: 1820, growth:  +28 },
+            { name: '谷雨衣社',   tier: '标杆', gmv: 1620, growth:  +18 },
+            { name: '缦言衣坊',   tier: '成长', gmv: 1240, growth:  +45 },
+            { name: '望舒衣物',   tier: '标杆', gmv: 1080, growth:  +22 },
+            { name: '玖时风物',   tier: '成长', gmv:  980, growth:  +32 },
+            { name: '弦歌坊',     tier: '成长', gmv:  880, growth:  +28 },
+            { name: '行衫记',     tier: '成长', gmv:  760, growth:  +42 },
+            { name: '半屿',       tier: '潜力', gmv:  580, growth: +186 },
+          ] },
+        { name: '杭州四季青', shortName: '四季青', storyTag: '女装时尚批发风向标',
+          coord: [120.21, 30.25], gmv: 65.4, tier: '超级产业带',
+          totalMerchants: 2860, joinedMerchants: 982,
+          funnel: { pool: 4200, reached: 1380, intent: 420, signed: 118 },
+          topMerchants: [
+            { name: '素白衣橱',   tier: '超级', gmv: 2420, growth: -12 },
+            { name: '拾木集',     tier: '标杆', gmv: 1620, growth: +28 },
+            { name: '木兰记',     tier: '标杆', gmv: 1180, growth: +18 },
+            { name: '栖野家',     tier: '成长', gmv: 1240, growth: +88 },
+            { name: '念川衣社',   tier: '成长', gmv:  980, growth: +45 },
+            { name: '留白工作室', tier: '成长', gmv:  860, growth: +56 },
+            { name: '江雨衣社',   tier: '成长', gmv:  720, growth: +38 },
+            { name: '砚归',       tier: '潜力', gmv:  480, growth: +112 },
+          ] },
+        { name: '深圳南油', shortName: '南油', storyTag: '潮牌街头风源头基地',
+          coord: [113.93, 22.55], gmv: 38.6, tier: '标杆产业带',
+          totalMerchants: 1820, joinedMerchants: 568,
+          funnel: { pool: 3200, reached: 1080, intent: 320, signed: 88 },
+          topMerchants: [
+            { name: '鹿衣社',     tier: '标杆', gmv: 1420, growth: +35 },
+            { name: '拙朴',       tier: '标杆', gmv: 1280, growth: +18 },
+            { name: '寻野陈',     tier: '标杆', gmv: 1120, growth: +28 },
+            { name: '不语',       tier: '成长', gmv:  980, growth: +52 },
+            { name: '月隐',       tier: '成长', gmv:  860, growth: +88 },
+            { name: '黯青',       tier: '成长', gmv:  820, growth: +28 },
+            { name: '旖隅',       tier: '成长', gmv:  760, growth: +42 },
+            { name: '时令',       tier: '潜力', gmv:  480, growth: +122 },
+          ] },
+        { name: '海宁皮革城', shortName: '海宁', storyTag: '中国皮草皮衣集散中心',
+          coord: [120.69, 30.51], gmv: 24.8, tier: '成长产业带',
+          totalMerchants: 1240, joinedMerchants: 312,
+          funnel: { pool: 2400, reached: 820, intent: 240, signed: 62 },
+          topMerchants: [
+            { name: '苏意皮坊',   tier: '超级', gmv: 2120, growth: +15 },
+            { name: '兰意皮社',   tier: '标杆', gmv: 1380, growth: +22 },
+            { name: '阿珀皮草',   tier: '标杆', gmv: 1180, growth: +18 },
+            { name: '茗鹿皮匠',   tier: '成长', gmv:  980, growth: +48 },
+            { name: '山见皮物',   tier: '成长', gmv:  860, growth: +35 },
+            { name: '长堤皮坊',   tier: '成长', gmv:  720, growth: +28 },
+            { name: '浮野皮衣',   tier: '成长', gmv:  680, growth: +52 },
+            { name: '砂砾皮社',   tier: '潜力', gmv:  420, growth: +88 },
+          ] },
+        { name: '虎门服装', shortName: '虎门', storyTag: '男装休闲服批发重镇',
+          coord: [113.74, 22.85], gmv: 32.1, tier: '标杆产业带',
+          totalMerchants: 1640, joinedMerchants: 482,
+          funnel: { pool: 2800, reached: 960, intent: 280, signed: 78 },
+          topMerchants: [
+            { name: '川山衣坊',   tier: '标杆', gmv: 1620, growth: +18 },
+            { name: '半山男装',   tier: '标杆', gmv: 1280, growth: +22 },
+            { name: '风月集',     tier: '标杆', gmv: 1180, growth: +15 },
+            { name: '茜素',       tier: '成长', gmv:  980, growth: +42 },
+            { name: '故里',       tier: '成长', gmv:  920, growth: +48 },
+            { name: '林深',       tier: '成长', gmv:  860, growth: +35 },
+            { name: '沙木男装',   tier: '成长', gmv:  760, growth: +28 },
+            { name: '雾里',       tier: '潜力', gmv:  580, growth: +88 },
+          ] },
+      ],
+
+      '美妆个护': [
+        { name: '广州白云', shortName: '白云', storyTag: '国产美妆制造业半壁江山',
+          coord: [113.27, 23.16], gmv: 56.4, tier: '超级产业带',
+          totalMerchants: 2240, joinedMerchants: 728,
+          funnel: { pool: 3600, reached: 1240, intent: 380, signed: 108 },
+          topMerchants: [
+            { name: '肌研社',       tier: '超级', gmv: 2820, growth: +56 },
+            { name: '白皙研究所',   tier: '标杆', gmv: 1820, growth: +42 },
+            { name: '晨曦护肤',     tier: '标杆', gmv: 1480, growth: +28 },
+            { name: '成分实验室',   tier: '成长', gmv: 1240, growth: +88 },
+            { name: '本真美研',     tier: '成长', gmv:  980, growth: +66 },
+            { name: '素颜社',       tier: '成长', gmv:  860, growth: +52 },
+            { name: '一物三研',     tier: '成长', gmv:  760, growth: +88 },
+            { name: '净肤记',       tier: '潜力', gmv:  580, growth: +156 },
+          ] },
+        { name: '上海奉贤', shortName: '奉贤', storyTag: '国际美妆品牌中国研发高地',
+          coord: [121.55, 30.92], gmv: 42.3, tier: '标杆产业带',
+          totalMerchants: 1480, joinedMerchants: 414,
+          funnel: { pool: 2800, reached: 920, intent: 280, signed: 78 },
+          topMerchants: [
+            { name: '黛沃肌肤',     tier: '超级', gmv: 2580, growth: +38 },
+            { name: '韵颜',         tier: '标杆', gmv: 1680, growth: +28 },
+            { name: '启莱实验室',   tier: '标杆', gmv: 1420, growth: +32 },
+            { name: '川流美研',     tier: '成长', gmv: 1180, growth: +72 },
+            { name: '颜值研究院',   tier: '成长', gmv:  980, growth: +88 },
+            { name: '染色师',       tier: '成长', gmv:  820, growth: +56 },
+            { name: '雪域美研',     tier: '成长', gmv:  720, growth: +66 },
+            { name: '时颜社',       tier: '潜力', gmv:  480, growth: +180 },
+          ] },
+      ],
+
+      '食品饮料': [
+        { name: '潮汕', shortName: '潮汕', storyTag: '中国手作牛肉丸地理标志带',
+          coord: [116.62, 23.35], gmv: 18.4, tier: '成长产业带',
+          totalMerchants: 980, joinedMerchants: 168,
+          funnel: { pool: 2200, reached: 720, intent: 220, signed: 56 },
+          topMerchants: [
+            { name: '潮巷牛肉',     tier: '标杆', gmv: 1820, growth: +180 },
+            { name: '潮南三代',     tier: '标杆', gmv: 1420, growth: +66 },
+            { name: '林记牛肉丸',   tier: '标杆', gmv: 1280, growth: +88 },
+            { name: '阿姨手丸',     tier: '成长', gmv:  980, growth: +280 },
+            { name: '巷尾老铺',     tier: '成长', gmv:  920, growth: +88 },
+            { name: '老厝牛肉坊',   tier: '成长', gmv:  860, growth: +156 },
+            { name: '海陆食研',     tier: '成长', gmv:  720, growth: +112 },
+            { name: '拾光牛肉',     tier: '潜力', gmv:  480, growth: +320 },
+          ] },
+        { name: '阳澄湖', shortName: '阳澄湖', storyTag: '大闸蟹季节限定 IP 高地',
+          coord: [120.83, 31.40], gmv: 14.6, tier: '成长产业带',
+          totalMerchants: 620, joinedMerchants: 198,
+          funnel: { pool: 1800, reached: 620, intent: 180, signed: 52 },
+          topMerchants: [
+            { name: '蟹满堂',       tier: '超级', gmv: 2420, growth: +78 },
+            { name: '湖鲜直采',     tier: '标杆', gmv: 1680, growth: +56 },
+            { name: '阳澄一品',     tier: '标杆', gmv: 1480, growth: +45 },
+            { name: '蟹巷子',       tier: '成长', gmv:  980, growth: +88 },
+            { name: '渔家秋',       tier: '成长', gmv:  860, growth: +66 },
+            { name: '蟹与稻',       tier: '成长', gmv:  820, growth: +88 },
+            { name: '湖畔三鲜',     tier: '成长', gmv:  720, growth: +52 },
+            { name: '江南蟹坊',     tier: '潜力', gmv:  480, growth: +118 },
+          ] },
+        { name: '五常', shortName: '五常', storyTag: '中国稻米地理标志金字招牌',
+          coord: [127.16, 44.93], gmv: 22.1, tier: '标杆产业带',
+          totalMerchants: 540, joinedMerchants: 162,
+          funnel: { pool: 1600, reached: 540, intent: 160, signed: 48 },
+          topMerchants: [
+            { name: '稻乡纪事',     tier: '超级', gmv: 2680, growth: +28 },
+            { name: '五常人家',     tier: '标杆', gmv: 1820, growth: +35 },
+            { name: '黑土良仓',     tier: '标杆', gmv: 1480, growth: +22 },
+            { name: '香山稻舍',     tier: '成长', gmv:  980, growth: +48 },
+            { name: '老仓米坊',     tier: '成长', gmv:  920, growth: +28 },
+            { name: '一粒五常',     tier: '成长', gmv:  860, growth: +56 },
+            { name: '稻香林',       tier: '成长', gmv:  720, growth: +42 },
+            { name: '龙江米记',     tier: '潜力', gmv:  480, growth: +88 },
+          ] },
+        { name: '安溪', shortName: '安溪', storyTag: '乌龙茶发源地 · 铁观音核心产区',
+          coord: [118.19, 25.06], gmv: 12.3, tier: '成长产业带',
+          totalMerchants: 720, joinedMerchants: 168,
+          funnel: { pool: 1600, reached: 520, intent: 160, signed: 42 },
+          topMerchants: [
+            { name: '茶语山房',     tier: '超级', gmv: 1820, growth: +32 },
+            { name: '铁观音老张',   tier: '标杆', gmv: 1280, growth: +28 },
+            { name: '安溪茶人',     tier: '标杆', gmv: 1180, growth: +18 },
+            { name: '半亩茶园',     tier: '成长', gmv:  860, growth: +88 },
+            { name: '茶研所',       tier: '成长', gmv:  780, growth: +42 },
+            { name: '听茶',         tier: '成长', gmv:  720, growth: +56 },
+            { name: '木瓮记',       tier: '成长', gmv:  620, growth: +48 },
+            { name: '山岚茶舍',     tier: '潜力', gmv:  380, growth: +112 },
+          ] },
+        { name: '武夷山', shortName: '武夷山', storyTag: '岩茶 + 红茶双 IP 茶旅一体产地',
+          coord: [118.04, 27.69], gmv: 8.2, tier: '潜力产业带',
+          totalMerchants: 540, joinedMerchants: 112,
+          funnel: { pool: 1400, reached: 460, intent: 140, signed: 36 },
+          topMerchants: [
+            { name: '大红袍堂',     tier: '标杆', gmv: 1280, growth: +42 },
+            { name: '武夷岩骨',     tier: '标杆', gmv: 1180, growth: +28 },
+            { name: '桐木茶号',     tier: '成长', gmv:  860, growth: +66 },
+            { name: '闽北茶研',     tier: '成长', gmv:  760, growth: +38 },
+            { name: '正山小种',     tier: '成长', gmv:  720, growth: +52 },
+            { name: '三坑两涧',     tier: '成长', gmv:  620, growth: +88 },
+            { name: '岩韵茶人',     tier: '成长', gmv:  580, growth: +45 },
+            { name: '老枞水仙',     tier: '潜力', gmv:  380, growth: +156 },
+          ] },
+      ],
+
+      '家居生活': [
+        { name: '佛山陶瓷', shortName: '佛山', storyTag: '全国建陶第一镇 · 日用瓷转型样本',
+          coord: [113.11, 23.02], gmv: 24.6, tier: '标杆产业带',
+          totalMerchants: 1280, joinedMerchants: 386,
+          funnel: { pool: 2600, reached: 880, intent: 260, signed: 72 },
+          topMerchants: [
+            { name: '白塘瓷舍',     tier: '标杆', gmv: 1820, growth: -31 },
+            { name: '南窗瓷品',     tier: '标杆', gmv: 1480, growth: +35 },
+            { name: '朴塘陶瓷',     tier: '标杆', gmv: 1180, growth: +28 },
+            { name: '浮光釉瓷',     tier: '成长', gmv:  980, growth: +88 },
+            { name: '素心瓷器',     tier: '成长', gmv:  860, growth: +52 },
+            { name: '拾光釉色',     tier: '成长', gmv:  720, growth: +66 },
+            { name: '知味陶艺',     tier: '成长', gmv:  620, growth: +88 },
+            { name: '山岚陶舍',     tier: '潜力', gmv:  480, growth: +156 },
+          ] },
+        { name: '东莞家具', shortName: '东莞', storyTag: '国际品牌代工大本营 · 设计转型中',
+          coord: [113.75, 23.02], gmv: 28.4, tier: '标杆产业带',
+          totalMerchants: 980, joinedMerchants: 308,
+          funnel: { pool: 2400, reached: 820, intent: 240, signed: 68 },
+          topMerchants: [
+            { name: '无垠木作',     tier: '超级', gmv: 2120, growth: +18 },
+            { name: '落日松林',     tier: '标杆', gmv: 1480, growth: +28 },
+            { name: '木上山居',     tier: '标杆', gmv: 1280, growth: +35 },
+            { name: '简朴几何',     tier: '成长', gmv:  980, growth: +56 },
+            { name: '拾木家居',     tier: '成长', gmv:  860, growth: +88 },
+            { name: '林深木屋',     tier: '成长', gmv:  820, growth: +48 },
+            { name: '川山木研',     tier: '成长', gmv:  720, growth: +42 },
+            { name: '故乡良木',     tier: '潜力', gmv:  480, growth: +112 },
+          ] },
+        { name: '南通家纺', shortName: '南通', storyTag: '中国家纺第一城 · 全产业链高度集中',
+          coord: [120.86, 32.01], gmv: 32.2, tier: '超级产业带',
+          totalMerchants: 1620, joinedMerchants: 612,
+          funnel: { pool: 3200, reached: 1120, intent: 340, signed: 96 },
+          topMerchants: [
+            { name: '棉本家纺',     tier: '超级', gmv: 2680, growth: +22 },
+            { name: '蓝染棉麻',     tier: '标杆', gmv: 1820, growth: +28 },
+            { name: '古井布坊',     tier: '标杆', gmv: 1380, growth: +18 },
+            { name: '一缕苎麻',     tier: '成长', gmv: 1180, growth: +56 },
+            { name: '织衣记',       tier: '成长', gmv:  980, growth: +88 },
+            { name: '海安棉社',     tier: '成长', gmv:  820, growth: +35 },
+            { name: '拾棉而归',     tier: '成长', gmv:  760, growth: +42 },
+            { name: '漫野棉纺',     tier: '潜力', gmv:  580, growth: +118 },
+          ] },
+        { name: '景德镇陶瓷', shortName: '景德镇', storyTag: '千年瓷都 · 新中式核心供应链',
+          coord: [117.18, 29.27], gmv: 14.2, tier: '成长产业带',
+          totalMerchants: 860, joinedMerchants: 198,
+          funnel: { pool: 1900, reached: 640, intent: 200, signed: 56 },
+          topMerchants: [
+            { name: '栖息陶坊',     tier: '标杆', gmv: 1380, growth: +88 },
+            { name: '老瓷新坊',     tier: '标杆', gmv: 1180, growth: +42 },
+            { name: '月白瓷舍',     tier: '成长', gmv:  980, growth: +96 },
+            { name: '子瓷工坊',     tier: '成长', gmv:  860, growth: +112 },
+            { name: '瓷与器',       tier: '成长', gmv:  780, growth: +66 },
+            { name: '拾光瓷艺',     tier: '成长', gmv:  720, growth: +156 },
+            { name: '阅瓷集',       tier: '成长', gmv:  620, growth: +88 },
+            { name: '山泉瓷屋',     tier: '潜力', gmv:  380, growth: +180 },
+          ] },
+      ],
+
+      '数码3C': [
+        { name: '深圳华强北', shortName: '华强北', storyTag: '中国消费电子最快迭代地',
+          coord: [114.06, 22.55], gmv: 52.6, tier: '超级产业带',
+          totalMerchants: 1820, joinedMerchants: 542,
+          funnel: { pool: 3400, reached: 1180, intent: 360, signed: 102 },
+          topMerchants: [
+            { name: '方阵智能',     tier: '超级', gmv: 2420, growth: +88 },
+            { name: '极客实验室',   tier: '标杆', gmv: 1820, growth: +156 },
+            { name: '桌物研究室',   tier: '标杆', gmv: 1480, growth: +112 },
+            { name: '像素工房',     tier: '标杆', gmv: 1280, growth: +66 },
+            { name: '复古影像所',   tier: '成长', gmv:  980, growth: +180 },
+            { name: '声学小铺',     tier: '成长', gmv:  860, growth: +88 },
+            { name: '触感工坊',     tier: '成长', gmv:  820, growth: +88 },
+            { name: '极简数研',     tier: '成长', gmv:  720, growth: +156 },
+          ] },
+        { name: '东莞松山湖', shortName: '松山湖', storyTag: '全球科技制造基地 · 华为系生态',
+          coord: [113.89, 22.92], gmv: 38.2, tier: '标杆产业带',
+          totalMerchants: 1240, joinedMerchants: 358,
+          funnel: { pool: 2800, reached: 960, intent: 280, signed: 82 },
+          topMerchants: [
+            { name: '微造科技',     tier: '超级', gmv: 2180, growth: +52 },
+            { name: '形物所',       tier: '标杆', gmv: 1620, growth: +88 },
+            { name: '启橙数研',     tier: '标杆', gmv: 1380, growth: +42 },
+            { name: '触界实验室',   tier: '成长', gmv:  980, growth: +156 },
+            { name: '极简智造',     tier: '成长', gmv:  860, growth: +88 },
+            { name: '信号小铺',     tier: '成长', gmv:  820, growth: +88 },
+            { name: '数研工房',     tier: '成长', gmv:  720, growth: +112 },
+            { name: '北辰实验室',   tier: '潜力', gmv:  480, growth: +228 },
+          ] },
+      ],
+    };
+
+    // 副标题文案(地图卡片标题旁灰字)
+    const BELTS_SUBTITLES = {
+      '服饰穿搭': '· 5 个核心产业带覆盖',
+      '美妆个护': '· 珠三角制造 × 长三角研发 双中心格局',
+      '食品饮料': '· 5 个地理标志产业带覆盖',
+      '家居生活': '· 4 个核心产业带覆盖',
+      '数码3C':   '· 珠三角双产业带格局 · 集中度行业最高',
+    };
+
+    // 产业带 GMV 曲线生成(沿用品类形态、缩放到产业带量级、加种子小抖动)
+    function genBeltGmvCurve(catCurve, beltGmv, seed) {
+      const catSum = catCurve.reduce((a, b) => a + b, 0);
+      const factor = beltGmv / catSum;
+      const rng = mulberry32(seed);
+      return catCurve.map(v => +(v * factor * (1 + (rng() - 0.5) * 0.15)).toFixed(2));
+    }
+
     // 统一组装 MOCK_DATA
     const MOCK_DATA = {};
     Object.keys(CAT_CONFIG).forEach(cat => {
       const curve     = genCurve(cat);
       const benchmark = genBenchmark(curve, CAT_SEED[cat]);
+      // 产业带:补齐衍生字段(渗透率 + GMV 曲线)
+      const belts = (BELTS_DATA[cat] || []).map((b, i) => ({
+        ...b,
+        penetration: +(b.joinedMerchants / b.totalMerchants * 100).toFixed(1),
+        gmvCurve:    genBeltGmvCurve(curve, b.gmv, CAT_SEED[cat] + (i + 1) * 1000),
+      }));
       MOCK_DATA[cat] = {
         seed:            CAT_SEED[cat],
         kpi:             CAT_CONFIG[cat].kpi,
@@ -1780,6 +2266,8 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
         niches:          NICHES[cat],
         insights:        INSIGHTS[cat],
         trends:          TRENDS[cat],
+        belts:           belts,
+        beltsSubtitle:   BELTS_SUBTITLES[cat],
       };
     });
 
@@ -1878,7 +2366,11 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
       triggerId: 'region-trigger',
       menuId:    'region-menu',
       valueId:   'region-value',
-      onSelect:  v => { state.region = v; rerenderAll(); },
+      onSelect:  v => {
+        // 顶部产地与 state.belt 双向同步
+        if (typeof setBelt === 'function') setBelt(v);
+        else state.belt = v;
+      },
     });
 
     /* ============================================================
@@ -1899,6 +2391,9 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
       const [t, s] = MODULE_TITLES[name];
       document.getElementById('topbar-title-main').textContent = t;
       document.getElementById('topbar-title-sub').textContent  = s;
+
+      // 隐藏的 section 在 init 时 ECharts 拿到 0 宽 0 高,显示后需 resize
+      requestAnimationFrame(() => charts.forEach(c => c.resize()));
     }
 
     document.getElementById('nav-list').addEventListener('click', e => {
@@ -1912,18 +2407,22 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
     function switchCategory(cat) {
       if (!CATEGORY_REGIONS[cat]) return;
       state.category = cat;
-      state.region   = 'ALL';
+
+      // 切品类:state.belt 默认重置为该品类的第一个产业带
+      const firstBelt = (MOCK_DATA[cat] && MOCK_DATA[cat].belts && MOCK_DATA[cat].belts[0])
+        ? MOCK_DATA[cat].belts[0].name : null;
+      state.belt = firstBelt;
 
       document.querySelectorAll('.cat-tab').forEach(el => {
         el.classList.toggle('active', el.dataset.cat === cat);
       });
 
-      // 重建产地下拉
+      // 重建产地下拉(items = 当前品类的产业带 + 全部产地选项)
       const items = [
         { value: 'ALL', label: '全部产地' },
         ...CATEGORY_REGIONS[cat].map(r => ({ value: r, label: r })),
       ];
-      regionDropdown.setItems(items, 'ALL');
+      regionDropdown.setItems(items, firstBelt || 'ALL');
 
       rerenderAll();
     }
@@ -2679,9 +3178,10 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
     moduleRenderers.trends = renderTrends;
 
     /* ============================================================
-       模块 3:产业带作战地图(Step 4 前置 — 仅注册 + 空地图)
+       模块 3:产业带作战地图
        ============================================================ */
     let chinaMapRegistered = false;
+    let beltsMapInited     = false;
 
     function ensureChinaMap() {
       if (chinaMapRegistered) return;
@@ -2689,33 +3189,385 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
       chinaMapRegistered = true;
     }
 
-    function renderBelts(s) {
-      ensureChinaMap();
+    function tierClass(tier) {
+      if (tier === '超级' || tier === '超级产业带') return 'tier-super';
+      if (tier === '标杆' || tier === '标杆产业带') return 'tier-flagship';
+      if (tier === '成长' || tier === '成长产业带') return 'tier-growth';
+      return 'tier-potential';
+    }
+
+    // 地图本体只画一次 —— geo + 空 scatter series + 点击事件
+    function initBeltsMap() {
+      if (beltsMapInited) return;
       const dom = document.getElementById('chart-belts-map');
       if (!dom) return;
+      ensureChinaMap();
       const chart = getOrCreateChart('belts-map', dom);
 
       const option = {
         ...BASE_CHART_OPTION,
-        tooltip: { show: false },
+        tooltip: {
+          ...BASE_CHART_OPTION.tooltip,
+          trigger: 'item',
+          formatter: (p) => {
+            if (p.seriesName !== 'belts-scatter') return '';
+            const d = p.data;
+            return `<div style="font-weight:600;font-size:13.5px">${d.name}</div>
+              <div style="color:#9B9B9B;font-size:11.5px;margin-top:3px">${d.storyTag}</div>
+              <div style="display:flex;justify-content:space-between;gap:24px;margin-top:8px;font-size:12px">
+                <span style="color:#9B9B9B">30天GMV</span><span style="font-family:'SF Mono',Menlo,monospace;font-weight:600">${d.gmv.toFixed(1)} 亿</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;gap:24px;font-size:12px;line-height:1.85">
+                <span style="color:#9B9B9B">渗透率</span><span style="font-family:'SF Mono',Menlo,monospace;font-weight:600">${d.penetration}%</span>
+              </div>`;
+          },
+        },
         geo: {
           map: 'china',
           roam: false,
+          silent: true,
           label: { show: false },
           itemStyle: {
-            areaColor: '#FFFFFF',
-            borderColor: '#BFBFBF',
+            areaColor: '#FAFAFA',
+            borderColor: '#D5D5D5',
             borderWidth: 0.6,
           },
           emphasis: {
             disabled: true,
-            itemStyle: { areaColor: '#FFE8EC' },
             label: { show: false },
+            itemStyle: { areaColor: '#FAFAFA' },
           },
         },
+        visualMap: [{
+          show: false,
+          min: 0, max: 50,
+          dimension: 3,
+          seriesIndex: 0,
+          inRange: { color: ['#FF2442', '#FF6B6B', '#FFA07A', '#FFE8EC'] },
+        }],
+        series: [{
+          name: 'belts-scatter',
+          type: 'scatter',
+          coordinateSystem: 'geo',
+          data: [],
+          symbolSize: 30,
+          label: {
+            show: true,
+            formatter: (p) => p.data.showLabel ? p.data.shortName : '',
+            position: 'right',
+            color: '#1F1F1F',
+            fontSize: 12,
+            fontWeight: 600,
+            fontFamily: FONT_FAMILY,
+            distance: 8,
+            backgroundColor: 'rgba(255,255,255,0.85)',
+            padding: [2, 5],
+            borderRadius: 3,
+          },
+          itemStyle: {
+            opacity: 0.88,
+            borderColor: '#FFFFFF',
+            borderWidth: 2,
+            shadowBlur: 12,
+            shadowColor: 'rgba(255,36,66,0.35)',
+          },
+          emphasis: {
+            scale: 1.25,
+            label: { show: true, fontWeight: 700, fontSize: 13 },
+            itemStyle: { borderWidth: 3, shadowBlur: 20 },
+          },
+          animation: true,
+          animationDuration: 600,
+          animationEasing: 'cubicOut',
+          z: 5,
+        }],
       };
 
       chart.setOption(option, { notMerge: true });
+
+      // 点击气泡 → setBelt
+      chart.on('click', { seriesName: 'belts-scatter' }, (params) => {
+        if (params.data && params.data.name) setBelt(params.data.name);
+      });
+
+      beltsMapInited = true;
+    }
+
+    // 切品类:只更新 scatter data,地图本体不动
+    function updateBeltsScatter() {
+      const chart = charts.get('belts-map');
+      if (!chart) return;
+      const cat = state.category;
+      const belts = MOCK_DATA[cat].belts;
+      const isC3 = cat === '数码3C';
+      const minSize = isC3 ? 30 : 20;
+      const maxSize = isC3 ? 80 : 60;
+      const maxGmv = Math.max(...belts.map(b => b.gmv));
+      const top3 = [...belts].sort((a, b) => b.gmv - a.gmv).slice(0, 3).map(b => b.name);
+
+      const data = belts.map(b => ({
+        name: b.name,
+        value: [b.coord[0], b.coord[1], b.gmv, b.penetration],
+        gmv: b.gmv,
+        penetration: b.penetration,
+        storyTag: b.storyTag,
+        shortName: b.shortName,
+        showLabel: top3.includes(b.name),
+      }));
+
+      chart.setOption({
+        series: [{
+          name: 'belts-scatter',
+          data: data,
+          symbolSize: (val) => minSize + (val[2] / maxGmv) * (maxSize - minSize),
+        }],
+      }, { notMerge: false });
+
+      // 副标题
+      const sub = document.getElementById('belts-subtitle');
+      if (sub) sub.textContent = MOCK_DATA[cat].beltsSubtitle || '';
+    }
+
+    // 详情面板:头部 + 2×2 统计
+    function renderBeltsHead(belt) {
+      document.getElementById('belts-detail-name').textContent  = belt.name;
+      const tag = document.getElementById('belts-tier-tag');
+      tag.textContent = belt.tier;
+      tag.className = 'belts-tier-tag ' + tierClass(belt.tier);
+      document.getElementById('belts-detail-story').textContent = belt.storyTag;
+
+      const grid = document.getElementById('belts-stats-grid');
+      grid.replaceChildren();
+      const stats = [
+        { label: '总商家数',      value: belt.totalMerchants,             unit: '家' },
+        { label: '已入驻',        value: belt.joinedMerchants,            unit: '家' },
+        { label: '渗透率',        value: belt.penetration.toFixed(1),     unit: '%'  },
+        { label: '30 天 GMV',     value: belt.gmv.toFixed(1),             unit: '亿' },
+      ];
+      stats.forEach(s => {
+        const cell = document.createElement('div');
+        cell.className = 'belts-stat';
+        const label = document.createElement('div');
+        label.className = 'belts-stat-label';
+        label.textContent = s.label;
+        const row = document.createElement('div');
+        row.className = 'belts-stat-value-row';
+        const val = document.createElement('span');
+        val.className = 'belts-stat-value';
+        val.textContent = typeof s.value === 'number' ? s.value.toLocaleString() : s.value;
+        const unit = document.createElement('span');
+        unit.className = 'belts-stat-unit';
+        unit.textContent = s.unit;
+        row.appendChild(val); row.appendChild(unit);
+        cell.appendChild(label); cell.appendChild(row);
+        grid.appendChild(cell);
+      });
+    }
+
+    // 详情面板:GMV 30 天小图
+    function renderBeltsMiniGmv(belt) {
+      const dom = document.getElementById('belts-mini-gmv');
+      if (!dom) return;
+      const chart = getOrCreateChart('belts-mini-gmv', dom);
+      const days = belt.gmvCurve.map((_, i) => `${i + 1}日`);
+      chart.setOption({
+        ...BASE_CHART_OPTION,
+        grid: { top: 14, right: 10, bottom: 24, left: 38, containLabel: true },
+        tooltip: {
+          ...BASE_CHART_OPTION.tooltip,
+          trigger: 'axis',
+          formatter: (p) => `<span style="font-size:12px">${p[0].axisValue}</span><br>
+            <span style="font-family:'SF Mono',monospace;font-weight:600;font-size:12px">${p[0].value} 亿</span>`,
+          axisPointer: { type: 'line', lineStyle: { color: '#FF2442', type: 'dashed', width: 1 } },
+        },
+        xAxis: {
+          type: 'category',
+          data: days,
+          ...AXIS_STYLE,
+          axisLabel: { ...AXIS_STYLE.axisLabel, fontSize: 10, interval: 6 },
+          boundaryGap: false,
+        },
+        yAxis: {
+          type: 'value',
+          ...AXIS_STYLE,
+          axisLabel: { ...AXIS_STYLE.axisLabel, fontSize: 10 },
+          splitNumber: 3,
+        },
+        series: [{
+          type: 'line',
+          data: belt.gmvCurve,
+          smooth: 0.3,
+          showSymbol: false,
+          lineStyle: { width: 2, color: '#FF2442' },
+          areaStyle: {
+            color: {
+              type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
+              colorStops: [
+                { offset: 0, color: 'rgba(255,36,66,0.22)' },
+                { offset: 1, color: 'rgba(255,36,66,0)' },
+              ],
+            },
+          },
+        }],
+      }, { notMerge: true });
+      const sub = document.getElementById('belts-mini-gmv-sub');
+      if (sub) sub.textContent = `· 累计 ${belt.gmv.toFixed(1)} 亿`;
+    }
+
+    // 详情面板:头部商家 Top 10 列表
+    function renderBeltsTopList(belt) {
+      const list = document.getElementById('belts-top-list');
+      list.replaceChildren();
+      const merchants = belt.topMerchants.slice(0, 10);
+      const maxGmv = Math.max(...merchants.map(m => m.gmv));
+      merchants.forEach((m, i) => {
+        const row = document.createElement('div');
+        row.className = 'belts-top-row';
+
+        const rank = document.createElement('span');
+        rank.className = 'belts-top-rank' + (i < 3 ? ' top3' : '');
+        rank.textContent = (i + 1).toString().padStart(2, '0');
+
+        const name = document.createElement('span');
+        name.className = 'belts-top-name';
+        name.textContent = m.name;
+
+        const tag = document.createElement('span');
+        tag.className = 'belts-top-tier-tag ' + tierClass(m.tier);
+        tag.textContent = m.tier;
+
+        const bar = document.createElement('span');
+        bar.className = 'belts-top-bar';
+        const fill = document.createElement('span');
+        fill.className = 'belts-top-bar-fill';
+        fill.style.width = (m.gmv / maxGmv * 100).toFixed(1) + '%';
+        bar.appendChild(fill);
+
+        const gmv = document.createElement('span');
+        gmv.className = 'belts-top-gmv';
+        gmv.textContent = m.gmv + ' 万';
+
+        row.appendChild(rank);
+        row.appendChild(name);
+        row.appendChild(tag);
+        row.appendChild(bar);
+        row.appendChild(gmv);
+        list.appendChild(row);
+      });
+    }
+
+    // 详情面板:新商挖掘漏斗
+    function renderBeltsFunnel(belt) {
+      const dom = document.getElementById('belts-funnel');
+      if (!dom) return;
+      const chart = getOrCreateChart('belts-funnel', dom);
+      const f = belt.funnel;
+      const layers = [
+        { label: '线索池',      value: f.pool     },
+        { label: '已触达',      value: f.reached  },
+        { label: '入驻意向',    value: f.intent   },
+        { label: '完成开店',    value: f.signed   },
+      ];
+      // 转化率(后/前)
+      layers.forEach((l, i) => {
+        if (i > 0) l.conv = (l.value / layers[i - 1].value * 100).toFixed(0) + '%';
+      });
+
+      chart.setOption({
+        ...BASE_CHART_OPTION,
+        tooltip: {
+          ...BASE_CHART_OPTION.tooltip,
+          trigger: 'item',
+          formatter: (p) => {
+            const conv = p.data.conv ? `(转化率 ${p.data.conv})` : '';
+            return `<div style="font-weight:600">${p.data.name}</div>
+                    <div style="font-family:'SF Mono',monospace;font-size:13px;margin-top:4px">${p.data.value.toLocaleString()} 家 <span style="color:#9B9B9B;font-family:'PingFang SC'">${conv}</span></div>`;
+          },
+        },
+        series: [{
+          type: 'funnel',
+          left: '8%', right: '8%', top: 4, bottom: 4,
+          width: '84%',
+          min: 0,
+          max: layers[0].value,
+          gap: 2,
+          sort: 'descending',
+          label: {
+            show: true,
+            position: 'inside',
+            formatter: (p) => {
+              const conv = p.data.conv ? ` · ${p.data.conv}` : '';
+              return `{name|${p.data.name}}  {val|${p.data.value.toLocaleString()}}{conv|${conv}}`;
+            },
+            rich: {
+              name: { color: '#FFFFFF', fontSize: 12, fontWeight: 500 },
+              val:  { color: '#FFFFFF', fontSize: 12, fontWeight: 700, fontFamily: "'SF Mono', Menlo, monospace" },
+              conv: { color: 'rgba(255,255,255,0.75)', fontSize: 11 },
+            },
+          },
+          labelLine: { show: false },
+          itemStyle: {
+            borderColor: '#FFFFFF',
+            borderWidth: 1,
+          },
+          color: ['#FF2442', '#FF6B6B', '#FFA07A', '#FFD93D'],
+          data: layers.map(l => ({ name: l.label, value: l.value, conv: l.conv })),
+        }],
+      }, { notMerge: true });
+    }
+
+    // 全详情面板更新
+    function renderBeltsDetail(beltName) {
+      const cat = state.category;
+      const belts = MOCK_DATA[cat].belts;
+      const belt = belts.find(b => b.name === beltName) || belts[0];
+      renderBeltsHead(belt);
+      renderBeltsMiniGmv(belt);
+      renderBeltsTopList(belt);
+      renderBeltsFunnel(belt);
+    }
+
+    // 同步顶部产地下拉的选中态(不触发 onSelect 回调)
+    function syncRegionDropdownSelection(value) {
+      const menu = document.getElementById('region-menu');
+      const valueEl = document.getElementById('region-value');
+      if (!menu || !valueEl) return;
+      let foundLabel = null;
+      menu.querySelectorAll('.dropdown-item').forEach(li => {
+        const isMatch = li.dataset.value === value;
+        li.classList.toggle('active', isMatch);
+        if (isMatch) foundLabel = li.textContent;
+      });
+      if (foundLabel) valueEl.textContent = foundLabel;
+    }
+
+    // setBelt:任何来源都过这个 setter(地图气泡点击 / 顶部下拉)
+    function setBelt(beltName) {
+      state.belt = beltName;
+
+      // 同步下拉
+      syncRegionDropdownSelection(beltName);
+
+      // 地图气泡 highlight(不重渲)
+      const chart = charts.get('belts-map');
+      if (chart) {
+        chart.dispatchAction({ type: 'downplay', seriesName: 'belts-scatter' });
+        const belts = MOCK_DATA[state.category].belts;
+        const idx = belts.findIndex(b => b.name === beltName);
+        if (idx >= 0) {
+          chart.dispatchAction({ type: 'highlight', seriesName: 'belts-scatter', dataIndex: idx });
+        }
+      }
+
+      // 详情面板
+      renderBeltsDetail(beltName);
+    }
+
+    // rerenderAll 入口
+    function renderBelts() {
+      initBeltsMap();
+      updateBeltsScatter();
+      setBelt(state.belt);
     }
 
     moduleRenderers.belts = renderBelts;
