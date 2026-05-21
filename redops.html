@@ -806,18 +806,220 @@
       transition: width 0.4s ease;
     }
 
-    /* AI 商家推荐占位(Commit 4-2 替换) */
-    .belts-ai-placeholder {
-      padding: 36px;
-      text-align: center;
+    /* 聚合视图 tier 胶囊 */
+    .tier-aggregate { background: rgba(75,99,255,0.10); color: #4B63FF; }
+
+    /* 健康度预警 ⚠️ + 拆解 popup */
+    .belts-top-row.has-breakdown { position: relative; }
+    .belts-top-alert {
+      display: inline-flex; align-items: center;
+      width: 14px; height: 14px;
+      color: var(--brand);
+      flex-shrink: 0;
+    }
+    .belts-top-alert svg { width: 14px; height: 14px; fill: currentColor; }
+    .belts-top-growth-row {
+      display: flex; align-items: center; gap: 4px;
+      justify-content: flex-end;
+    }
+    .belts-top-growth-num {
+      font-family: var(--font-num);
+      font-size: 11px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+    .belts-top-growth-num.up   { color: var(--success); }
+    .belts-top-growth-num.down { color: var(--brand);   }
+    .belts-top-caliber {
+      font-size: 10px;
       color: var(--text-3);
+      white-space: nowrap;
+    }
+    .belts-breakdown-popup {
+      position: absolute;
+      left: 50%; bottom: calc(100% + 8px);
+      transform: translateX(-50%);
+      background: #1F1F1F;
+      color: #FFFFFF;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      line-height: 1.7;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      z-index: 50;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    }
+    .belts-breakdown-popup::after {
+      content: '';
+      position: absolute;
+      top: 100%; left: 50%; transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: #1F1F1F;
+    }
+    .belts-top-row.has-breakdown:hover .belts-breakdown-popup { opacity: 1; }
+    .belts-breakdown-line {
+      display: flex; gap: 12px; align-items: baseline;
+    }
+    .belts-breakdown-key { color: rgba(255,255,255,0.65); font-size: 11px; }
+    .belts-breakdown-val { font-family: var(--font-num); font-weight: 600; }
+    .belts-breakdown-val.up   { color: #6BCB77; }
+    .belts-breakdown-val.down { color: #FF8896; }
+    .belts-breakdown-alert {
+      font-size: 11px; color: #FFD93D; margin-top: 4px;
+      display: flex; align-items: center; gap: 4px;
+    }
+
+    /* 洞察口径标签 */
+    .insight-caliber {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 6px;
+      font-size: 10px;
+      color: var(--text-3);
+      background: #F5F5F5;
+      border-radius: 4px;
+      font-weight: 500;
+      vertical-align: middle;
+    }
+
+    /* AI 商家推荐区 */
+    .belts-ai-section {
       background: var(--card);
       border-radius: var(--radius-card);
       box-shadow: var(--shadow-card);
-      border: 1px dashed var(--border);
+      padding: 20px;
     }
-    .belts-ai-placeholder .ph-title { font-size: 14px; color: var(--text-2); font-weight: 600; margin-bottom: 4px; }
-    .belts-ai-placeholder .ph-desc { font-size: 12px; }
+    .belts-ai-header {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .belts-ai-title { font-size: 15px; font-weight: 600; color: var(--text-1); }
+    .belts-ai-subtitle { font-size: 12px; color: var(--text-3); }
+    .belts-ai-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--brand-light);
+      color: var(--brand);
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 6px;
+      letter-spacing: 0.4px;
+      margin-right: 4px;
+    }
+    .ai-scroll {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 6px 2px 12px;
+      scroll-padding: 0 4px;
+    }
+    .ai-scroll::-webkit-scrollbar { height: 8px; }
+    .ai-scroll::-webkit-scrollbar-thumb { background: #E0E0E0; border-radius: 4px; }
+    .ai-scroll::-webkit-scrollbar-thumb:hover { background: #C0C0C0; }
+    .ai-card {
+      flex-shrink: 0;
+      width: 248px;
+      scroll-snap-align: start;
+      background: #FAFAFA;
+      border-radius: 12px;
+      padding: 14px;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .ai-card:hover {
+      border-color: var(--brand);
+      background: #FFFFFF;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+    }
+    .ai-card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .ai-card-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-1);
+      line-height: 1.3;
+    }
+    .ai-card-score {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      font-family: var(--font-num);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--brand);
+      flex-shrink: 0;
+    }
+    .ai-card-score::before { content: '★'; font-size: 11px; line-height: 1; }
+    .ai-card-form {
+      align-self: flex-start;
+      font-size: 10px;
+      padding: 2px 7px;
+      background: var(--brand-light);
+      color: var(--brand);
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .ai-card-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+    .ai-card-tag {
+      font-size: 10px;
+      padding: 1px 6px;
+      background: #F0F0F0;
+      color: var(--text-2);
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .ai-card-profile {
+      font-size: 12.5px;
+      color: var(--text-2);
+      line-height: 1.6;
+      flex: 1;
+      min-height: 4.8em;
+    }
+    .ai-card-gmv {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-top: 8px;
+      border-top: 1px solid #EEEEEE;
+      font-size: 11px;
+      color: var(--text-3);
+    }
+    .ai-card-gmv-num {
+      font-family: var(--font-num);
+      font-weight: 700;
+      color: var(--text-1);
+      font-size: 13px;
+    }
+    .ai-card-btn {
+      padding: 7px 0;
+      background: #FFFFFF;
+      color: var(--brand);
+      border: 1px solid var(--brand);
+      border-radius: 8px;
+      font-family: var(--font-cn);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .ai-card-btn:hover {
+      background: var(--brand);
+      color: #FFFFFF;
+    }
 
     /* 通用 Modal(Step 3 引入,Step 7 复用) */
     .modal-mask {
@@ -1204,9 +1406,13 @@
 
       </div>
 
-      <div class="belts-ai-placeholder">
-        <div class="ph-title">AI 商家推荐</div>
-        <div class="ph-desc">基于站外数据反向挖掘的 20 个潜力商家(Commit 4-2 实现)</div>
+      <div class="belts-ai-section">
+        <div class="belts-ai-header">
+          <span class="belts-ai-tag">AI</span>
+          <span class="belts-ai-title">商家推荐</span>
+          <span class="belts-ai-subtitle">· 基于站外数据反向挖掘 · 20 个潜力商家</span>
+        </div>
+        <div class="ai-scroll" id="ai-scroll"></div>
       </div>
     </section>
 
@@ -1533,6 +1739,7 @@
         { icon: '💡', title: '新中式连衣裙赛道客单价高 38%',
           body: '新中式连衣裙赛道平均客单价 480 元,高于服饰大盘 38%,复购率 22% 显著优于品类均值。已识别 14 家潜力商家(主要来自杭州四季青),建议本月内启动定向招商。' },
         { icon: '⚠️', title: '杭州四季青头部商家健康度预警',
+          caliber: '近14日环比',
           body: '杭州四季青头部商家「素白衣橱」近 14 天 GMV 环比 -28%,健康度评分由 82 降至 67,主因笔记互动率下滑 41%。建议陪跑同学本周内介入诊断,重点复盘内容策略。' },
         { icon: '🔥', title: '老钱风出现内容跑赢供给格局',
           body: '老钱风内容笔记数环比 +156%,但匹配商品供给增速仅 +43%,典型「内容跑得比货快」格局。建议向海宁皮革、虎门头部商家定向输出该风格选品建议,系统已生成 32 个款式参考。' },
@@ -1982,7 +2189,8 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
           totalMerchants: 2860, joinedMerchants: 982,
           funnel: { pool: 4200, reached: 1380, intent: 420, signed: 118 },
           topMerchants: [
-            { name: '素白衣橱',   tier: '超级', gmv: 2420, growth: -12 },
+            { name: '素白衣橱',   tier: '超级', gmv: 2420, growth: -12,
+              breakdown: { first16: +5, last14: -28, alert: '近期出现明显恶化' } },
             { name: '拾木集',     tier: '标杆', gmv: 1620, growth: +28 },
             { name: '木兰记',     tier: '标杆', gmv: 1180, growth: +18 },
             { name: '栖野家',     tier: '成长', gmv: 1240, growth: +88 },
@@ -2239,6 +2447,366 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
       '数码3C':   '· 珠三角双产业带格局 · 集中度行业最高',
     };
 
+    /* ============================================================
+       AI 商家推荐 —— 5 品类 × 20 个 = 100 个潜力商家
+       按 4 形态严格分布(每品类 5 个/形态):
+         · 店主设计型   ↔ 设计师人数 / 风格 / 工作室规模
+         · 手艺人资质型 ↔ 认证 / 传承代数 / 产能数字
+         · 转型技术型   ↔ 技术团队 / 自研 / 转型时间点
+         · 站外大商型   ↔ 站外平台 + 数字 / 转型动机
+       ============================================================ */
+    const AI_RECOMMENDATIONS = {
+      '服饰穿搭': [
+        // 店主设计型 ×5
+        { name: '拂晓衣社',  form: '店主设计型',   externalGmv:  320, score: 9.2,
+          tags: ['新中式', '小批量', '原创设计'],
+          profile: '杭州独立设计工作室,3 名设计师,主营新中式连衣裙,小批量精工出品。' },
+        { name: '川絮',      form: '店主设计型',   externalGmv:  280, score: 9.0,
+          tags: ['Y2K', '复古', '北服系'],
+          profile: '北服毕业生主理,5 人设计团队,专注 Y2K 复古单品,日产 30 件。' },
+        { name: '沐云衣阁',  form: '店主设计型',   externalGmv:  450, score: 8.8,
+          tags: ['老钱风', '通勤定制', '高客单'],
+          profile: '上海法租界私人衣橱,1 主理 + 2 助理,老钱风通勤定制,客单 580+。' },
+        { name: '烬岸',      form: '店主设计型',   externalGmv:  220, score: 8.6,
+          tags: ['多巴胺', '色彩实验', '学生主理'],
+          profile: '广州设计学院师生工作室,4 名学生设计师,多巴胺色系实验出新款。' },
+        { name: '望川',      form: '店主设计型',   externalGmv:  380, score: 9.1,
+          tags: ['极简通勤', '前买手', '商务'],
+          profile: '深圳前 Uniqlo 买手工作室,2 设计 + 1 选品,极简通勤系列产出稳定。' },
+
+        // 手艺人资质型 ×5
+        { name: '海宁老李皮草', form: '手艺人资质型', externalGmv: 680, score: 9.4,
+          tags: ['皮草', '出口资质', '3 代传承'],
+          profile: '海宁三代皮草老师傅,持 SC + 出口资质,日加工 80 件,工艺过硬。' },
+        { name: '苏绣阿芸',    form: '手艺人资质型', externalGmv: 180, score: 9.0,
+          tags: ['苏绣', '非遗', '手作盘扣'],
+          profile: '苏州盘扣传承人工作坊,非遗认证,手作旗袍盘扣月产 200 件。' },
+        { name: '福州软木坊',  form: '手艺人资质型', externalGmv: 240, score: 8.7,
+          tags: ['软木', '工艺美术大师', '非遗'],
+          profile: '福州软木编织非遗传人,持福建省工艺美术大师证,月产 50 件。' },
+        { name: '杭州真丝堂',  form: '手艺人资质型', externalGmv: 520, score: 9.3,
+          tags: ['真丝', '丝绸协会', '旗袍'],
+          profile: '杭州丝绸博物馆合作匠人,丝绸纺织工业协会认证,小批量真丝旗袍。' },
+        { name: '鲁绣世家',    form: '手艺人资质型', externalGmv: 290, score: 9.0,
+          tags: ['鲁绣', '非遗', '山东淄博'],
+          profile: '山东淄博鲁绣老工艺,非遗代表性传承人,手工绣花日产 30 件。' },
+
+        // 转型技术型 ×5
+        { name: '织造数码',    form: '转型技术型',   externalGmv:  820, score: 9.5,
+          tags: ['柔性供应链', '7 天打样', '优衣库系'],
+          profile: '前优衣库 SCM 团队 4 人 2023 年创业,自研柔性供应链,7 天打样上线。' },
+        { name: '版型库',      form: '转型技术型',   externalGmv: 1240, score: 9.6,
+          tags: ['数字化版型', '阿里 P7', '5000+'],
+          profile: '阿里供应链 P7 离职团队,数字化版型库 5000+,小红书优先孵化首选。' },
+        { name: '闪反工厂',    form: '转型技术型',   externalGmv:  960, score: 9.3,
+          tags: ['48 小时上新', 'SHEIN 系', '快反'],
+          profile: 'SHEIN 前快反组长创业,12 人技术团队,实现 48 小时上新闭环。' },
+        { name: '数据衣社',    form: '转型技术型',   externalGmv:  580, score: 8.9,
+          tags: ['ERP 转品牌', '数据选品', '中等团队'],
+          profile: '服装 ERP 团队转型品牌方,5 人技术 + 2 设计,数据驱动选品决策。' },
+        { name: '趋势预测衣',  form: '转型技术型',   externalGmv:  720, score: 9.0,
+          tags: ['抖音运营', '爆款打造', '8 人团队'],
+          profile: '抖音电商前类目运营,组建 8 人团队,擅长趋势预测+爆款打造。' },
+
+        // 站外大商型 ×5
+        { name: '旧伊春',      form: '站外大商型',   externalGmv:  850, score: 8.8,
+          tags: ['淘宝 TOP200', '女装', '月 850 万'],
+          profile: '淘宝女装 TOP200 店主,月 GMV 850 万,2024 启动小红书内容化转型。' },
+        { name: '木兰记官方',  form: '站外大商型',   externalGmv: 2300, score: 9.2,
+          tags: ['天猫', '高端女装', '年 2.3 亿'],
+          profile: '天猫店年 GMV 2.3 亿,主营高端女装,2024 Q3 启动小红书渠道布局。' },
+        { name: '蓝橙',        form: '站外大商型',   externalGmv: 3600, score: 9.4,
+          tags: ['京东自营', 'TOP30', '内容种草'],
+          profile: '京东自营服饰 TOP30 品牌,年销 3.6 亿,转型小红书做内容种草。' },
+        { name: '七巷拾光',    form: '站外大商型',   externalGmv: 1800, score: 8.6,
+          tags: ['拼多多', '中价位', '高客单转型'],
+          profile: '拼多多女装类目年销 1.8 亿,2024 转型小红书做高客单价产品线。' },
+        { name: '顺德娜娜',    form: '站外大商型',   externalGmv: 1500, score: 8.9,
+          tags: ['抖音直播', '日均 50w', '小红书引流'],
+          profile: '抖音直播日均 50 万 GMV,2024 Q4 启动小红书内容引流增量。' },
+      ],
+
+      '美妆个护': [
+        // 店主设计型 ×5
+        { name: '香界',        form: '店主设计型',   externalGmv:  380, score: 9.1,
+          tags: ['小众沙龙香', '前欧莱雅', '调香'],
+          profile: '上海前欧莱雅配方师创业,5 人调香团队,主营小众沙龙香水。' },
+        { name: '本研所',      form: '店主设计型',   externalGmv:  220, score: 8.9,
+          tags: ['功效精油', '化工博士', '小团队'],
+          profile: '北京化工博士主理,3 人研发 + 2 营销,功效护肤精油线产品稳定。' },
+        { name: '色研',        form: '店主设计型',   externalGmv:  450, score: 9.0,
+          tags: ['平价彩妆', '完美日记系', '4 人'],
+          profile: '广州前完美日记产品经理离职创业,4 人团队,平价彩妆设计出品。' },
+        { name: '韩研社',      form: '店主设计型',   externalGmv:  280, score: 8.7,
+          tags: ['韩系色彩', '独立品牌', '调色师'],
+          profile: '杭州独立美妆品牌,2 设计师 + 1 调色师,韩系色彩学品牌出新款。' },
+        { name: '芙岚植物',    form: '店主设计型',   externalGmv:  340, score: 9.0,
+          tags: ['法式植物', '海归主理', '3 人调香'],
+          profile: '法国留学回国主理人,3 人调香团队,法式植物精油线小批量出品。' },
+
+        // 手艺人资质型 ×5
+        { name: '徽皂老作坊',  form: '手艺人资质型', externalGmv:  180, score: 8.8,
+          tags: ['手工皂', '12 项备案', '日产 500'],
+          profile: '安徽手工皂老作坊,持有特殊化妆品备案 12 项,日产 500 块。' },
+        { name: '滇南植研',    form: '手艺人资质型', externalGmv:  320, score: 9.2,
+          tags: ['植物精油', '有机认证', 'GMP'],
+          profile: '云南植物精油提取师,持有有机认证 + GMP,月产 80 升精油。' },
+        { name: '苏宁烛坊',    form: '手艺人资质型', externalGmv:  240, score: 9.0,
+          tags: ['手作蜡烛', 'IFRA', '3 代传承'],
+          profile: '苏州手作蜡烛工坊,3 代传承,英国 IFRA 认证,月产 1500 支。' },
+        { name: '青囊堂',      form: '手艺人资质型', externalGmv:  280, score: 8.9,
+          tags: ['中医世家', '中医药备案', '膏方'],
+          profile: '浙江中医世家护肤膏,中医药管理局备案,小批量手工膏方稳定出货。' },
+        { name: '川胭',        form: '手艺人资质型', externalGmv:  160, score: 8.6,
+          tags: ['古法胭脂', '文创园', '传统'],
+          profile: '四川彩妆古法工坊,传统胭脂膏制作,文创园区认证,月产 200 盒。' },
+
+        // 转型技术型 ×5
+        { name: '清研生物',    form: '转型技术型',   externalGmv:  820, score: 9.4,
+          tags: ['抗衰精华', '珀莱雅系', '自建实验室'],
+          profile: '前珀莱雅研发团队 6 人创业,自建实验室,主打抗衰精华产品线。' },
+        { name: '净研实验室',  form: '转型技术型',   externalGmv:  680, score: 9.1,
+          tags: ['OEM 转 DTC', '30 万级', '8 人研发'],
+          profile: '化妆品 OEM 工厂转型 DTC,8 人研发 + 30 万级洁净车间稳定出货。' },
+        { name: '愈研',        form: '转型技术型',   externalGmv:  920, score: 9.3,
+          tags: ['医美级', '丸美系', '临床医师'],
+          profile: '前丸美 R&D 高管创业,3 人核心 + 2 临床医师,医美级产品线起步。' },
+        { name: '岚研',        form: '转型技术型',   externalGmv:  580, score: 8.8,
+          tags: ['生物发酵', '海南博士', '功效自研'],
+          profile: '海南生物科技博士团队,生物发酵技术,功效成分自研为差异化优势。' },
+        { name: '元研数据',    form: '转型技术型',   externalGmv:  420, score: 8.7,
+          tags: ['美妆 SaaS', '数据迭代', '5 人技术'],
+          profile: '美妆 SaaS 团队转型品牌,5 人技术 + 数据驱动配方迭代验证。' },
+
+        // 站外大商型 ×5
+        { name: '海蓝韵',      form: '站外大商型',   externalGmv: 1200, score: 9.0,
+          tags: ['天猫国际', 'TOP50', '日韩代理'],
+          profile: '天猫国际美妆 TOP50,主营日韩品牌代理,2024 转型小红书内容种草。' },
+        { name: '京颜社',      form: '站外大商型',   externalGmv: 1200, score: 9.1,
+          tags: ['京东国际', '自营品牌孵化', '1.2 亿'],
+          profile: '京东国际年 GMV 1.2 亿,2024 启动小红书自营品牌孵化计划。' },
+        { name: '抖光',        form: '站外大商型',   externalGmv:  800, score: 8.8,
+          tags: ['抖音直播', '月 800w', '长尾复购'],
+          profile: '抖音直播月 GMV 800 万,转型小红书种草 + 长尾复购双轨。' },
+        { name: '唯品高端',    form: '站外大商型',   externalGmv:  650, score: 8.5,
+          tags: ['唯品会', '品牌折扣', '高端转型'],
+          profile: '唯品会美妆 Top 类目,主营品牌折扣,2024 转型小红书高端线。' },
+        { name: '拼研',        form: '站外大商型',   externalGmv:  920, score: 8.6,
+          tags: ['拼多多百亿补贴', '品牌升级', 'Q4'],
+          profile: '拼多多百亿补贴美妆方,2024 Q4 启动小红书品牌升级转型路径。' },
+      ],
+
+      '食品饮料': [
+        // 店主设计型 ×5
+        { name: '味集',        form: '店主设计型',   externalGmv:  280, score: 8.9,
+          tags: ['高端调味', '西餐主厨', '3+1'],
+          profile: '上海西餐主厨创业,主营高端调味料,3 人研发 + 1 营销稳定。' },
+        { name: '京点',        form: '店主设计型',   externalGmv:  220, score: 8.8,
+          tags: ['手工糕点', '北京饭店系', '5 人工坊'],
+          profile: '北京前北京饭店面点师,主理手工糕点,5 人工坊小批量出品。' },
+        { name: '粤膳坊',      form: '店主设计型',   externalGmv:  380, score: 9.0,
+          tags: ['高端预制菜', '米其林系', '4 人'],
+          profile: '广州米其林餐厅顾问,主营高端预制菜,4 人产品团队稳定迭代。' },
+        { name: '素食辑',      form: '店主设计型',   externalGmv:  180, score: 8.6,
+          tags: ['素食零食', '杭州主理', '3 人开发'],
+          profile: '杭州素食餐厅主理人,3 人团队开发素食零食线小批量出货。' },
+        { name: '川味馆',      form: '店主设计型',   externalGmv:  240, score: 8.9,
+          tags: ['传统川味', '博物馆顾问', '复刻'],
+          profile: '成都川菜博物馆顾问主理,3 人团队复刻传统川味零食出品。' },
+
+        // 手艺人资质型 ×5
+        { name: '潮巷三代',    form: '手艺人资质型', externalGmv:  680, score: 9.5,
+          tags: ['牛肉丸', '地理标志', '3 代传承'],
+          profile: '潮汕牛肉丸老字号 3 代传承,SC + 地理标志授权,日产 800 斤。' },
+        { name: '稻米合作社',  form: '手艺人资质型', externalGmv:  420, score: 9.2,
+          tags: ['五常稻米', '优质米证', '社区直供'],
+          profile: '五常市稻米合作社,黑龙江省优质米证,直供 12 家社区合作社。' },
+        { name: '蟹农世家',    form: '手艺人资质型', externalGmv:  580, score: 9.3,
+          tags: ['阳澄湖', '蟹业协会', '自营蟹塘'],
+          profile: '阳澄湖蟹农世家,蟹业协会会员,300 亩自营蟹塘,日发 600 单。' },
+        { name: '岩骨堂',      form: '手艺人资质型', externalGmv:  320, score: 9.1,
+          tags: ['武夷岩茶', '非遗', '年产 5000 斤'],
+          profile: '武夷山岩茶非遗传承人,持茶文化遗产认证,年产岩茶 5000 斤。' },
+        { name: '观音老茶号',  form: '手艺人资质型', externalGmv:  460, score: 9.2,
+          tags: ['铁观音', '地理标志', '4 代传承'],
+          profile: '安溪铁观音老茶号,SC + 国家地理标志,4 代传承,年产 2 万斤。' },
+
+        // 转型技术型 ×5
+        { name: '产地直达',    form: '转型技术型',   externalGmv:  780, score: 9.2,
+          tags: ['美团供应链', '产地直发', '2024 Q3'],
+          profile: '前美团供应链团队 5 人,搭建产地直发系统,2024 Q3 创业起步。' },
+        { name: '生研工坊',    form: '转型技术型',   externalGmv:  520, score: 9.0,
+          tags: ['益生菌冻干', '食品博士', '3+4'],
+          profile: '食品工程博士团队,3 人研发 + 4 工艺,主攻益生菌冻干技术线。' },
+        { name: '味觉记',      form: '转型技术型',   externalGmv:  920, score: 9.3,
+          tags: ['MCN 转品牌', '中央厨房', '7 人内容'],
+          profile: '美食视频 MCN 转型自营品牌,7 人内容 + 自建中央厨房稳定。' },
+        { name: '盒选',        form: '转型技术型',   externalGmv: 1380, score: 9.5,
+          tags: ['盒马 P7', '数据选品', '12 人'],
+          profile: '前盒马商品中台 P7 离职,12 人团队,主打数据驱动选品策略。' },
+        { name: '田研',        form: '转型技术型',   externalGmv:  480, score: 8.9,
+          tags: ['有机轻食', '农大博士', '1000㎡'],
+          profile: '农业大学博士创业,5 人技术 + 1000㎡ 厂房,有机轻食预制菜。' },
+
+        // 站外大商型 ×5
+        { name: '老地方',      form: '站外大商型',   externalGmv: 1500, score: 9.1,
+          tags: ['淘宝食品 Top', '地方特产', '1.5 亿'],
+          profile: '淘宝食品 Top 类目年销 1.5 亿,主营地方特产,2024 转型小红书。' },
+        { name: '京鲜',        form: '站外大商型',   externalGmv: 2800, score: 9.3,
+          tags: ['京东生鲜', '冷链直采', '2.8 亿'],
+          profile: '京东自营生鲜年销 2.8 亿,2024 启动小红书冷链直采产品线。' },
+        { name: '抖食',        form: '站外大商型',   externalGmv:  600, score: 8.7,
+          tags: ['抖音直播大商', '月 600w', '内容升级'],
+          profile: '抖音直播大商月 GMV 600 万,2024 转型小红书内容化升级路径。' },
+        { name: '拼田',        form: '站外大商型',   externalGmv: 1200, score: 8.8,
+          tags: ['拼多多农场', '产地直采', '高客单'],
+          profile: '拼多多农场年销 1.2 亿,主营产地直采,转型小红书高客单产品。' },
+        { name: '唯零食',      form: '站外大商型',   externalGmv:  480, score: 8.5,
+          tags: ['唯品会零食 Top10', 'Q4', '品牌孵化'],
+          profile: '唯品会零食类目 Top10,2024 Q4 启动小红书品牌孵化计划。' },
+      ],
+
+      '家居生活': [
+        // 店主设计型 ×5
+        { name: '景之器',      form: '店主设计型',   externalGmv:  380, score: 9.2,
+          tags: ['新中式瓷', '景陶毕业', '3+5'],
+          profile: '景德镇陶艺学院毕业生工作室,3 设计 + 5 手作,新中式日用瓷出品。' },
+        { name: '法织毯',      form: '店主设计型',   externalGmv:  220, score: 8.8,
+          tags: ['法式古典', '手编地毯', '小团队'],
+          profile: '上海法式古典家居主理人,2 设计师,主营手工编织地毯出新款。' },
+        { name: '侘居',        form: '店主设计型',   externalGmv:  420, score: 9.0,
+          tags: ['侘寂风餐具', '杭州主理', '5 设计'],
+          profile: '杭州独立家居品牌,5 人设计团队,主营侘寂风餐具持续出新。' },
+        { name: '园香集',      form: '店主设计型',   externalGmv:  260, score: 8.7,
+          tags: ['东方香薰', '苏州园林', '3 人'],
+          profile: '苏州园林文创工作室,3 人主理,东方美学香薰系列稳定出品。' },
+        { name: '798 物',      form: '店主设计型',   externalGmv:  340, score: 8.9,
+          tags: ['艺术摆件', '798 系', '限量'],
+          profile: '北京 798 艺术家居品牌,4 人设计,小批量限量摆件持续打造。' },
+
+        // 手艺人资质型 ×5
+        { name: '御窑陶匠',    form: '手艺人资质型', externalGmv:  520, score: 9.4,
+          tags: ['景德镇御窑', '4 代传承', '工业协会'],
+          profile: '景德镇御窑老瓷匠 4 代传承,景德镇陶瓷工业协会认证,日产 80 件。' },
+        { name: '德化白瓷',    form: '手艺人资质型', externalGmv:  680, score: 9.5,
+          tags: ['德化白瓷', '国家级非遗', '年 5000'],
+          profile: '福建德化白瓷世家,国家级非遗传承人,年产 5000 件稳定输出。' },
+        { name: '青瓷堂',      form: '手艺人资质型', externalGmv:  420, score: 9.2,
+          tags: ['龙泉青瓷', '非遗', '月产 200'],
+          profile: '浙江龙泉青瓷匠人,持青瓷烧制技艺非遗证,月产 200 件。' },
+        { name: '景绘瓷',      form: '手艺人资质型', externalGmv:  280, score: 9.0,
+          tags: ['手绘瓷盘', '非遗', '小批量定制'],
+          profile: '江西景德镇手绘瓷盘传承人,非遗代表性传承人,小批量定制产品。' },
+        { name: '建盏老铺',    form: '手艺人资质型', externalGmv:  360, score: 9.1,
+          tags: ['建窑建盏', '非遗', '月烧 100'],
+          profile: '福建建盏老师傅,建窑建盏烧制技艺非遗,月烧 100 件高品质。' },
+
+        // 转型技术型 ×5
+        { name: '严选转',      form: '转型技术型',   externalGmv:  780, score: 9.3,
+          tags: ['网易严选系', '8 人选品', 'Q2'],
+          profile: '前网易严选家居选品组 8 人,自建供应链,2024 Q2 创业起步。' },
+        { name: '居研',        form: '转型技术型',   externalGmv:  460, score: 8.9,
+          tags: ['家具 ERP', '数据选品', '5+2'],
+          profile: '家具 ERP 团队转型 DTC 品牌,5 人技术 + 2 设计,数据选品驱动。' },
+        { name: '小米居',      form: '转型技术型',   externalGmv:  920, score: 9.4,
+          tags: ['小米生态链', '智能家居', '6 人研发'],
+          profile: '前小米生态链家居硬件团队,6 人研发,智能家居全屋方案输出。' },
+        { name: '可降解居',    form: '转型技术型',   externalGmv:  320, score: 8.8,
+          tags: ['可降解材料', '美院教授', '4 人'],
+          profile: '美院教授带 4 人团队创业,自研可降解家居材料差异化定位。' },
+        { name: '居数据',      form: '转型技术型',   externalGmv:  380, score: 8.7,
+          tags: ['家居 SaaS', '3 人技术', '数据迭代'],
+          profile: '家居 SaaS 团队转型品牌,3 人技术 + 数据驱动产品迭代验证。' },
+
+        // 站外大商型 ×5
+        { name: '北欧居',      form: '站外大商型',   externalGmv: 3200, score: 9.3,
+          tags: ['天猫 TOP100', '北欧风', '3.2 亿'],
+          profile: '天猫家居 TOP100,年销 3.2 亿,主营北欧风,转型小红书内容种草。' },
+        { name: '京家',        form: '站外大商型',   externalGmv: 5800, score: 9.5,
+          tags: ['京东自营', '原创设计', '5.8 亿'],
+          profile: '京东自营家具年销 5.8 亿,2024 启动小红书原创设计线孵化。' },
+        { name: '抖居',        form: '站外大商型',   externalGmv:  800, score: 8.8,
+          tags: ['抖音直播', '月 800w', '内容种草'],
+          profile: '抖音直播家居月 GMV 800 万,转型小红书种草内容持续布局。' },
+        { name: '1688 居',     form: '站外大商型',   externalGmv: 4200, score: 9.1,
+          tags: ['1688 工厂', '外贸 4.2 亿', 'Q3 自营'],
+          profile: '1688 工厂年外贸 4.2 亿,2024 Q3 启动小红书自营品牌孵化。' },
+        { name: '拼居',        form: '站外大商型',   externalGmv: 2600, score: 8.6,
+          tags: ['拼多多', '原创设计', '高端转型'],
+          profile: '拼多多家居年销 2.6 亿,转型小红书高端原创设计线发力。' },
+      ],
+
+      '数码3C': [
+        // 店主设计型 ×5
+        { name: '桌物所',      form: '店主设计型',   externalGmv:  320, score: 9.3,
+          tags: ['桌搭美学', '工业设计', '3+2'],
+          profile: '深圳工业设计师工作室,3 人设计 + 2 工程师,主营桌搭美学配件。' },
+        { name: '飞影社',      form: '店主设计型',   externalGmv:  280, score: 9.0,
+          tags: ['复古胶片', '飞利浦系', '4 人'],
+          profile: '上海前飞利浦设计师创业,4 人团队,主营复古胶片相机改造。' },
+        { name: '键盘工坊',    form: '店主设计型',   externalGmv:  240, score: 8.8,
+          tags: ['DIY 键盘', '清美毕业', '2 人主理'],
+          profile: '北京清华美院毕业生,2 人主理,主营桌面机械键盘 DIY 出品。' },
+        { name: '声形所',      form: '店主设计型',   externalGmv:  380, score: 9.0,
+          tags: ['小众耳机', '外观设计', '3+2'],
+          profile: '杭州独立 3C 品牌,3 设计师 + 2 工程师,小众耳机外观设计强。' },
+        { name: '极客桌物',    form: '店主设计型',   externalGmv:  420, score: 9.2,
+          tags: ['极客桌搭', '华为系', '5 人'],
+          profile: '广州前华为消费 BG 设计师,5 人团队,极客桌搭配件小批量出品。' },
+
+        // 手艺人资质型 ×5
+        { name: '声匠',        form: '手艺人资质型', externalGmv:  620, score: 9.4,
+          tags: ['音箱', '工信部认证', '3 代'],
+          profile: '深圳老牌音箱厂 3 代传承,工信部音频认证,日产音箱 200 台。' },
+        { name: '木键',        form: '手艺人资质型', externalGmv:  280, score: 9.0,
+          tags: ['木质键盘', '工艺美术师', '月 80'],
+          profile: '苏州手工木质机械键盘工坊,工艺美术师认证,月产 80 把。' },
+        { name: '影匠',        form: '手艺人资质型', externalGmv:  320, score: 8.9,
+          tags: ['胶片相机', '28 年经验', '月 30 台'],
+          profile: '上海老相机维修师傅,持照 28 年,胶片相机翻新月产 30 台。' },
+        { name: '调音坊',      form: '手艺人资质型', externalGmv:  380, score: 9.0,
+          tags: ['耳机定制', '声学协会', '月 100 副'],
+          profile: '广州耳机声学调音师,声学协会会员,小众耳机定制月产 100 副。' },
+        { name: 'Hi-Fi 老铺',  form: '手艺人资质型', externalGmv:  220, score: 8.7,
+          tags: ['音响调试', '30 年经验', '月 50 单'],
+          profile: '北京老牌音响维修师,音响工程师 30 年,Hi-Fi 调试月接 50 单。' },
+
+        // 转型技术型 ×5
+        { name: 'MCU 门',      form: '转型技术型',   externalGmv:  680, score: 9.3,
+          tags: ['智能网关', '华为终端系', '自研 MCU'],
+          profile: '前华为终端 4 人离职,自研 MCU 团队,主营智能家居网关。' },
+        { name: '米链',        form: '转型技术型',   externalGmv:  920, score: 9.5,
+          tags: ['整屋智能', '小米生态系', '6 人'],
+          profile: '前小米生态链 6 人创业,主打整屋智能方案,2024 Q3 启动。' },
+        { name: '声解',        form: '转型技术型',   externalGmv:  580, score: 9.1,
+          tags: ['Hi-Fi 解码', '自研芯片', '8 人'],
+          profile: '深圳硬件创业团队,8 人研发 + 自研芯片,Hi-Fi 解码器线起步。' },
+        { name: '影算法',      form: '转型技术型',   externalGmv:  720, score: 9.2,
+          tags: ['复古影像', 'OPPO 系', '图像算法'],
+          profile: '前 OPPO 影像团队 5 人,自研图像算法,复古数码影像产品线。' },
+        { name: 'IoT 工坊',    form: '转型技术型',   externalGmv:  460, score: 8.9,
+          tags: ['IoT 协议', 'vivo 系', '极客配件'],
+          profile: '前 vivo 软件团队 7 人,自研 IoT 协议,极客向智能配件线。' },
+
+        // 站外大商型 ×5
+        { name: '华研',        form: '站外大商型',   externalGmv: 2800, score: 9.2,
+          tags: ['淘宝 TOP30', '华为系', '2.8 亿'],
+          profile: '淘宝 3C 数码 TOP30,年销 2.8 亿,主营华为系生态,转型小红书。' },
+        { name: '京数',        form: '站外大商型',   externalGmv: 6200, score: 9.5,
+          tags: ['京东自营 3C', '桌搭', '6.2 亿'],
+          profile: '京东自营 3C 年销 6.2 亿,2024 启动小红书桌搭内容线孵化。' },
+        { name: '抖数',        form: '站外大商型',   externalGmv: 1200, score: 8.9,
+          tags: ['抖音直播 3C', '月 1200w', '产品种草'],
+          profile: '抖音直播 3C 月 GMV 1200 万,2024 转型小红书产品种草布局。' },
+        { name: '拼数',        form: '站外大商型',   externalGmv: 3400, score: 8.7,
+          tags: ['拼多多平替', '高客单转型', '3.4 亿'],
+          profile: '拼多多 3C 年销 3.4 亿,主营平替数码,2024 转型小红书高客单。' },
+        { name: '1688 数',     form: '站外大商型',   externalGmv: 5800, score: 9.1,
+          tags: ['跨境外贸', '5.8 亿', 'Q4 自营'],
+          profile: '1688 跨境年外贸 5.8 亿,2024 Q4 启动小红书自营品牌孵化。' },
+      ],
+    };
+
     // 产业带 GMV 曲线生成(沿用品类形态、缩放到产业带量级、加种子小抖动)
     function genBeltGmvCurve(catCurve, beltGmv, seed) {
       const catSum = catCurve.reduce((a, b) => a + b, 0);
@@ -2259,15 +2827,16 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
         gmvCurve:    genBeltGmvCurve(curve, b.gmv, CAT_SEED[cat] + (i + 1) * 1000),
       }));
       MOCK_DATA[cat] = {
-        seed:            CAT_SEED[cat],
-        kpi:             CAT_CONFIG[cat].kpi,
-        gmvCurve:        curve,
-        benchmarkCurve:  benchmark,
-        niches:          NICHES[cat],
-        insights:        INSIGHTS[cat],
-        trends:          TRENDS[cat],
-        belts:           belts,
-        beltsSubtitle:   BELTS_SUBTITLES[cat],
+        seed:              CAT_SEED[cat],
+        kpi:               CAT_CONFIG[cat].kpi,
+        gmvCurve:          curve,
+        benchmarkCurve:    benchmark,
+        niches:            NICHES[cat],
+        insights:          INSIGHTS[cat],
+        trends:            TRENDS[cat],
+        belts:             belts,
+        beltsSubtitle:     BELTS_SUBTITLES[cat],
+        aiRecommendations: AI_RECOMMENDATIONS[cat] || [],
       };
     });
 
@@ -2794,6 +3363,12 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
         title.textContent = it.title;
         head.appendChild(icon);
         head.appendChild(title);
+        if (it.caliber) {
+          const cal = document.createElement('span');
+          cal.className = 'insight-caliber';
+          cal.textContent = it.caliber;
+          head.appendChild(cal);
+        }
 
         const body = document.createElement('div');
         body.className = 'insight-body';
@@ -3190,10 +3765,44 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
     }
 
     function tierClass(tier) {
-      if (tier === '超级' || tier === '超级产业带') return 'tier-super';
-      if (tier === '标杆' || tier === '标杆产业带') return 'tier-flagship';
-      if (tier === '成长' || tier === '成长产业带') return 'tier-growth';
+      if (tier === '聚合')                            return 'tier-aggregate';
+      if (tier === '超级' || tier === '超级产业带')   return 'tier-super';
+      if (tier === '标杆' || tier === '标杆产业带')   return 'tier-flagship';
+      if (tier === '成长' || tier === '成长产业带')   return 'tier-growth';
       return 'tier-potential';
+    }
+
+    // 全产业带聚合视图(state.belt === 'ALL' 时使用)
+    function aggregateAllBelts(category) {
+      const belts = MOCK_DATA[category].belts;
+      if (!belts || belts.length === 0) return null;
+      const totalMerchants  = belts.reduce((s, b) => s + b.totalMerchants,  0);
+      const joinedMerchants = belts.reduce((s, b) => s + b.joinedMerchants, 0);
+      const gmv = +(belts.reduce((s, b) => s + b.gmv, 0)).toFixed(1);
+      const gmvCurve = belts[0].gmvCurve.map((_, i) =>
+        +(belts.reduce((s, b) => s + b.gmvCurve[i], 0)).toFixed(2)
+      );
+      const topMerchants = belts.flatMap(b => b.topMerchants)
+        .sort((a, b) => b.gmv - a.gmv)
+        .slice(0, 10);
+      return {
+        name: '全产业带概览',
+        shortName: 'ALL',
+        storyTag: `${category} · ${belts.length} 个核心产业带聚合视图`,
+        tier: '聚合',
+        totalMerchants,
+        joinedMerchants,
+        penetration: +(joinedMerchants / totalMerchants * 100).toFixed(1),
+        gmv,
+        gmvCurve,
+        topMerchants,
+        funnel: {
+          pool:    belts.reduce((s, b) => s + b.funnel.pool,    0),
+          reached: belts.reduce((s, b) => s + b.funnel.reached, 0),
+          intent:  belts.reduce((s, b) => s + b.funnel.intent,  0),
+          signed:  belts.reduce((s, b) => s + b.funnel.signed,  0),
+        },
+      };
     }
 
     // 地图本体只画一次 —— geo + 空 scatter series + 点击事件
@@ -3364,20 +3973,78 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
       });
     }
 
-    // 详情面板:GMV 30 天小图
+    // 详情面板:GMV 30 天小图(杭州四季青时叠加「素白衣橱」对比线)
     function renderBeltsMiniGmv(belt) {
       const dom = document.getElementById('belts-mini-gmv');
       if (!dom) return;
       const chart = getOrCreateChart('belts-mini-gmv', dom);
       const days = belt.gmvCurve.map((_, i) => `${i + 1}日`);
+
+      const series = [{
+        name: '产业带 GMV',
+        type: 'line',
+        data: belt.gmvCurve,
+        smooth: 0.3,
+        showSymbol: false,
+        lineStyle: { width: 2, color: '#FF2442' },
+        itemStyle: { color: '#FF2442' },
+        areaStyle: {
+          color: {
+            type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
+            colorStops: [
+              { offset: 0, color: 'rgba(255,36,66,0.22)' },
+              { offset: 1, color: 'rgba(255,36,66,0)' },
+            ],
+          },
+        },
+        z: 2,
+      }];
+
+      // 杭州四季青 ↔ 素白衣橱 对比线(口径方案 c)
+      if (belt.name === '杭州四季青') {
+        const suCurve = belt.gmvCurve.map((v, i) => {
+          let mult = 0.04;
+          if (i < 16) mult *= 1 + 0.05 * (i / 16);
+          else mult *= 0.95 * (1 - 0.4 * (i - 16) / 13);
+          return +(v * mult).toFixed(2);
+        });
+        series.push({
+          name: '素白衣橱',
+          type: 'line',
+          data: suCurve,
+          smooth: 0.3,
+          showSymbol: false,
+          lineStyle: { width: 1.5, color: '#C44', type: 'dashed' },
+          itemStyle: { color: '#C44' },
+          z: 3,
+        });
+      }
+
+      const hasLegend = series.length > 1;
+
       chart.setOption({
         ...BASE_CHART_OPTION,
-        grid: { top: 14, right: 10, bottom: 24, left: 38, containLabel: true },
+        grid: { top: hasLegend ? 28 : 14, right: 10, bottom: 24, left: 38, containLabel: true },
+        legend: hasLegend ? {
+          top: 0, right: 6,
+          itemWidth: 14, itemHeight: 6, itemGap: 10,
+          textStyle: { fontSize: 10, color: '#6B6B6B', fontFamily: FONT_FAMILY },
+          icon: 'rect',
+          selectedMode: false,
+        } : { show: false },
         tooltip: {
           ...BASE_CHART_OPTION.tooltip,
           trigger: 'axis',
-          formatter: (p) => `<span style="font-size:12px">${p[0].axisValue}</span><br>
-            <span style="font-family:'SF Mono',monospace;font-weight:600;font-size:12px">${p[0].value} 亿</span>`,
+          formatter: (params) => {
+            const lines = params.map(p => {
+              const dot = `<span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${p.color};margin-right:5px"></span>`;
+              return `<div style="display:flex;justify-content:space-between;gap:14px;font-size:11px;line-height:1.7">
+                <span>${dot}${p.seriesName}</span>
+                <span style="font-family:'SF Mono',monospace;font-weight:600">${p.value} 亿</span>
+              </div>`;
+            }).join('');
+            return `<div style="font-size:11px;color:#6B6B6B">${params[0].axisValue}</div>${lines}`;
+          },
           axisPointer: { type: 'line', lineStyle: { color: '#FF2442', type: 'dashed', width: 1 } },
         },
         xAxis: {
@@ -3393,28 +4060,13 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
           axisLabel: { ...AXIS_STYLE.axisLabel, fontSize: 10 },
           splitNumber: 3,
         },
-        series: [{
-          type: 'line',
-          data: belt.gmvCurve,
-          smooth: 0.3,
-          showSymbol: false,
-          lineStyle: { width: 2, color: '#FF2442' },
-          areaStyle: {
-            color: {
-              type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
-              colorStops: [
-                { offset: 0, color: 'rgba(255,36,66,0.22)' },
-                { offset: 1, color: 'rgba(255,36,66,0)' },
-              ],
-            },
-          },
-        }],
+        series: series,
       }, { notMerge: true });
       const sub = document.getElementById('belts-mini-gmv-sub');
       if (sub) sub.textContent = `· 累计 ${belt.gmv.toFixed(1)} 亿`;
     }
 
-    // 详情面板:头部商家 Top 10 列表
+    // 详情面板:头部商家 Top 10 列表(支持 breakdown 商家显示 ⚠️ + 拆解 popup)
     function renderBeltsTopList(belt) {
       const list = document.getElementById('belts-top-list');
       list.replaceChildren();
@@ -3422,15 +4074,35 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
       const maxGmv = Math.max(...merchants.map(m => m.gmv));
       merchants.forEach((m, i) => {
         const row = document.createElement('div');
-        row.className = 'belts-top-row';
+        row.className = 'belts-top-row' + (m.breakdown ? ' has-breakdown' : '');
 
         const rank = document.createElement('span');
         rank.className = 'belts-top-rank' + (i < 3 ? ' top3' : '');
         rank.textContent = (i + 1).toString().padStart(2, '0');
 
-        const name = document.createElement('span');
-        name.className = 'belts-top-name';
-        name.textContent = m.name;
+        // 名称单元(含 ⚠️ 图标如果有 breakdown)
+        const nameWrap = document.createElement('span');
+        nameWrap.className = 'belts-top-name';
+        if (m.breakdown) {
+          const alertIcon = document.createElement('span');
+          alertIcon.className = 'belts-top-alert';
+          // 用 SVG 警告三角(纯结构,无文本注入风险)
+          const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          svg.setAttribute('viewBox', '0 0 24 24');
+          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          path.setAttribute('d', 'M12 2 L22 20 L2 20 Z M12 9 L12 14 M12 17 L12 17.5');
+          path.setAttribute('fill', 'none');
+          path.setAttribute('stroke', 'currentColor');
+          path.setAttribute('stroke-width', '2');
+          path.setAttribute('stroke-linejoin', 'round');
+          path.setAttribute('stroke-linecap', 'round');
+          svg.appendChild(path);
+          alertIcon.appendChild(svg);
+          nameWrap.appendChild(alertIcon);
+        }
+        const nameText = document.createElement('span');
+        nameText.textContent = m.name;
+        nameWrap.appendChild(nameText);
 
         const tag = document.createElement('span');
         tag.className = 'belts-top-tier-tag ' + tierClass(m.tier);
@@ -3448,10 +4120,41 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
         gmv.textContent = m.gmv + ' 万';
 
         row.appendChild(rank);
-        row.appendChild(name);
+        row.appendChild(nameWrap);
         row.appendChild(tag);
         row.appendChild(bar);
         row.appendChild(gmv);
+
+        // hover 拆解 popup(仅 breakdown 商家)
+        if (m.breakdown) {
+          const popup = document.createElement('div');
+          popup.className = 'belts-breakdown-popup';
+
+          const mkLine = (key, val, up) => {
+            const line = document.createElement('div');
+            line.className = 'belts-breakdown-line';
+            const k = document.createElement('span');
+            k.className = 'belts-breakdown-key';
+            k.textContent = key;
+            const v = document.createElement('span');
+            v.className = 'belts-breakdown-val ' + (up ? 'up' : 'down');
+            v.textContent = val;
+            line.appendChild(k);
+            line.appendChild(v);
+            return line;
+          };
+
+          popup.appendChild(mkLine('前 16 日', (m.breakdown.first16 >= 0 ? '+' : '') + m.breakdown.first16 + '%', m.breakdown.first16 >= 0));
+          popup.appendChild(mkLine('近 14 日', (m.breakdown.last14  >= 0 ? '+' : '') + m.breakdown.last14  + '%', m.breakdown.last14  >= 0));
+          popup.appendChild(mkLine('近 30 日同比', (m.growth >= 0 ? '+' : '') + m.growth + '%', m.growth >= 0));
+          const alert = document.createElement('div');
+          alert.className = 'belts-breakdown-alert';
+          alert.textContent = '⚠ ' + m.breakdown.alert;
+          popup.appendChild(alert);
+
+          row.appendChild(popup);
+        }
+
         list.appendChild(row);
       });
     }
@@ -3520,7 +4223,12 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
     function renderBeltsDetail(beltName) {
       const cat = state.category;
       const belts = MOCK_DATA[cat].belts;
-      const belt = belts.find(b => b.name === beltName) || belts[0];
+      let belt;
+      if (beltName === 'ALL') {
+        belt = aggregateAllBelts(cat);
+      } else {
+        belt = belts.find(b => b.name === beltName) || belts[0];
+      }
       renderBeltsHead(belt);
       renderBeltsMiniGmv(belt);
       renderBeltsTopList(belt);
@@ -3563,11 +4271,77 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
       renderBeltsDetail(beltName);
     }
 
+    // AI 推荐区:20 个商家卡片(横滚)
+    function renderAiRecommendations() {
+      const scroll = document.getElementById('ai-scroll');
+      if (!scroll) return;
+      scroll.replaceChildren();
+      const recs = MOCK_DATA[state.category].aiRecommendations || [];
+      recs.forEach(rec => {
+        const card = document.createElement('div');
+        card.className = 'ai-card';
+
+        const head = document.createElement('div');
+        head.className = 'ai-card-head';
+        const name = document.createElement('span');
+        name.className = 'ai-card-name';
+        name.textContent = rec.name;
+        const score = document.createElement('span');
+        score.className = 'ai-card-score';
+        score.textContent = rec.score.toFixed(1);
+        head.appendChild(name);
+        head.appendChild(score);
+
+        const form = document.createElement('span');
+        form.className = 'ai-card-form';
+        form.textContent = rec.form;
+
+        const tagsWrap = document.createElement('div');
+        tagsWrap.className = 'ai-card-tags';
+        rec.tags.forEach(t => {
+          const tag = document.createElement('span');
+          tag.className = 'ai-card-tag';
+          tag.textContent = t;
+          tagsWrap.appendChild(tag);
+        });
+
+        const profile = document.createElement('div');
+        profile.className = 'ai-card-profile';
+        profile.textContent = rec.profile;
+
+        const gmvRow = document.createElement('div');
+        gmvRow.className = 'ai-card-gmv';
+        const gmvLabel = document.createElement('span');
+        gmvLabel.textContent = '站外 GMV 估算';
+        const gmvNum = document.createElement('span');
+        gmvNum.className = 'ai-card-gmv-num';
+        gmvNum.textContent = (rec.externalGmv >= 1000
+          ? (rec.externalGmv / 10000).toFixed(2) + ' 亿/年'
+          : rec.externalGmv + ' 万/月');
+        gmvRow.appendChild(gmvLabel);
+        gmvRow.appendChild(gmvNum);
+
+        const btn = document.createElement('button');
+        btn.className = 'ai-card-btn';
+        btn.textContent = '一键触达 →';
+        btn.onclick = () => tempToast(`已加入触达队列,BD 同学 24h 内联系 · ${rec.name}`);
+
+        card.appendChild(head);
+        card.appendChild(form);
+        card.appendChild(tagsWrap);
+        card.appendChild(profile);
+        card.appendChild(gmvRow);
+        card.appendChild(btn);
+        scroll.appendChild(card);
+      });
+    }
+
     // rerenderAll 入口
     function renderBelts() {
       initBeltsMap();
       updateBeltsScatter();
       setBelt(state.belt);
+      renderAiRecommendations();
     }
 
     moduleRenderers.belts = renderBelts;
