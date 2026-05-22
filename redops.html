@@ -1531,6 +1531,369 @@
       color: var(--text-1);
     }
 
+    /* ========== 模块 5:达人 × 内容协同 ========== */
+    .creators-layout {
+      display: grid;
+      grid-template-columns: 38% 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .creators-pool, .creators-right { min-width: 0; }
+    .creators-right { display: flex; flex-direction: column; gap: 18px; }
+
+    /* 达人池 */
+    .creators-pool-card {
+      background: var(--card);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      padding: 16px 18px 12px;
+      display: flex; flex-direction: column;
+      max-height: 1080px;
+    }
+    .creators-filter-bar {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      align-items: center;
+    }
+    .creators-filter-bar .dropdown-trigger {
+      min-width: 0; padding: 5px 10px 5px 12px; font-size: 12px;
+    }
+    .creators-filter-bar .dropdown-trigger .dropdown-value { font-size: 12px; }
+    .creators-count {
+      margin-left: auto; font-size: 12px; color: var(--text-3);
+      white-space: nowrap;
+    }
+    .creators-count .num { color: var(--text-1); font-weight: 700; font-family: var(--font-num); }
+
+    .creators-list {
+      flex: 1;
+      overflow-y: auto;
+      display: flex; flex-direction: column; gap: 10px;
+      padding-right: 4px;
+      margin-right: -4px;
+    }
+    .creator-card {
+      background: #FAFAFA;
+      border-radius: 12px;
+      padding: 12px 14px;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+    .creator-card:hover {
+      background: #FFFFFF;
+      border-color: var(--border);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+    .creator-head {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 4px;
+    }
+    .creator-avatar {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .creator-name {
+      font-size: 14px; font-weight: 700; color: var(--text-1);
+      display: flex; align-items: center; gap: 4px;
+      flex: 1; min-width: 0;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .creator-cert {
+      color: var(--brand);
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+    .creator-tier-pill {
+      font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .pill-kol  { background: var(--brand); color: #FFF; }
+    .pill-mid  { background: rgba(255,36,66,0.10); color: var(--brand); }
+    .pill-tail { background: #F0F0F0; color: var(--text-2); }
+
+    .creator-tagline {
+      font-size: 12px; color: var(--text-2);
+      line-height: 1.5; margin-bottom: 10px;
+      padding-left: 48px;
+    }
+    .creator-stats {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4px 12px;
+      font-size: 11.5px;
+      padding: 8px 0;
+      border-top: 1px dashed var(--border);
+      border-bottom: 1px dashed var(--border);
+      margin-bottom: 8px;
+    }
+    .creator-stat-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .creator-stat-key { color: var(--text-3); }
+    .creator-stat-val { font-family: var(--font-num); font-weight: 700; color: var(--text-1); font-variant-numeric: tabular-nums; }
+    .creator-stat-val .unit { font-family: var(--font-cn); color: var(--text-2); font-weight: 500; font-size: 10px; margin-left: 1px; }
+
+    .creator-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+    .creator-tag {
+      font-size: 10px; padding: 1px 6px;
+      background: #FFFFFF; border: 1px solid var(--border);
+      color: var(--text-2); border-radius: 4px;
+    }
+    .creator-hit {
+      font-size: 11.5px; color: var(--text-3);
+      line-height: 1.5;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border);
+    }
+    .creator-hit-label { color: var(--text-3); font-weight: 500; }
+    .creator-hit-title { color: var(--text-1); }
+
+    /* 爆文复盘 */
+    .hot-notes-card {
+      background: var(--card);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      padding: 20px;
+    }
+    .hot-notes-head {
+      display: flex; align-items: baseline; gap: 8px;
+      margin-bottom: 14px;
+    }
+    .hot-notes-title { font-size: 15px; font-weight: 600; color: var(--text-1); }
+    .hot-notes-sub { font-size: 12px; color: var(--text-3); }
+    .hot-notes-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--brand-light);
+      color: var(--brand);
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 6px;
+      letter-spacing: 0.4px;
+    }
+    .hot-notes-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .hot-note-card {
+      background: #FAFAFA;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex; flex-direction: column;
+    }
+    .hot-note-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--brand);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+    }
+    .hot-note-cover {
+      height: 110px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 38px;
+      position: relative;
+    }
+    .hot-note-cover.g0 { background: linear-gradient(135deg, #FFE0E5, #FFC1CD); }
+    .hot-note-cover.g1 { background: linear-gradient(135deg, #FFE5DC, #FFCFA8); }
+    .hot-note-cover.g2 { background: linear-gradient(135deg, #FFF0DC, #FFE08A); }
+    .hot-note-cover.g3 { background: linear-gradient(135deg, #E0F0E5, #B5E0C5); }
+    .hot-note-cover.g4 { background: linear-gradient(135deg, #E5EAF5, #B5C5E5); }
+    .hot-note-cover.g5 { background: linear-gradient(135deg, #F0E0F5, #D5B5E5); }
+    .hot-note-body {
+      padding: 10px 12px 12px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .hot-note-title {
+      font-size: 12.5px;
+      color: var(--text-1);
+      font-weight: 600;
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 2.9em;
+    }
+    .hot-note-meta {
+      font-size: 11px; color: var(--text-3);
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 6px;
+    }
+    .hot-note-creator {
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      flex: 1; min-width: 0;
+    }
+    .hot-note-engage {
+      font-family: var(--font-num); font-weight: 700; color: var(--brand);
+      flex-shrink: 0;
+    }
+    .hot-note-numbers {
+      display: flex; gap: 8px;
+      font-size: 11px; color: var(--text-2);
+    }
+    .hot-note-num-val {
+      font-family: var(--font-num); font-weight: 600; color: var(--text-1);
+    }
+
+    /* 选题生成器 */
+    .topic-gen-card {
+      background: var(--card);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      padding: 20px;
+    }
+    .topic-gen-head {
+      display: flex; align-items: baseline; gap: 8px;
+      margin-bottom: 14px;
+    }
+    .topic-gen-title { font-size: 15px; font-weight: 600; color: var(--text-1); }
+    .topic-gen-sub { font-size: 12px; color: var(--text-3); }
+
+    .topic-gen-input-row {
+      display: flex; gap: 10px;
+      margin-bottom: 16px;
+    }
+    .topic-gen-input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: var(--font-cn);
+      font-size: 13px;
+      color: var(--text-1);
+      outline: none;
+      transition: border-color 0.2s ease;
+      background: #FAFAFA;
+    }
+    .topic-gen-input:focus { border-color: var(--brand); background: #FFFFFF; }
+    .topic-gen-input::placeholder { color: var(--text-3); }
+    .topic-gen-btn {
+      padding: 10px 18px;
+      background: var(--brand);
+      color: #FFFFFF;
+      border: none; border-radius: 10px;
+      font-family: var(--font-cn);
+      font-size: 13px; font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .topic-gen-btn:hover {
+      background: var(--brand-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(255,36,66,0.25);
+    }
+
+    .topic-gen-results {
+      display: flex; flex-direction: column; gap: 10px;
+      min-height: 60px;
+    }
+    .topic-gen-hint {
+      padding: 14px 16px;
+      background: #FAFAFA;
+      border-radius: 10px;
+      font-size: 12.5px;
+      color: var(--text-3);
+      line-height: 1.6;
+      text-align: center;
+    }
+    .topic-result {
+      padding: 12px 14px;
+      background: #FAFAFA;
+      border-radius: 10px;
+      border-left: 3px solid var(--brand);
+      animation: topicSlideIn 0.3s ease-out;
+    }
+    @keyframes topicSlideIn {
+      from { opacity: 0; transform: translateX(-6px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .topic-result-head {
+      display: flex; align-items: baseline; gap: 8px;
+      margin-bottom: 4px;
+    }
+    .topic-result-num {
+      font-family: var(--font-num); font-size: 11px; font-weight: 700; color: var(--brand);
+      background: rgba(255,36,66,0.08);
+      padding: 2px 6px; border-radius: 4px;
+    }
+    .topic-result-angle {
+      font-size: 11px; color: var(--text-3);
+      font-weight: 500;
+    }
+    .topic-result-title {
+      font-size: 13.5px; color: var(--text-1); font-weight: 600;
+      line-height: 1.5; margin: 4px 0;
+    }
+    .topic-result-meta {
+      font-size: 11.5px; color: var(--text-3);
+      display: flex; gap: 12px;
+    }
+    .topic-result-meta strong { color: var(--text-2); font-weight: 600; }
+    .typewriter-cursor::after {
+      content: '_';
+      display: inline-block;
+      width: 0;
+      animation: blink 0.9s step-end infinite;
+      color: var(--brand);
+      margin-left: 2px;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* 爆文 AI 拆解二级弹层(复用 coach-sub-panel CSS 但需独立 z-index 共存) */
+    .note-breakdown-section {
+      margin-bottom: 14px;
+      padding: 12px 14px;
+      background: #FAFAFA;
+      border-radius: 10px;
+    }
+    .note-breakdown-section.kv-head {
+      display: flex; align-items: baseline; gap: 6px;
+      margin-bottom: 6px;
+    }
+    .note-breakdown-icon { font-size: 14px; }
+    .note-breakdown-label {
+      font-size: 12px; color: var(--text-3); font-weight: 600;
+    }
+    .note-breakdown-value {
+      font-size: 13px; color: var(--text-1); font-weight: 700;
+    }
+    .note-breakdown-detail {
+      font-size: 12.5px; color: var(--text-2);
+      line-height: 1.7;
+    }
+    .note-breakdown-list {
+      list-style: disc; margin: 6px 0 0 0; padding-left: 18px;
+    }
+    .note-breakdown-list li {
+      font-size: 12.5px; color: var(--text-1);
+      line-height: 1.7; margin-bottom: 4px;
+    }
+    .note-breakdown-numbers {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      padding: 10px 12px;
+      background: #FAFAFA;
+      border-radius: 10px;
+      margin-bottom: 14px;
+    }
+    .note-breakdown-num-cell {
+      text-align: center;
+    }
+    .note-breakdown-num-label { font-size: 11px; color: var(--text-3); margin-bottom: 4px; }
+    .note-breakdown-num-val {
+      font-family: var(--font-num); font-weight: 700; font-size: 16px; color: var(--text-1);
+    }
+    .note-breakdown-num-unit { font-size: 11px; color: var(--text-2); font-weight: 500; }
+
     /* 通用 Modal(Step 3 引入,Step 7 复用) */
     .modal-mask {
       position: fixed;
@@ -1964,9 +2327,64 @@
     </section>
 
     <section id="creators" class="module">
-      <div class="placeholder-block">
-        <div class="ph-title">模块 5：达人 × 内容协同</div>
-        <div class="ph-desc">达人池 · 爆文复盘 · AI 选题生成器（Step 6 实现）</div>
+      <div class="creators-layout">
+
+        <!-- 左:达人池 -->
+        <div class="creators-pool-card">
+          <div class="creators-filter-bar">
+            <div class="dropdown" id="cr-tier-dropdown">
+              <button class="dropdown-trigger" id="cr-tier-trigger" type="button">
+                <span class="dropdown-value" id="cr-tier-value">全部量级</span>
+                <svg class="dropdown-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <ul class="dropdown-menu" id="cr-tier-menu" hidden></ul>
+            </div>
+            <div class="dropdown" id="cr-engage-dropdown">
+              <button class="dropdown-trigger" id="cr-engage-trigger" type="button">
+                <span class="dropdown-value" id="cr-engage-value">全部互动率</span>
+                <svg class="dropdown-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <ul class="dropdown-menu" id="cr-engage-menu" hidden></ul>
+            </div>
+            <div class="dropdown" id="cr-biz-dropdown">
+              <button class="dropdown-trigger" id="cr-biz-trigger" type="button">
+                <span class="dropdown-value" id="cr-biz-value">全部商业产出</span>
+                <svg class="dropdown-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <ul class="dropdown-menu" id="cr-biz-menu" hidden></ul>
+            </div>
+            <div class="creators-count">共 <span class="num" id="cr-count">15</span> 位达人</div>
+          </div>
+          <div class="creators-list" id="creators-list"></div>
+        </div>
+
+        <!-- 右:爆文复盘 + 选题生成器 -->
+        <div class="creators-right">
+          <div class="hot-notes-card">
+            <div class="hot-notes-head">
+              <span class="hot-notes-tag">AI</span>
+              <span class="hot-notes-title">爆文复盘</span>
+              <span class="hot-notes-sub">· Top 20 笔记 · 点击卡片查看 AI 拆解</span>
+            </div>
+            <div class="hot-notes-grid" id="hot-notes-grid"></div>
+          </div>
+
+          <div class="topic-gen-card">
+            <div class="topic-gen-head">
+              <span class="hot-notes-tag">AI</span>
+              <span class="topic-gen-title">笔记选题生成器</span>
+              <span class="topic-gen-sub">· 输入商品/卖点,生成 5 个差异化选题</span>
+            </div>
+            <div class="topic-gen-input-row">
+              <input type="text" class="topic-gen-input" id="topic-input" />
+              <button class="topic-gen-btn" id="topic-gen-btn" type="button">生成 5 个选题 →</button>
+            </div>
+            <div class="topic-gen-results" id="topic-results">
+              <div class="topic-gen-hint">基于当前品类预填示例,点击「生成 5 个选题 →」启动 AI</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -2073,6 +2491,17 @@
     <div class="coach-sub-content">
       <div class="coach-sub-text" id="coach-sub-text"></div>
     </div>
+  </div>
+
+  <!-- 爆文 AI 拆解二级弹层 -->
+  <div class="coach-sub-panel" id="note-panel">
+    <header class="coach-sub-head">
+      <span class="coach-sub-title" id="note-panel-title"></span>
+      <button class="coach-close" id="note-panel-close" type="button" title="关闭">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </header>
+    <div class="coach-sub-content" id="note-panel-content"></div>
   </div>
 
   <!-- ========== AI 浮窗 ========== -->
@@ -5083,6 +5512,634 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
       ].join('\n');
     }
 
+    /* ============================================================
+       CREATORS_DATA —— 5 品类 × 15 个达人 = 75 个达人
+         · 量级分布每品类:KOL ×3 + 腰部 ×7 + 尾部 ×5
+         · 跨模块呼应:衣记小柒 / 老钱风 / 新中式 / 早C晚A / 潮汕牛肉丸 / 桌搭 / 像素工房
+       ============================================================ */
+    const CREATORS_DATA = {
+      '服饰穿搭': [
+        { id: 'c_001', name: '衣记小柒',    emoji: '👗', avatarBg: '#FFE0E5', tier: 'KOL',  fans: 120, engageRate: 8.2,  bizNotes: 18, price: 38000,
+          niche: '新中式连衣裙', tagline: '新中式连衣裙垂类 · 深度合作偏好 · 选品严格',
+          tags: ['深度合作', 'KOL', '数据稳'], recentHit: '《30 岁姐姐的新中式连衣裙合集》' },
+        { id: 'c_002', name: '阿野的衣橱',  emoji: '🏔️', avatarBg: '#E8F4E5', tier: 'KOL',  fans: 88,  engageRate: 7.5,  bizNotes: 22, price: 28000,
+          niche: '山系户外女装', tagline: '山系户外女装 · 多平台 KOL · 转化稳定',
+          tags: ['单篇合作', 'KOL', '转化强'], recentHit: '《山系穿搭被同事追着问链接》' },
+        { id: 'c_003', name: '川山行衣',    emoji: '👔', avatarBg: '#E5EAF4', tier: 'KOL',  fans: 102, engageRate: 6.8,  bizNotes: 24, price: 32000,
+          niche: '男装街头潮流', tagline: '男装街头风 · 内容力扎实 · 高产男博主',
+          tags: ['直播合作', 'KOL', '高产'], recentHit: '《男生平价百搭单品攻略》' },
+        { id: 'c_004', name: '沐沐爱穿搭',  emoji: '🌸', avatarBg: '#FFF0E0', tier: '腰部', fans: 38,  engageRate: 12.8, bizNotes: 28, price: 8800,
+          niche: '多巴胺穿搭', tagline: '多巴胺色系穿搭 · 高互动腰部博主 · 快反应',
+          tags: ['深度合作', '腰部', '快反应'], recentHit: '《减龄 10 岁的多巴胺穿搭 5 件套》' },
+        { id: 'c_005', name: '老钱风衣橱',  emoji: '🧥', avatarBg: '#EAE5DC', tier: '腰部', fans: 42,  engageRate: 9.2,  bizNotes: 16, price: 11000,
+          niche: '老钱风通勤', tagline: '老钱风通勤 · 高客单女性垂类 · 选品偏精品',
+          tags: ['深度合作', '腰部', '原创性强'], recentHit: '《老钱风穿搭里最贵的是这双鞋》' },
+        { id: 'c_006', name: '林深的衣柜',  emoji: '👚', avatarBg: '#F0F0E5', tier: '腰部', fans: 24,  engageRate: 8.5,  bizNotes: 14, price: 7200,
+          niche: '极简通勤', tagline: '极简通勤穿搭 · OL 受众 · 内容稳定',
+          tags: ['单篇合作', '腰部', '数据稳'], recentHit: '《通勤一整月不撞衫的极简穿搭日记》' },
+        { id: 'c_007', name: '半屿衣物记',  emoji: '✨', avatarBg: '#F5E5FF', tier: '腰部', fans: 28,  engageRate: 10.2, bizNotes: 20, price: 8200,
+          niche: 'Y2K 复古', tagline: 'Y2K 复古单品 · 18-24 岁年轻人群 · 互动高',
+          tags: ['深度合作', '腰部', '原创性强'], recentHit: '《Y2K 复古单品平价款,显瘦显年轻》' },
+        { id: 'c_008', name: '阿茉穿搭日记',emoji: '🌷', avatarBg: '#FFE5F0', tier: '腰部', fans: 35,  engageRate: 7.8,  bizNotes: 18, price: 9200,
+          niche: '法式优雅', tagline: '法式优雅风格 · 25-35 岁知性女性 · 内容审美高',
+          tags: ['深度合作', '腰部', '原创性强'], recentHit: '《法式女孩衣橱大公开 · 30 套穿搭》' },
+        { id: 'c_009', name: '苏意的皮衣',  emoji: '🧣', avatarBg: '#F0E5DC', tier: '腰部', fans: 18,  engageRate: 8.8,  bizNotes: 12, price: 6500,
+          niche: '海宁皮草穿搭', tagline: '皮草皮衣穿搭 · 30+ 女性 · 海宁产业带博主',
+          tags: ['单篇合作', '腰部', '数据稳'], recentHit: '《海宁皮草不是中年专属!90 后这样穿》' },
+        { id: 'c_010', name: '鹿野古着所',  emoji: '🦌', avatarBg: '#F5EFE5', tier: '腰部', fans: 22,  engageRate: 11.2, bizNotes: 16, price: 6800,
+          niche: '古着复古', tagline: '古着选品 + 复古穿搭 · 小众但高粘性',
+          tags: ['深度合作', '腰部', '原创性强'], recentHit: '《古着搭配翻车了!这些雷区千万别踩》' },
+        { id: 'c_011', name: '念川衣谱',    emoji: '🌿', avatarBg: '#E8F5E0', tier: '尾部', fans: 8.6, engageRate: 14.5, bizNotes: 10, price: 2800,
+          niche: '新中式日常', tagline: '新中式日常穿搭 · 尾部高粘性 · 转化稳',
+          tags: ['单篇合作', '尾部', '转化强'], recentHit: '《新中式连衣裙搭配 · 30+ 姐妹必看》' },
+        { id: 'c_012', name: '缦言衣记',    emoji: '🌾', avatarBg: '#F0EDE0', tier: '尾部', fans: 5.2, engageRate: 13.8, bizNotes: 8,  price: 1800,
+          niche: '都市知性', tagline: '都市知性穿搭 · 通勤场景为主 · 尾部数据稳',
+          tags: ['单篇合作', '尾部', '数据稳'], recentHit: '《通勤一周不撞衫的极简衣橱》' },
+        { id: 'c_013', name: '月隐衣社',    emoji: '🌙', avatarBg: '#E5E5F0', tier: '尾部', fans: 4.8, engageRate: 12.4, bizNotes: 6,  price: 1500,
+          niche: '暗黑系小众', tagline: '暗黑系穿搭 · 小众但精准 · 原创度高',
+          tags: ['单篇合作', '尾部', '原创性强'], recentHit: '《黑色穿出高级感的 5 个细节》' },
+        { id: 'c_014', name: '砚归',        emoji: '🪞', avatarBg: '#F5F0E5', tier: '尾部', fans: 3.2, engageRate: 16.8, bizNotes: 5,  price: 1200,
+          niche: '古着选品笔记', tagline: '古着选品 · 内容深度强 · 尾部超高粘性',
+          tags: ['深度合作', '尾部', '原创性强'], recentHit: '《古着市场避坑指南 · 5 年经验》' },
+        { id: 'c_015', name: '雾里衣物记',  emoji: '🌫️', avatarBg: '#E0E5EA', tier: '尾部', fans: 6.4, engageRate: 9.8,  bizNotes: 8,  price: 2200,
+          niche: '男装情绪色系', tagline: '男装情绪色系 · 男性尾部博主 · 性价比合作',
+          tags: ['单篇合作', '尾部', '数据稳'], recentHit: '《男装暗色系穿搭 · 7 天搭配》' },
+      ],
+
+      '美妆个护': [
+        { id: 'c_016', name: '成分学姐',      emoji: '🧪', avatarBg: '#FFE5EC', tier: 'KOL',  fans: 156, engageRate: 9.8,  bizNotes: 18, price: 42000,
+          niche: '早C晚A 功效护肤', tagline: '早C晚A 早八妆 · 成分党 KOL · 高互动',
+          tags: ['深度合作', 'KOL', '专业背书'], recentHit: '《油皮女生 30 天打卡:早C晚A 真的有效》' },
+        { id: 'c_017', name: '阿露皮研所',    emoji: '🔬', avatarBg: '#E5F0FF', tier: 'KOL',  fans: 92,  engageRate: 8.4,  bizNotes: 20, price: 28000,
+          niche: '油皮护肤研究', tagline: '油皮护肤 · 配方深度拆解 · KOL 级专业',
+          tags: ['深度合作', 'KOL', '专业背书'], recentHit: '《油皮控油不踩雷:5 款平价精华测评》' },
+        { id: 'c_018', name: '颜值小白鼠',    emoji: '🐭', avatarBg: '#F5F5E5', tier: 'KOL',  fans: 110, engageRate: 7.2,  bizNotes: 24, price: 32000,
+          niche: '国货美妆测评', tagline: '国货美妆测评 · 多品类涵盖 · 直播能力强',
+          tags: ['直播合作', 'KOL', '高产'], recentHit: '《这只口红被姐妹要链接 20 次》' },
+        { id: 'c_019', name: '笙笙的护肤日记',emoji: '🌅', avatarBg: '#FFF0E5', tier: '腰部', fans: 38,  engageRate: 11.6, bizNotes: 22, price: 8200,
+          niche: '早八妆通勤', tagline: '早八妆 · 通勤场景 · 高产腰部博主',
+          tags: ['深度合作', '腰部', '快反应'], recentHit: '《早八妆 5 分钟搞定不脱妆》' },
+        { id: 'c_020', name: '抗老研究员阿M',emoji: '⏳', avatarBg: '#F0E5F0', tier: '腰部', fans: 28,  engageRate: 10.2, bizNotes: 14, price: 8800,
+          niche: '抗衰精华深度', tagline: '抗衰精华深度评测 · 35+ 女性垂类',
+          tags: ['深度合作', '腰部', '专业背书'], recentHit: '《抗老精华盲选 8 款,只有这 2 款真的好》' },
+        { id: 'c_021', name: '韩研社姐姐',    emoji: '💋', avatarBg: '#FFE5F5', tier: '腰部', fans: 42,  engageRate: 9.8,  bizNotes: 18, price: 9800,
+          niche: '韩系彩妆', tagline: '韩系彩妆教程 · 高产腰部博主 · 18-25 岁人群',
+          tags: ['单篇合作', '腰部', '高产'], recentHit: '《韩系裸妆 vs 欧美浓妆,你 pick 哪个》' },
+        { id: 'c_022', name: '男士护肤探员',  emoji: '🕵️', avatarBg: '#E5EAF0', tier: '腰部', fans: 22,  engageRate: 8.5,  bizNotes: 12, price: 6800,
+          niche: '男士护肤', tagline: '男士护肤 · 男性垂类博主 · 数据稳',
+          tags: ['深度合作', '腰部', '数据稳'], recentHit: '《男士护肤 4 件套,我老公用了变化最大的是》' },
+        { id: 'c_023', name: '阿杏的化妆桌',  emoji: '🍑', avatarBg: '#FFE5DC', tier: '腰部', fans: 35,  engageRate: 10.4, bizNotes: 20, price: 7800,
+          niche: '平价彩妆', tagline: '平价彩妆 · 学生党 + 打工人 · 高产腰部',
+          tags: ['单篇合作', '腰部', '高产'], recentHit: '《化妆桌断舍离!我留下的 10 件好物》' },
+        { id: 'c_024', name: '香水猎人',      emoji: '🌹', avatarBg: '#F5E5E5', tier: '腰部', fans: 18,  engageRate: 12.2, bizNotes: 10, price: 6500,
+          niche: '小众沙龙香水', tagline: '小众沙龙香水 · 香调专业 · 高客单受众',
+          tags: ['深度合作', '腰部', '原创性强'], recentHit: '《香水入门:5 种香调一篇搞懂》' },
+        { id: 'c_025', name: '油皮日记本',    emoji: '💧', avatarBg: '#E0F0FF', tier: '腰部', fans: 26,  engageRate: 11.8, bizNotes: 16, price: 7200,
+          niche: '油皮控油', tagline: '油皮日常护肤 · 学生党受众 · 高互动',
+          tags: ['单篇合作', '腰部', '快反应'], recentHit: '《油皮姐妹的命:这只散粉用了 5 年》' },
+        { id: 'c_026', name: '净肤记',        emoji: '🌸', avatarBg: '#FFE5EC', tier: '尾部', fans: 8.2, engageRate: 15.2, bizNotes: 8,  price: 2400,
+          niche: '平价油皮', tagline: '平价油皮 · 尾部高粘性 · 学生党流量',
+          tags: ['单篇合作', '尾部', '转化强'], recentHit: '《学生党 50 元搞定全套油皮护肤》' },
+        { id: 'c_027', name: '染色师阿杞',    emoji: '🎨', avatarBg: '#F0E5F5', tier: '尾部', fans: 5.8, engageRate: 14.8, bizNotes: 6,  price: 1800,
+          niche: '色彩肤色匹配', tagline: '色彩 + 肤色科学匹配 · 尾部专业博主',
+          tags: ['深度合作', '尾部', '专业背书'], recentHit: '《黑皮女生也能驾驭的 5 个色彩》' },
+        { id: 'c_028', name: '雪域美研',      emoji: '❄️', avatarBg: '#E5F5F5', tier: '尾部', fans: 4.2, engageRate: 13.6, bizNotes: 5,  price: 1500,
+          niche: '高端护肤手账', tagline: '高端护肤手账 · 30+ 女性 · 尾部精品',
+          tags: ['深度合作', '尾部', '原创性强'], recentHit: '《一年用完 5 瓶高端精华的真实感受》' },
+        { id: 'c_029', name: '配方手记',      emoji: '📋', avatarBg: '#F0F0E5', tier: '尾部', fans: 3.6, engageRate: 17.4, bizNotes: 4,  price: 1200,
+          niche: '成分党深度', tagline: '成分配方深度笔记 · 尾部超高粘性',
+          tags: ['深度合作', '尾部', '专业背书'], recentHit: '《烟酰胺浓度科普 · 5% 才是有效阈值》' },
+        { id: 'c_030', name: '时颜小研',      emoji: '⏰', avatarBg: '#FFE5DC', tier: '尾部', fans: 6.2, engageRate: 11.2, bizNotes: 7,  price: 2000,
+          niche: '新锐品牌测评', tagline: '新锐美妆测评 · 尾部高产博主',
+          tags: ['单篇合作', '尾部', '高产'], recentHit: '《这只口红被姐妹要链接 20 次》' },
+      ],
+
+      '食品饮料': [
+        { id: 'c_031', name: '阿渔记',        emoji: '🦐', avatarBg: '#E5F0FF', tier: 'KOL',  fans: 102, engageRate: 7.8,  bizNotes: 18, price: 28000,
+          niche: '江南水鲜美食', tagline: '江南水鲜 · 阳澄湖大闸蟹季节 · KOL',
+          tags: ['深度合作', 'KOL', '专业背书'], recentHit: '《阳澄湖大闸蟹避坑指南,千万别买这种》' },
+        { id: 'c_032', name: '山野食肆',      emoji: '🏔️', avatarBg: '#E8F0E5', tier: 'KOL',  fans: 85,  engageRate: 8.6,  bizNotes: 16, price: 25000,
+          niche: '山野食材纪录', tagline: '山野食材 · 农家直采 · 内容审美高',
+          tags: ['深度合作', 'KOL', '原创性强'], recentHit: '《一周山野食材纪录 · 30 个农家小馆》' },
+        { id: 'c_033', name: '稻香小厨',      emoji: '🌾', avatarBg: '#FAF0DC', tier: 'KOL',  fans: 96,  engageRate: 7.2,  bizNotes: 20, price: 28000,
+          niche: '五常米家常菜', tagline: '五常米家常菜 · 一人食日常 · 高产 KOL',
+          tags: ['直播合作', 'KOL', '高产'], recentHit: '《一个人在家 30 分钟搞定的家常菜》' },
+        { id: 'c_034', name: '潮汕食事',      emoji: '🥟', avatarBg: '#FFE5E0', tier: '腰部', fans: 32,  engageRate: 12.4, bizNotes: 20, price: 8500,
+          niche: '潮汕美食探店', tagline: '潮汕牛肉丸 + 美食探店 · 高互动腰部',
+          tags: ['深度合作', '腰部', '专业背书'], recentHit: '《潮汕牛肉丸到底真假?我去当地考察了一周》' },
+        { id: 'c_035', name: '阿森的茶桌',    emoji: '🍵', avatarBg: '#E5F5E5', tier: '腰部', fans: 28,  engageRate: 10.8, bizNotes: 14, price: 7200,
+          niche: '安溪铁观音茶事', tagline: '铁观音 · 安溪茶事 · 茶艺专业腰部',
+          tags: ['深度合作', '腰部', '专业背书'], recentHit: '《安溪铁观音入门 · 一篇看懂 4 种香型》' },
+        { id: 'c_036', name: '武夷茶人小满',  emoji: '🍂', avatarBg: '#F5EFE0', tier: '腰部', fans: 22,  engageRate: 11.2, bizNotes: 12, price: 6500,
+          niche: '岩茶品鉴', tagline: '武夷岩茶品鉴 · 茶人 · 内容专业',
+          tags: ['深度合作', '腰部', '专业背书'], recentHit: '《武夷岩茶的茶水比这样调最好喝》' },
+        { id: 'c_037', name: '低卡轻食日记',  emoji: '🥗', avatarBg: '#E5F5DC', tier: '腰部', fans: 38,  engageRate: 9.6,  bizNotes: 24, price: 8800,
+          niche: '低卡轻食', tagline: '低卡轻食 · 打工人午餐 · 高产腰部',
+          tags: ['单篇合作', '腰部', '高产'], recentHit: '《月薪 5k 的打工人午餐攻略》' },
+        { id: 'c_038', name: '蟹季笔记',      emoji: '🦀', avatarBg: '#FFE5DC', tier: '腰部', fans: 18,  engageRate: 12.8, bizNotes: 8,  price: 6200,
+          niche: '大闸蟹季节限定', tagline: '大闸蟹季节限定 IP · 短窗口高密度',
+          tags: ['单篇合作', '腰部', '快反应'], recentHit: '《阳澄湖蟹农老周告诉你怎么挑蟹》' },
+        { id: 'c_039', name: '地方零食侦探',  emoji: '🕵️‍♀️', avatarBg: '#F0EDE0', tier: '腰部', fans: 26,  engageRate: 10.2, bizNotes: 18, price: 6800,
+          niche: '地方零食测评', tagline: '地方零食测评 · 多产地走访 · 高产',
+          tags: ['深度合作', '腰部', '原创性强'], recentHit: '《这些「网红零食」真的踩雷!》' },
+        { id: 'c_040', name: '阿弘的家宴',    emoji: '🍽️', avatarBg: '#FFF0E5', tier: '腰部', fans: 35,  engageRate: 8.8,  bizNotes: 16, price: 8200,
+          niche: '家庭餐桌美学', tagline: '家庭餐桌美学 · 家宴菜单 · 内容审美高',
+          tags: ['深度合作', '腰部', '原创性强'], recentHit: '《家宴 6 道菜搞定全场 · 含食材清单》' },
+        { id: 'c_041', name: '巷尾老味道',    emoji: '🍜', avatarBg: '#F5E5DC', tier: '尾部', fans: 8.4, engageRate: 16.2, bizNotes: 10, price: 2600,
+          niche: '老字号探店', tagline: '老字号探店 · 城市小馆 · 尾部高粘性',
+          tags: ['单篇合作', '尾部', '原创性强'], recentHit: '《这个潮汕老字号牛肉店,我连吃了 5 天》' },
+        { id: 'c_042', name: '山间野食',      emoji: '🌿', avatarBg: '#E5F5E0', tier: '尾部', fans: 5.6, engageRate: 14.4, bizNotes: 8,  price: 1800,
+          niche: '农家自制小吃', tagline: '农家自制小吃 · 产地直采 · 尾部精品',
+          tags: ['深度合作', '尾部', '原创性强'], recentHit: '《农家自制糕点 · 真假鉴别 3 招》' },
+        { id: 'c_043', name: '阿芸的厨房',    emoji: '🍳', avatarBg: '#FFF5DC', tier: '尾部', fans: 6.8, engageRate: 13.2, bizNotes: 12, price: 2200,
+          niche: '一人食日常', tagline: '一人食日常 · 学生党 + 单身青年 · 尾部高产',
+          tags: ['单篇合作', '尾部', '高产'], recentHit: '《一人食 · 30 分钟搞定的家常菜 5 道》' },
+        { id: 'c_044', name: '茶舍三两',      emoji: '🫖', avatarBg: '#F0E5DC', tier: '尾部', fans: 4.2, engageRate: 15.8, bizNotes: 6,  price: 1400,
+          niche: '茶器 + 茶事', tagline: '茶器 + 茶事 · 茶艺专业尾部 · 转化稳',
+          tags: ['深度合作', '尾部', '专业背书'], recentHit: '《茶叶礼盒选购指南,别再被坑》' },
+        { id: 'c_045', name: '食肆漫记',      emoji: '🍱', avatarBg: '#FFF0E5', tier: '尾部', fans: 7.2, engageRate: 12.6, bizNotes: 14, price: 2300,
+          niche: '城市小馆笔记', tagline: '城市小馆笔记 · 多地探店 · 尾部高产',
+          tags: ['单篇合作', '尾部', '高产'], recentHit: '《城市小馆 · 一周不重样的食肆漫记》' },
+      ],
+
+      '家居生活': [
+        { id: 'c_046', name: '栖野居物志',    emoji: '🪴', avatarBg: '#E8F0E0', tier: 'KOL',  fans: 88,  engageRate: 8.2,  bizNotes: 16, price: 26000,
+          niche: '新中式家居美学', tagline: '新中式家居美学 · 高客单受众 · KOL 审美',
+          tags: ['深度合作', 'KOL', '原创性强'], recentHit: '《这套新中式餐具我用了 3 个月,真心推荐》' },
+        { id: 'c_047', name: '小满的家',      emoji: '🏠', avatarBg: '#F0F5E5', tier: 'KOL',  fans: 96,  engageRate: 7.6,  bizNotes: 20, price: 28000,
+          niche: '北欧极简家居', tagline: '北欧极简 · 一人居改造 · 高产 KOL',
+          tags: ['深度合作', 'KOL', '高产'], recentHit: '《30㎡ 一人居改造,花了 5000 元焕然一新》' },
+        { id: 'c_048', name: '木野生活记',    emoji: '🌲', avatarBg: '#EFE5DC', tier: 'KOL',  fans: 82,  engageRate: 9.2,  bizNotes: 14, price: 25000,
+          niche: '实木家具改造', tagline: '实木家具 · 木质美学 · 深度内容',
+          tags: ['深度合作', 'KOL', '原创性强'], recentHit: '《我家这盏灯换了之后,氛围感拉满》' },
+        { id: 'c_049', name: '侘寂工房',      emoji: '🪨', avatarBg: '#F0EDE5', tier: '腰部', fans: 38,  engageRate: 10.4, bizNotes: 18, price: 9200,
+          niche: '侘寂风家居', tagline: '侘寂风家居 · 美学审美高 · 客单价高',
+          tags: ['深度合作', '腰部', '原创性强'], recentHit: '《侘寂风家居避坑指南:这 5 件别买》' },
+        { id: 'c_050', name: '一人居士',      emoji: '🛋️', avatarBg: '#F5F0E5', tier: '腰部', fans: 42,  engageRate: 9.8,  bizNotes: 22, price: 9800,
+          niche: '单身公寓改造', tagline: '单身公寓改造 · 25-35 岁单身青年',
+          tags: ['深度合作', '腰部', '高产'], recentHit: '《一个人住的卧室,我布置了 3 个月》' },
+        { id: 'c_051', name: '露营家纪事',    emoji: '⛺', avatarBg: '#E5F5E0', tier: '腰部', fans: 28,  engageRate: 11.6, bizNotes: 14, price: 7800,
+          niche: '露营风家居', tagline: '露营风家居 · 户外向受众 · 季节性强',
+          tags: ['单篇合作', '腰部', '快反应'], recentHit: '《露营风家居 5 件单品,客厅瞬间度假感》' },
+        { id: 'c_052', name: '景德镇巡瓷记',  emoji: '🏺', avatarBg: '#FAEFDC', tier: '腰部', fans: 22,  engageRate: 10.8, bizNotes: 12, price: 6500,
+          niche: '景德镇瓷器', tagline: '景德镇瓷器 + 工坊探店 · 专业垂类',
+          tags: ['深度合作', '腰部', '专业背书'], recentHit: '《景德镇手作瓷器真假鉴别 · 一篇看懂》' },
+        { id: 'c_053', name: '茶桌物语',      emoji: '🍵', avatarBg: '#E5F0EA', tier: '腰部', fans: 26,  engageRate: 11.2, bizNotes: 16, price: 7200,
+          niche: '新中式茶桌', tagline: '新中式茶桌美学 · 茶器选品 · 内容审美',
+          tags: ['深度合作', '腰部', '原创性强'], recentHit: '《新中式茶桌 5 件器物,氛围感拉满》' },
+        { id: 'c_054', name: '灯具研究员',    emoji: '💡', avatarBg: '#FFF5DC', tier: '腰部', fans: 18,  engageRate: 12.4, bizNotes: 10, price: 6200,
+          niche: '灯光家居美学', tagline: '灯光美学 · 灯具品鉴 · 小众但精准',
+          tags: ['深度合作', '腰部', '专业背书'], recentHit: '《黄铜灯具搭配指南,瞬间提升家居档次》' },
+        { id: 'c_055', name: '阿瑜的家纺',    emoji: '🛏️', avatarBg: '#FFE5E5', tier: '腰部', fans: 32,  engageRate: 9.4,  bizNotes: 18, price: 7800,
+          niche: '棉麻家纺', tagline: '棉麻家纺 + 床品选品 · 高产腰部',
+          tags: ['单篇合作', '腰部', '高产'], recentHit: '《棉麻床品 vs 全棉床品,睡感真实对比》' },
+        { id: 'c_056', name: '子居',          emoji: '🍶', avatarBg: '#F5EDDC', tier: '尾部', fans: 8.2, engageRate: 15.8, bizNotes: 12, price: 2500,
+          niche: '一人食的家居', tagline: '一人食的家居布置 · 尾部高粘性',
+          tags: ['深度合作', '尾部', '原创性强'], recentHit: '《单身公寓的 5 件好物,真心推荐》' },
+        { id: 'c_057', name: '拾光陶坊',      emoji: '🏺', avatarBg: '#F0E5DC', tier: '尾部', fans: 5.4, engageRate: 14.2, bizNotes: 8,  price: 1700,
+          niche: '手作陶器笔记', tagline: '手作陶器笔记 · 工艺专业尾部',
+          tags: ['深度合作', '尾部', '专业背书'], recentHit: '《手作陶碗的窑变之美 · 6 张高清图》' },
+        { id: 'c_058', name: '月白瓷记',      emoji: '🌙', avatarBg: '#E5EAF0', tier: '尾部', fans: 4.6, engageRate: 13.8, bizNotes: 6,  price: 1500,
+          niche: '青瓷美学', tagline: '青瓷美学 · 龙泉青瓷垂类 · 尾部精品',
+          tags: ['深度合作', '尾部', '原创性强'], recentHit: '《龙泉青瓷器型入门 · 5 款经典》' },
+        { id: 'c_059', name: '老房改造日记',  emoji: '🔨', avatarBg: '#F5F0E0', tier: '尾部', fans: 6.8, engageRate: 12.6, bizNotes: 10, price: 2200,
+          niche: '老房改造记录', tagline: '老房改造记录 · 真实预算 · 尾部高产',
+          tags: ['单篇合作', '尾部', '高产'], recentHit: '《5000 元改造小客厅前后对比 · 真实预算》' },
+        { id: 'c_060', name: '山泉瓷屋小记',  emoji: '💧', avatarBg: '#E0F0F5', tier: '尾部', fans: 3.8, engageRate: 16.4, bizNotes: 5,  price: 1300,
+          niche: '景德镇手作瓷', tagline: '景德镇手作瓷小店 · 尾部超高粘性',
+          tags: ['深度合作', '尾部', '原创性强'], recentHit: '《景德镇手作瓷 · 1 件礼物的选购指南》' },
+      ],
+
+      '数码3C': [
+        { id: 'c_061', name: '桌物笔记',      emoji: '⌨️', avatarBg: '#E5EAF5', tier: 'KOL',  fans: 102, engageRate: 8.4,  bizNotes: 18, price: 32000,
+          niche: '桌搭外设深度', tagline: '桌搭外设 · 极客桌面美学 · KOL 头部',
+          tags: ['深度合作', 'KOL', '原创性强'], recentHit: '《极客桌面 30 张高清图,收藏不亏》' },
+        { id: 'c_062', name: '极客阿源',      emoji: '🤖', avatarBg: '#E5F5E5', tier: 'KOL',  fans: 88,  engageRate: 7.8,  bizNotes: 16, price: 28000,
+          niche: '智能家居全屋', tagline: '智能家居全屋方案 · 整屋评测 · KOL',
+          tags: ['深度合作', 'KOL', '专业背书'], recentHit: '《智能家居整屋方案 · 我花了 3 万改造全屋》' },
+        { id: 'c_063', name: '拾光数码',      emoji: '📷', avatarBg: '#FAEFDC', tier: 'KOL',  fans: 76,  engageRate: 9.6,  bizNotes: 14, price: 25000,
+          niche: '复古数码玩家', tagline: '复古数码 · 胶片相机收藏 · KOL 审美',
+          tags: ['深度合作', 'KOL', '原创性强'], recentHit: '《复古胶片相机入门:1000 元起步指南》' },
+        { id: 'c_064', name: '像素工房主理人',emoji: '📸', avatarBg: '#FFE5DC', tier: '腰部', fans: 32,  engageRate: 11.4, bizNotes: 16, price: 8200,
+          niche: '复古胶片相机', tagline: '复古胶片相机 + 影像改造 · 高互动腰部',
+          tags: ['深度合作', '腰部', '专业背书'], recentHit: '《复古相机 vs 数码相机,新手到底买哪个》' },
+        { id: 'c_065', name: '声学小研',      emoji: '🎧', avatarBg: '#E5F0F5', tier: '腰部', fans: 28,  engageRate: 10.8, bizNotes: 14, price: 7800,
+          niche: '小众耳机声学', tagline: '小众耳机声学 · 调音专业 · 客单价高',
+          tags: ['深度合作', '腰部', '专业背书'], recentHit: '《平价 vs 高端耳机,音质差距究竟有多大?》' },
+        { id: 'c_066', name: '键盘修行人',    emoji: '⌨️', avatarBg: '#F5F0E5', tier: '腰部', fans: 22,  engageRate: 12.4, bizNotes: 12, price: 6800,
+          niche: '机械键盘 DIY', tagline: '机械键盘 DIY · 极客向 · 高粘性受众',
+          tags: ['深度合作', '腰部', '专业背书'], recentHit: '《机械键盘 DIY 入门 · 一篇看懂选轴》' },
+        { id: 'c_067', name: '桌面进化论',    emoji: '🖥️', avatarBg: '#E5E5F0', tier: '腰部', fans: 38,  engageRate: 9.8,  bizNotes: 20, price: 8800,
+          niche: '桌面美学改造', tagline: '桌面美学改造 · 多平台 KOL · 高产',
+          tags: ['深度合作', '腰部', '高产'], recentHit: '《桌面美学改造前后对比,氛围感拉满》' },
+        { id: 'c_068', name: '复古影像所',    emoji: '🎞️', avatarBg: '#FAE5DC', tier: '腰部', fans: 18,  engageRate: 11.6, bizNotes: 10, price: 6200,
+          niche: '胶片 + 数码影像', tagline: '胶片 + 数码影像融合 · 专业摄影',
+          tags: ['单篇合作', '腰部', '原创性强'], recentHit: '《复古影像所探店 · 拍照氛围感拉满》' },
+        { id: 'c_069', name: '智能整屋研究室',emoji: '🏘️', avatarBg: '#E5F5EA', tier: '腰部', fans: 26,  engageRate: 9.4,  bizNotes: 14, price: 7200,
+          niche: '智能家居整屋', tagline: '智能家居整屋方案 · 装修向受众',
+          tags: ['深度合作', '腰部', '专业背书'], recentHit: '《智能家居真实使用 1 年后,我后悔的 3 件事》' },
+        { id: 'c_070', name: '数码极简主义',  emoji: '✨', avatarBg: '#F0F0E5', tier: '腰部', fans: 35,  engageRate: 10.2, bizNotes: 18, price: 8200,
+          niche: '极简数码搭配', tagline: '极简数码搭配 · 桌面美学受众',
+          tags: ['深度合作', '腰部', '原创性强'], recentHit: '《极简数码桌:我只留了 5 件》' },
+        { id: 'c_071', name: '阿星的桌面',    emoji: '⭐', avatarBg: '#FFF5DC', tier: '尾部', fans: 8.6, engageRate: 14.8, bizNotes: 12, price: 2600,
+          niche: '桌搭爱好者', tagline: '桌搭爱好者 · 个人桌面笔记 · 尾部高粘',
+          tags: ['单篇合作', '尾部', '原创性强'], recentHit: '《桌搭新手必看:5 件单品搭出极致美学》' },
+        { id: 'c_072', name: '复古胶片日记',  emoji: '🎬', avatarBg: '#F5E5DC', tier: '尾部', fans: 5.2, engageRate: 13.6, bizNotes: 8,  price: 1700,
+          niche: '胶片相机', tagline: '胶片相机日记 · 复古影像受众 · 尾部',
+          tags: ['深度合作', '尾部', '原创性强'], recentHit: '《一卷胶片的成片 · 7 张精选》' },
+        { id: 'c_073', name: 'HiFi 老炮',     emoji: '🔊', avatarBg: '#E5EAF5', tier: '尾部', fans: 4.8, engageRate: 12.8, bizNotes: 6,  price: 1500,
+          niche: '高端音响', tagline: '高端音响 · Hi-Fi 玩家 · 客单价高',
+          tags: ['深度合作', '尾部', '专业背书'], recentHit: '《Hi-Fi 入门 5000 元怎么选?避坑指南》' },
+        { id: 'c_074', name: '触感小研',      emoji: '🖱️', avatarBg: '#F5F0E0', tier: '尾部', fans: 3.6, engageRate: 17.2, bizNotes: 5,  price: 1200,
+          niche: '触控外设测评', tagline: '触控外设测评 · 工具党 · 尾部精品',
+          tags: ['深度合作', '尾部', '专业背书'], recentHit: '《触感设备测评 · 3 款值得买》' },
+        { id: 'c_075', name: '极客桌面',      emoji: '🔧', avatarBg: '#E5F0F0', tier: '尾部', fans: 6.4, engageRate: 11.4, bizNotes: 10, price: 2200,
+          niche: '桌面美学小店', tagline: '桌面美学小店 · 选品笔记 · 尾部高产',
+          tags: ['单篇合作', '尾部', '高产'], recentHit: '《桌搭灯光氛围:这 3 种搭配最显高级》' },
+      ],
+    };
+
+    /* ============================================================
+       HOT_NOTES —— 5 品类 × 20 = 100 个爆文 (标题真实小红书风,emoji 比例≥30%)
+       ============================================================ */
+    const HOT_NOTES = {
+      '服饰穿搭': [
+        { title: '❗ 减龄 10 岁的多巴胺穿搭 5 件套',           creator: '沐沐爱穿搭', emoji: '🌈', cover: 0, likes: 12.8, collects: 8.4, comments: 2.4,
+          hook: '反差对比', struct: '清单体',   angle: '「减龄 10 岁」强承诺直接抓住中年焦虑',
+          reusable: ['具体数字「10 岁」「5 件套」降低决策门槛', '反差承诺勾起好奇', '色彩心理学绑定多巴胺'] },
+        { title: '月薪 8k 也能穿出贵感的 5 件单品',            creator: '老钱风衣橱', emoji: '💼', cover: 1, likes: 18.6, collects: 12.2, comments: 3.8,
+          hook: '反差对比', struct: '清单体',   angle: '低收入 + 高级感的强反差,精准命中收入焦虑',
+          reusable: ['具体收入数字「8k」', '「贵感」抽象词具象化', '清单结构降低阅读门槛'] },
+        { title: '通勤一整月不撞衫的极简穿搭日记',             creator: '林深的衣柜', emoji: '👔', cover: 2, likes: 9.6, collects: 8.8, comments: 1.6,
+          hook: '沉浸场景', struct: '故事流',   angle: '「不撞衫」是上班族刚需痛点,「日记体」拉近距离',
+          reusable: ['场景化标题(通勤)', '时间承诺「一整月」', '日记体降低 KOC 门槛'] },
+        { title: '被骂俗气的红色裙子,我穿出了高级感',         creator: '阿茉穿搭日记', emoji: '👗', cover: 3, likes: 22.4, collects: 14.2, comments: 4.6,
+          hook: '反共识',   struct: '故事流',   angle: '从「被骂」到「高级感」的反转剧情,带情绪',
+          reusable: ['反共识开头「被骂」', '情绪化用词', '红色搭配是搜索高频词'] },
+        { title: '这件白T 我从大学穿到上班',                  creator: '林深的衣柜', emoji: '👕', cover: 0, likes: 8.2, collects: 6.4, comments: 1.4,
+          hook: '故事',     struct: '故事流',   angle: '「从大学到上班」时间跨度暗示性价比与品质',
+          reusable: ['时间跨度叙事', '低价单品高级感包装', '一件衣服讲完整故事'] },
+        { title: '30 岁姐姐的新中式连衣裙合集 🌿',             creator: '衣记小柒', emoji: '🌿', cover: 4, likes: 28.6, collects: 22.4, comments: 5.8,
+          hook: '身份认同', struct: '清单体',   angle: '「30 岁姐姐」精准定位 + 「新中式」热门话题',
+          reusable: ['年龄身份标签「30 岁」', 'emoji 强化氛围', '风格关键词强绑定'] },
+        { title: '老钱风穿搭里最贵的是这双鞋',                 creator: '老钱风衣橱', emoji: '👞', cover: 5, likes: 16.2, collects: 11.4, comments: 2.6,
+          hook: '悬念',     struct: '故事流',   angle: '「最贵的是」悬念结构,引导用户读到底',
+          reusable: ['悬念式标题结构', '风格 + 单品组合', '价格暗示拉提兴趣'] },
+        { title: '海宁皮草不是中年专属!90 后这样穿',          creator: '苏意的皮衣', emoji: '🧥', cover: 1, likes: 14.6, collects: 10.2, comments: 2.8,
+          hook: '反共识',   struct: '对比测评', angle: '反共识开头「不是中年专属」精准打动年轻人',
+          reusable: ['反共识破除偏见', '产业带绑定「海宁」', '年龄群体定位「90 后」'] },
+        { title: '山系穿搭被同事追着问链接 🏔️',                creator: '阿野的衣橱', emoji: '🏔️', cover: 2, likes: 19.8, collects: 13.6, comments: 4.2,
+          hook: '身份认同', struct: '故事流',   angle: '「被追问链接」社会证明,引发同款渴望',
+          reusable: ['社会证明开头', '场景细节「同事」', 'emoji 强化山系氛围'] },
+        { title: 'Y2K 复古单品平价款,显瘦显年轻',             creator: '半屿衣物记', emoji: '✨', cover: 3, likes: 24.2, collects: 16.8, comments: 4.8,
+          hook: '痛点直击', struct: '清单体',   angle: '直击「显瘦显年轻」核心痛点 + Y2K 热门趋势词',
+          reusable: ['痛点关键词组合', '平价价格锚点', '风格趋势词「Y2K」'] },
+        { title: '被嘲过时的牛仔裤,这样穿气质飙升',            creator: '林深的衣柜', emoji: '👖', cover: 4, likes: 11.4, collects: 8.2, comments: 1.8,
+          hook: '反共识',   struct: '教程体',   angle: '「被嘲过时」激起逆反 + 「气质飙升」承诺结果',
+          reusable: ['反共识转折', '动作词「飙升」', '日常单品「牛仔裤」高搜索量'] },
+        { title: '1.7 米的姐姐 vs 1.5 米的姐姐穿同一条裙子',  creator: '沐沐爱穿搭', emoji: '👯', cover: 5, likes: 26.4, collects: 18.4, comments: 5.2,
+          hook: '对比',     struct: '对比测评', angle: '身高对比是穿搭赛道的经典对比维度',
+          reusable: ['二元对比结构', '身高数字具体化', '同款不同效果引发讨论'] },
+        { title: '上半年没踩雷的 8 件单品总结',                creator: '阿野的衣橱', emoji: '📦', cover: 0, likes: 17.2, collects: 14.6, comments: 3.4,
+          hook: '数据冲击', struct: '清单体',   angle: '「没踩雷」精准帮用户避免踩雷决策成本',
+          reusable: ['数字「8 件」', '「没踩雷」反向价值', '时间维度「上半年」'] },
+        { title: '✨ 法式女孩衣橱大公开 · 30 套穿搭',         creator: '阿茉穿搭日记', emoji: '🇫🇷', cover: 1, likes: 32.4, collects: 26.2, comments: 6.4,
+          hook: '身份认同', struct: '清单体',   angle: '「法式女孩」是高客单女性的目标身份',
+          reusable: ['emoji 强化法式氛围', '数字「30 套」展示厚度', '「大公开」承诺尺度'] },
+        { title: '男生平价百搭单品攻略,200 元搞定一身',       creator: '川山行衣', emoji: '👨', cover: 2, likes: 13.6, collects: 10.4, comments: 2.6,
+          hook: '痛点直击', struct: '清单体',   angle: '直击男生「不会买衣服 + 想要平价」双重痛点',
+          reusable: ['性别定位「男生」', '价格锚点「200 元」', '「攻略」工具属性强'] },
+        { title: '通勤 OL 的极简衣橱,不到 10 件单品搭出 20 种风格', creator: '林深的衣柜', emoji: '🎒', cover: 3, likes: 21.4, collects: 17.8, comments: 4.6,
+          hook: '数据冲击', struct: '清单体',   angle: '「10 件搭 20 种」效率数字给到刺激',
+          reusable: ['身份「通勤 OL」', '反差数字「10 → 20」', '「极简」热门词'] },
+        { title: '学院风男孩 4 套校园穿搭 📚',                 creator: '川山行衣', emoji: '📚', cover: 4, likes: 14.8, collects: 11.2, comments: 2.4,
+          hook: '身份认同', struct: '清单体',   angle: '「学院风男孩」精准定位 + 高校受众',
+          reusable: ['身份标签「学院风男孩」', '场景「校园」', 'emoji 营造书卷气'] },
+        { title: '黑色穿出高级感的 5 个细节',                 creator: '月隐衣社', emoji: '🖤', cover: 5, likes: 19.6, collects: 14.8, comments: 3.6,
+          hook: '痛点直击', struct: '清单体',   angle: '直击「黑色显廉价」隐性痛点,提出 5 个细节解决',
+          reusable: ['色彩痛点「黑色」', '数字 + 关键词「5 个细节」', '抽象词「高级感」具体化'] },
+        { title: '这件衬衫被姐妹追问 3 个月链接',             creator: '阿茉穿搭日记', emoji: '👚', cover: 0, likes: 22.8, collects: 16.4, comments: 4.2,
+          hook: '社会证明', struct: '故事流',   angle: '「3 个月追问」具体时间证明商品力',
+          reusable: ['具体时间「3 个月」', '社会证明「姐妹追问」', '日常单品聚焦'] },
+        { title: '❗ 千金风穿搭翻车了!这些雷区千万别踩',     creator: '阿茉穿搭日记', emoji: '⚠️', cover: 1, likes: 28.4, collects: 22.2, comments: 6.8,
+          hook: '反共识',   struct: '清单体',   angle: '「翻车」反共识开头 + 「雷区」工具属性',
+          reusable: ['emoji ❗强化避雷', '反共识「翻车」', '风格词「千金风」'] },
+      ],
+
+      '美妆个护': [
+        { title: '油皮女生 30 天打卡:早C晚A 真的有效 ✨',     creator: '成分学姐', emoji: '✨', cover: 0, likes: 32.4, collects: 26.6, comments: 6.8,
+          hook: '数据冲击', struct: '故事流',   angle: '「30 天 + 早C晚A 真的有效」打卡叙事增强信任',
+          reusable: ['时间承诺「30 天」', '热词「早C晚A」', '打卡体降低门槛'] },
+        { title: '烟酰胺 5% 用满一年的真实皮肤变化',          creator: '阿露皮研所', emoji: '🧪', cover: 1, likes: 28.2, collects: 24.4, comments: 5.4,
+          hook: '数据冲击', struct: '故事流',   angle: '「5%」「一年」具体数字 + 「真实」信任锚点',
+          reusable: ['成分浓度数字', '时间长度「一年」', '「真实」反 KOL 包装'] },
+        { title: '这只口红被姐妹要链接 20 次 💋',             creator: '颜值小白鼠', emoji: '💋', cover: 2, likes: 24.8, collects: 18.2, comments: 4.6,
+          hook: '社会证明', struct: '故事流',   angle: '「20 次」社会证明数字 + emoji 强化彩妆氛围',
+          reusable: ['社会证明次数', 'emoji 彩妆属性', '场景化「姐妹」'] },
+        { title: '化妆桌断舍离!我留下的 10 件好物',          creator: '阿杏的化妆桌', emoji: '🗑️', cover: 3, likes: 18.6, collects: 14.8, comments: 3.4,
+          hook: '故事',     struct: '清单体',   angle: '「断舍离」热词 + 「10 件」筛选感强',
+          reusable: ['热词「断舍离」', '数字「10 件」', '过滤价值感'] },
+        { title: '油皮控油不踩雷:5 款平价精华测评',          creator: '阿露皮研所', emoji: '💧', cover: 4, likes: 26.4, collects: 22.6, comments: 4.8,
+          hook: '痛点直击', struct: '对比测评', angle: '直击「油皮控油 + 不踩雷」双重痛点 + 测评工具属性',
+          reusable: ['肤质标签「油皮」', '价格定位「平价」', '测评体工具属性'] },
+        { title: '❗ 千万别用!这 5 个网红美妆我血亏 1 万',   creator: '颜值小白鼠', emoji: '💸', cover: 5, likes: 38.2, collects: 26.4, comments: 8.6,
+          hook: '反共识',   struct: '清单体',   angle: '「血亏 1 万」具体数字 + 反共识警示',
+          reusable: ['emoji ❗高警示', '具体损失数字「1 万」', '反共识破滤镜'] },
+        { title: '男生护肤入门:5 件搞定全套护肤',            creator: '男士护肤探员', emoji: '👨', cover: 0, likes: 14.6, collects: 12.4, comments: 2.4,
+          hook: '痛点直击', struct: '教程体',   angle: '「男生护肤入门」精准定位 + 「5 件搞定」效率',
+          reusable: ['性别定位「男生」', '入门门槛降低', '数字 5 件清单'] },
+        { title: '美白急救:大事件前 7 天护肤打卡',           creator: '笙笙的护肤日记', emoji: '🌟', cover: 1, likes: 19.8, collects: 16.2, comments: 3.6,
+          hook: '场景化',   struct: '故事流',   angle: '「大事件前」具体场景,「7 天」时间承诺',
+          reusable: ['场景化触发「大事件」', '时间承诺「7 天」', '功效词「美白急救」'] },
+        { title: '法式约会妆容详细教程 ✨',                   creator: '韩研社姐姐', emoji: '✨', cover: 2, likes: 22.4, collects: 19.6, comments: 4.2,
+          hook: '场景化',   struct: '教程体',   angle: '「法式 + 约会」具体场景 + 「详细教程」工具属性',
+          reusable: ['风格词「法式」', '场景化「约会」', 'emoji 营造氛围'] },
+        { title: '化妆台上越贵越好?平价 vs 大牌真实对比',    creator: '颜值小白鼠', emoji: '⚖️', cover: 3, likes: 28.4, collects: 24.8, comments: 5.8,
+          hook: '反共识',   struct: '对比测评', angle: '「越贵越好?」反问反共识 + 「真实对比」信任',
+          reusable: ['反问开头', '价格对比维度', '「真实」反 KOL'] },
+        { title: '油皮姐妹的命:这只散粉用了 5 年',           creator: '油皮日记本', emoji: '💧', cover: 4, likes: 24.6, collects: 18.4, comments: 4.4,
+          hook: '身份认同', struct: '故事流',   angle: '「油皮姐妹的命」情感锚点 + 「5 年」时间证明',
+          reusable: ['身份标签「油皮姐妹」', '时间长度「5 年」', '情感词「命」'] },
+        { title: '黑皮女生也能驾驭的 5 个色彩',               creator: '染色师阿杞', emoji: '🎨', cover: 5, likes: 16.2, collects: 13.6, comments: 2.8,
+          hook: '反共识',   struct: '清单体',   angle: '「黑皮女生」非主流定位 + 反共识价值',
+          reusable: ['少数人群定位', '反共识承诺', '色彩科学专业感'] },
+        { title: '早八妆 5 分钟搞定不脱妆',                   creator: '笙笙的护肤日记', emoji: '⏰', cover: 0, likes: 21.4, collects: 18.2, comments: 3.8,
+          hook: '痛点直击', struct: '教程体',   angle: '「早八 + 5 分钟 + 不脱妆」三个上班族痛点叠加',
+          reusable: ['场景化「早八」', '时间效率「5 分钟」', '功效承诺「不脱妆」'] },
+        { title: '抗老精华盲选 8 款,只有这 2 款真的好',      creator: '抗老研究员阿M', emoji: '⏳', cover: 1, likes: 26.8, collects: 22.4, comments: 5.2,
+          hook: '数据冲击', struct: '对比测评', angle: '「盲选 8 款」数据厚度 + 「2 款真的好」结论稀缺',
+          reusable: ['数字「8 → 2」筛选', '「盲选」反广告', '稀缺感'] },
+        { title: '香水入门:5 种香调一篇搞懂',                creator: '香水猎人', emoji: '🌹', cover: 2, likes: 18.2, collects: 16.8, comments: 3.2,
+          hook: '痛点直击', struct: '教程体',   angle: '「入门 + 一篇搞懂」工具属性强,降低门槛',
+          reusable: ['入门标签', '「一篇搞懂」承诺', '专业词「香调」'] },
+        { title: '韩系裸妆 vs 欧美浓妆,你 pick 哪个 💄',    creator: '韩研社姐姐', emoji: '💄', cover: 3, likes: 25.4, collects: 18.6, comments: 5.6,
+          hook: '对比',     struct: '对比测评', angle: '「你 pick 哪个」互动式 + 风格二元对比',
+          reusable: ['互动式提问', '二元风格对比', 'emoji 强化彩妆'] },
+        { title: '男士护肤 4 件套,我老公用了变化最大的是',   creator: '男士护肤探员', emoji: '🕵️', cover: 4, likes: 17.4, collects: 14.2, comments: 2.8,
+          hook: '悬念',     struct: '故事流',   angle: '「我老公用了」具体人物 + 「最大的是」悬念',
+          reusable: ['第三人物视角「老公」', '悬念结尾', '具体数字「4 件套」'] },
+        { title: '干皮姐妹的急救面霜 Top 5',                  creator: '雪域美研', emoji: '❄️', cover: 5, likes: 16.4, collects: 13.8, comments: 2.6,
+          hook: '身份认同', struct: '清单体',   angle: '「干皮姐妹」精准 + 「急救」紧迫场景',
+          reusable: ['身份标签', '紧迫感「急救」', 'Top N 清单'] },
+        { title: '痘肌姐妹千万别用!这些「平价"成分有雷',   creator: '配方手记', emoji: '⚠️', cover: 0, likes: 20.4, collects: 18.6, comments: 4.8,
+          hook: '反共识',   struct: '清单体',   angle: '「痘肌姐妹」精准 + 「平价雷」反共识',
+          reusable: ['emoji ⚠️警示', '肤质标签', '反共识破信任'] },
+        { title: '✨ 雾感唇妆教程,显白显气色',                creator: '韩研社姐姐', emoji: '💋', cover: 1, likes: 19.2, collects: 16.4, comments: 3.4,
+          hook: '痛点直击', struct: '教程体',   angle: '「雾感 + 显白 + 显气色」三个彩妆诉求叠加',
+          reusable: ['风格词「雾感」', '功效词「显白显气色」', '教程体工具属性'] },
+      ],
+
+      '食品饮料': [
+        { title: '❗ 潮汕牛肉丸到底真假?我去当地考察了一周',  creator: '潮汕食事', emoji: '🥟', cover: 0, likes: 38.6, collects: 26.4, comments: 8.2,
+          hook: '反共识',   struct: '故事流',   angle: '「真假?」反共识疑问 + 「考察一周」体验信任',
+          reusable: ['emoji ❗ + 反问', '亲身体验时间「一周」', '产业带绑定「潮汕」'] },
+        { title: '五常稻花香米 2024 新米开箱评测',           creator: '稻香小厨', emoji: '🌾', cover: 1, likes: 22.4, collects: 18.6, comments: 4.2,
+          hook: '数据冲击', struct: '对比测评', angle: '「2024 新米」时效性 + 「开箱评测」工具属性',
+          reusable: ['年份时效性', '「新米」热搜词', '开箱体降低决策门槛'] },
+        { title: '阳澄湖大闸蟹避坑指南,千万别买这种 🦐',     creator: '阿渔记', emoji: '🦐', cover: 2, likes: 32.8, collects: 26.2, comments: 6.4,
+          hook: '反共识',   struct: '清单体',   angle: '「避坑 + 千万别买」反共识警示',
+          reusable: ['emoji 🦐符号', '避坑工具属性', '产业带绑定「阳澄湖」'] },
+        { title: '这碗螺蛳粉我从夏天吃到冬天',                creator: '阿芸的厨房', emoji: '🍜', cover: 3, likes: 14.2, collects: 10.6, comments: 2.4,
+          hook: '故事',     struct: '故事流',   angle: '「夏天 → 冬天」时间跨度暗示持续好评',
+          reusable: ['时间跨度叙事', '第一人称体验', '具体食物'] },
+        { title: '减肥也能吃!低卡轻食 7 天打卡日记',         creator: '低卡轻食日记', emoji: '🥗', cover: 4, likes: 26.4, collects: 22.8, comments: 4.6,
+          hook: '反共识',   struct: '故事流',   angle: '「减肥也能吃」反共识 + 「7 天打卡」执行性',
+          reusable: ['反共识开头「也能吃」', '时间承诺「7 天」', '打卡体降低门槛'] },
+        { title: '安溪铁观音入门 · 一篇看懂 4 种香型 🍵',     creator: '阿森的茶桌', emoji: '🍵', cover: 5, likes: 16.8, collects: 14.6, comments: 2.8,
+          hook: '痛点直击', struct: '教程体',   angle: '「入门 + 一篇看懂」工具属性 + 「4 种香型」数据',
+          reusable: ['入门门槛', '专业词「香型」', '数字「4 种」'] },
+        { title: '月薪 5k 的打工人午餐攻略 · 20 元搞定一周',  creator: '低卡轻食日记', emoji: '💼', cover: 0, likes: 28.6, collects: 22.4, comments: 5.2,
+          hook: '反差对比', struct: '清单体',   angle: '「月薪 5k + 20 元」具体经济条件 + 「一周」时间',
+          reusable: ['收入水平绑定「5k」', '价格锚点「20 元」', '时间维度「一周」'] },
+        { title: '武夷岩茶的茶水比这样调最好喝',              creator: '武夷茶人小满', emoji: '🍂', cover: 1, likes: 12.6, collects: 11.4, comments: 2.2,
+          hook: '痛点直击', struct: '教程体',   angle: '「茶水比」专业细节 + 「最好喝」结论强',
+          reusable: ['专业细节「茶水比」', '结论强承诺', '产地绑定「武夷岩茶」'] },
+        { title: '平价奶茶 vs 大牌奶茶,真实成本对比',       creator: '地方零食侦探', emoji: '🧋', cover: 2, likes: 22.4, collects: 16.8, comments: 4.6,
+          hook: '反共识',   struct: '对比测评', angle: '「真实成本对比」反广告 + 价格反共识',
+          reusable: ['二元对比结构', '「真实」反广告', '日常品类「奶茶」'] },
+        { title: '一个人在家做大闸蟹的 3 个小细节',           creator: '阿芸的厨房', emoji: '🦀', cover: 3, likes: 18.6, collects: 16.4, comments: 3.2,
+          hook: '痛点直击', struct: '教程体',   angle: '「一个人 + 在家」场景化 + 「3 个小细节」教程',
+          reusable: ['场景化「一个人」', '教程数字「3 个细节」', '具体食材绑定'] },
+        { title: '✨ 这个潮汕老字号牛肉店,我连吃了 5 天',     creator: '巷尾老味道', emoji: '🥟', cover: 4, likes: 24.8, collects: 18.6, comments: 4.4,
+          hook: '故事',     struct: '故事流',   angle: '「连吃 5 天」具体行为证明,「老字号」信任锚',
+          reusable: ['emoji ✨提升情绪', '具体次数「5 天」', '老字号信任'] },
+        { title: '烘焙小白的第一个戚风蛋糕教程',              creator: '阿芸的厨房', emoji: '🎂', cover: 5, likes: 16.4, collects: 14.8, comments: 2.6,
+          hook: '身份认同', struct: '教程体',   angle: '「烘焙小白」身份定位 + 「第一个」可达成感',
+          reusable: ['身份「小白」', '「第一个」承诺简单', '教程门槛低'] },
+        { title: '五常米和东北普通米,真实差距在哪里?',       creator: '稻香小厨', emoji: '⚖️', cover: 0, likes: 19.8, collects: 16.6, comments: 3.8,
+          hook: '反共识',   struct: '对比测评', angle: '「真实差距」反广告 + 同品类对比',
+          reusable: ['「真实」反广告', '专业对比维度', '产业带绑定'] },
+        { title: '减脂期可以吃的 5 种零食推荐',               creator: '低卡轻食日记', emoji: '🥨', cover: 1, likes: 22.6, collects: 19.4, comments: 4.2,
+          hook: '反共识',   struct: '清单体',   angle: '「减脂期可以吃」反共识 + 5 种数字',
+          reusable: ['场景化「减脂期」', '反共识价值', '清单 + 数字'] },
+        { title: '一人食 · 30 分钟搞定的家常菜 5 道',          creator: '稻香小厨', emoji: '🍳', cover: 2, likes: 19.2, collects: 17.4, comments: 3.4,
+          hook: '痛点直击', struct: '清单体',   angle: '「一人食 + 30 分钟」上班族痛点叠加',
+          reusable: ['场景标签「一人食」', '时间效率「30 分钟」', '数字「5 道」'] },
+        { title: '❗ 这些「网红零食」真的踩雷!',             creator: '地方零食侦探', emoji: '⚠️', cover: 3, likes: 26.4, collects: 18.2, comments: 5.8,
+          hook: '反共识',   struct: '清单体',   angle: '「网红 + 真的踩雷」反共识破除滤镜',
+          reusable: ['emoji ❗警示', '反共识「网红」', '「真的」加强可信'] },
+        { title: '茶叶礼盒选购指南,别再被坑 🍵',              creator: '茶舍三两', emoji: '🍵', cover: 4, likes: 14.6, collects: 12.4, comments: 2.4,
+          hook: '痛点直击', struct: '教程体',   angle: '「选购指南 + 别再被坑」工具 + 反共识',
+          reusable: ['工具属性「选购指南」', '反共识「被坑」', '场景「礼盒」'] },
+        { title: '自制酸奶 + 燕麦,一周早餐不重样',           creator: '阿芸的厨房', emoji: '🥣', cover: 5, likes: 17.8, collects: 15.6, comments: 3.2,
+          hook: '场景化',   struct: '清单体',   angle: '「自制 + 一周不重样」执行性强',
+          reusable: ['场景「早餐」', '时间「一周」', '「自制」健康标签'] },
+        { title: '阳澄湖蟹农老周告诉你怎么挑蟹',              creator: '蟹季笔记', emoji: '🦀', cover: 0, likes: 21.4, collects: 18.2, comments: 4.4,
+          hook: '身份认同', struct: '教程体',   angle: '「蟹农老周」专业身份 + 「告诉你」工具属性',
+          reusable: ['专业身份「蟹农」', '人物名「老周」', '产业带「阳澄湖」'] },
+        { title: '潮汕粿条 vs 沙茶面,你 pick 哪个',           creator: '潮汕食事', emoji: '🍜', cover: 1, likes: 18.4, collects: 14.2, comments: 4.6,
+          hook: '对比',     struct: '对比测评', angle: '地方美食二元对比 + 「你 pick 哪个」互动',
+          reusable: ['二元对比', '互动式提问', '地方美食绑定'] },
+      ],
+
+      '家居生活': [
+        { title: '30㎡ 一人居改造,花了 5000 元焕然一新 ✨',   creator: '小满的家', emoji: '✨', cover: 0, likes: 38.2, collects: 32.4, comments: 7.8,
+          hook: '数据冲击', struct: '故事流',   angle: '「30㎡ + 5000 元」具体数字 + 「焕然一新」承诺',
+          reusable: ['面积数字', '预算锚点', 'emoji 强化氛围'] },
+        { title: '这套新中式餐具我用了 3 个月,真心推荐',     creator: '栖野居物志', emoji: '🍽️', cover: 1, likes: 22.6, collects: 18.4, comments: 4.2,
+          hook: '故事',     struct: '故事流',   angle: '「用了 3 个月」时间证明 + 「真心」反广告',
+          reusable: ['时间长度「3 个月」', '「真心」反 KOL', '风格词「新中式」'] },
+        { title: '侘寂风家居避坑指南:这 5 件别买',           creator: '侘寂工房', emoji: '🪨', cover: 2, likes: 26.4, collects: 22.8, comments: 5.4,
+          hook: '反共识',   struct: '清单体',   angle: '「避坑 + 别买」反共识警示',
+          reusable: ['避坑工具', '风格词「侘寂」', '反共识负向价值'] },
+        { title: '景德镇手作瓷器真假鉴别 · 一篇看懂 🏺',      creator: '景德镇巡瓷记', emoji: '🏺', cover: 3, likes: 24.8, collects: 21.6, comments: 4.6,
+          hook: '痛点直击', struct: '教程体',   angle: '「真假鉴别 + 一篇看懂」工具属性强',
+          reusable: ['专业话题「真假鉴别」', '「一篇看懂」承诺', '产业带绑定「景德镇」'] },
+        { title: '露营风家居 5 件单品,客厅瞬间度假感',       creator: '露营家纪事', emoji: '⛺', cover: 4, likes: 19.4, collects: 16.8, comments: 3.4,
+          hook: '场景化',   struct: '清单体',   angle: '「5 件 + 瞬间度假感」效率承诺',
+          reusable: ['数字「5 件」', '「瞬间」即时性', '场景「客厅 + 度假」'] },
+        { title: '我家这盏灯换了之后,氛围感拉满',             creator: '灯具研究员', emoji: '💡', cover: 5, likes: 17.6, collects: 14.2, comments: 2.8,
+          hook: '故事',     struct: '故事流',   angle: '「换了之后 + 氛围感拉满」前后对比',
+          reusable: ['「之后」前后对比', '热词「氛围感」', '单品聚焦「灯」'] },
+        { title: '❗ 别学网红!这些「极简」家居其实不实用',   creator: '小满的家', emoji: '⚠️', cover: 0, likes: 28.4, collects: 22.4, comments: 6.2,
+          hook: '反共识',   struct: '清单体',   angle: '「别学网红 + 不实用」反共识破滤镜',
+          reusable: ['emoji ❗', '反共识破网红', '加引号「极简」反讽'] },
+        { title: '棉麻床品 vs 全棉床品,睡感真实对比 🛏️',     creator: '阿瑜的家纺', emoji: '🛏️', cover: 1, likes: 16.4, collects: 14.6, comments: 2.4,
+          hook: '对比',     struct: '对比测评', angle: '同类对比 + 「真实」反广告',
+          reusable: ['二元对比维度', '「真实」反 KOL', '具体感受「睡感」'] },
+        { title: '学生党 100 元 DIY 改造出租屋',              creator: '一人居士', emoji: '🎓', cover: 2, likes: 24.2, collects: 22.6, comments: 4.8,
+          hook: '反差对比', struct: '清单体',   angle: '「学生党 + 100 元」具体经济 + 「DIY 改造」执行性',
+          reusable: ['身份「学生党」', '低预算「100 元」', '场景「出租屋」'] },
+        { title: '法式古典家居灵感图,30 张高清美图收藏',     creator: '小满的家', emoji: '🇫🇷', cover: 3, likes: 28.6, collects: 26.4, comments: 5.2,
+          hook: '数据冲击', struct: '清单体',   angle: '「30 张高清」具体数字 + 「收藏」高价值感',
+          reusable: ['数字「30 张」', 'emoji 强化法式', '「收藏」高价值'] },
+        { title: '北欧极简家居 vs 日式 MUJI 风,你 pick 哪个', creator: '小满的家', emoji: '🏡', cover: 4, likes: 21.4, collects: 17.8, comments: 4.4,
+          hook: '对比',     struct: '对比测评', angle: '同类风格对比 + 互动式提问',
+          reusable: ['二元风格对比', '互动式提问', '风格标签强'] },
+        { title: '✨ 香薰蜡烛入门 · 5 个调香小知识',          creator: '木野生活记', emoji: '🕯️', cover: 5, likes: 17.8, collects: 15.2, comments: 2.8,
+          hook: '痛点直击', struct: '教程体',   angle: '「入门 + 5 个小知识」入门门槛低',
+          reusable: ['入门标签', 'emoji 强化氛围', '专业词「调香」'] },
+        { title: '黄铜灯具搭配指南,瞬间提升家居档次',         creator: '灯具研究员', emoji: '💡', cover: 0, likes: 18.4, collects: 16.6, comments: 3.2,
+          hook: '场景化',   struct: '教程体',   angle: '「搭配指南 + 瞬间提升」工具 + 即时承诺',
+          reusable: ['品类「黄铜灯具」', '「瞬间」即时性', '搭配指南工具属性'] },
+        { title: '5000 元改造小客厅前后对比 · 真实预算',     creator: '一人居士', emoji: '🛋️', cover: 1, likes: 26.8, collects: 22.4, comments: 5.2,
+          hook: '数据冲击', struct: '对比测评', angle: '「5000 元」预算锚点 + 「真实」反广告',
+          reusable: ['预算锚点', '「前后对比」', '「真实预算」反广告'] },
+        { title: '一缕苎麻床品的真实体验,值不值得买',         creator: '阿瑜的家纺', emoji: '🪡', cover: 2, likes: 14.4, collects: 12.6, comments: 2.6,
+          hook: '反共识',   struct: '故事流',   angle: '「值不值得买」反广告疑问 + 「真实体验」信任',
+          reusable: ['疑问式「值不值得」', '「真实」反 KOL', '品类绑定「苎麻」'] },
+        { title: '❗ 别再买!这些家具甲醛超标实测',           creator: '小满的家', emoji: '⚠️', cover: 3, likes: 32.4, collects: 26.6, comments: 7.4,
+          hook: '反共识',   struct: '清单体',   angle: '「别再买 + 甲醛超标」反共识警示 + 健康话题',
+          reusable: ['emoji ❗', '健康话题「甲醛」', '「实测」信任'] },
+        { title: '一个人住的卧室,我布置了 3 个月',            creator: '一人居士', emoji: '🛏️', cover: 4, likes: 18.6, collects: 16.2, comments: 3.4,
+          hook: '故事',     struct: '故事流',   angle: '「一个人 + 3 个月」时间投入暗示精细',
+          reusable: ['场景「一人居」', '时间投入「3 个月」', '日记体'] },
+        { title: '景德镇陶瓷工坊探店 · 现场买更便宜?',       creator: '景德镇巡瓷记', emoji: '🏺', cover: 5, likes: 19.4, collects: 17.6, comments: 3.8,
+          hook: '悬念',     struct: '故事流',   angle: '「现场买更便宜?」反问悬念',
+          reusable: ['反问悬念', '产业带「景德镇」', '探店体'] },
+        { title: '极简家居入门 · 第一件该买的是这个',         creator: '小满的家', emoji: '✨', cover: 0, likes: 16.4, collects: 14.2, comments: 2.6,
+          hook: '悬念',     struct: '清单体',   angle: '「第一件该买的是这个」悬念结构',
+          reusable: ['悬念式标题', '入门标签', '风格词「极简」'] },
+        { title: '户外露营家具搬回家,意外好用',               creator: '露营家纪事', emoji: '⛺', cover: 1, likes: 14.2, collects: 12.4, comments: 2.4,
+          hook: '反共识',   struct: '故事流',   angle: '「搬回家 + 意外好用」反共识反差',
+          reusable: ['场景跨界「户外 → 家」', '「意外」反差', '生活方式'] },
+      ],
+
+      '数码3C': [
+        { title: '桌搭新手必看:5 件单品搭出极致美学 ✨',     creator: '桌物笔记', emoji: '✨', cover: 0, likes: 36.4, collects: 32.2, comments: 7.4,
+          hook: '身份认同', struct: '清单体',   angle: '「新手 + 必看 + 极致美学」入门 + 高承诺',
+          reusable: ['身份「新手」', '强承诺「必看」', '数字「5 件」'] },
+        { title: '❗ 这 5 款机械键盘真的难用!别再买',        creator: '键盘修行人', emoji: '⌨️', cover: 1, likes: 26.8, collects: 21.4, comments: 5.6,
+          hook: '反共识',   struct: '清单体',   angle: '「真的难用」反共识 + 「别再买」警示',
+          reusable: ['emoji ❗', '反共识「难用」', '数字「5 款」'] },
+        { title: '复古胶片相机入门:1000 元起步指南 📷',      creator: '拾光数码', emoji: '📷', cover: 2, likes: 24.2, collects: 21.6, comments: 4.4,
+          hook: '痛点直击', struct: '教程体',   angle: '「入门 + 1000 元起步」入门门槛 + 价格锚点',
+          reusable: ['入门标签', '价格锚点', 'emoji 强化氛围'] },
+        { title: '智能家居整屋方案 · 我花了 3 万改造全屋',    creator: '极客阿源', emoji: '🏠', cover: 3, likes: 32.4, collects: 28.4, comments: 6.4,
+          hook: '数据冲击', struct: '故事流',   angle: '「3 万」具体投入 + 「整屋方案」高客单',
+          reusable: ['具体预算「3 万」', '「全屋」高完整度', '场景化'] },
+        { title: '平价 vs 高端耳机,音质差距究竟有多大?',    creator: '声学小研', emoji: '🎧', cover: 4, likes: 28.6, collects: 22.8, comments: 5.8,
+          hook: '反共识',   struct: '对比测评', angle: '「音质差距究竟有多大?」反共识疑问',
+          reusable: ['二元对比', '反问悬念', '专业话题「音质」'] },
+        { title: '桌面美学改造前后对比,氛围感拉满',           creator: '桌面进化论', emoji: '🖥️', cover: 5, likes: 22.4, collects: 19.6, comments: 4.2,
+          hook: '故事',     struct: '故事流',   angle: '「前后对比 + 氛围感拉满」承诺强',
+          reusable: ['「前后对比」', '热词「氛围感」', '「拉满」强承诺'] },
+        { title: '这只显示器我用了 1 年,真实使用感受',       creator: '桌物笔记', emoji: '🖥️', cover: 0, likes: 18.4, collects: 15.6, comments: 3.2,
+          hook: '故事',     struct: '故事流',   angle: '「1 年 + 真实使用」时间 + 信任承诺',
+          reusable: ['时间长度「1 年」', '「真实」反广告', '单品聚焦「显示器」'] },
+        { title: 'iPad 配件清单:这 5 件真的好用',            creator: '数码极简主义', emoji: '📱', cover: 1, likes: 21.6, collects: 18.4, comments: 3.6,
+          hook: '痛点直击', struct: '清单体',   angle: '「真的好用」反广告 + 5 件数字',
+          reusable: ['品类绑定「iPad 配件」', '「真的」反 KOL', '数字「5 件」'] },
+        { title: '✨ 极客桌面 30 张高清图,收藏不亏',          creator: '桌物笔记', emoji: '✨', cover: 2, likes: 28.4, collects: 26.6, comments: 5.4,
+          hook: '数据冲击', struct: '清单体',   angle: '「30 张高清 + 收藏不亏」高价值承诺',
+          reusable: ['数字「30 张」', 'emoji ✨', '「收藏不亏」'] },
+        { title: '男生桌面 vs 女生桌面,差距究竟在哪?',      creator: '桌面进化论', emoji: '👥', cover: 3, likes: 24.2, collects: 18.6, comments: 5.2,
+          hook: '对比',     struct: '对比测评', angle: '性别对比 + 「差距究竟在哪?」反问',
+          reusable: ['性别对比', '反问悬念', '社交话题性'] },
+        { title: '❗ 复古数码踩雷:这些「老物件」别买',       creator: '拾光数码', emoji: '⚠️', cover: 4, likes: 22.6, collects: 18.4, comments: 4.8,
+          hook: '反共识',   struct: '清单体',   angle: '「踩雷 + 别买」反共识警示 + 「老物件」反讽',
+          reusable: ['emoji ❗', '反共识「踩雷」', '加引号反讽'] },
+        { title: '1500 元打造性价比桌搭 · 学生党看过来',     creator: '阿星的桌面', emoji: '💰', cover: 5, likes: 26.4, collects: 22.8, comments: 5.6,
+          hook: '反差对比', struct: '清单体',   angle: '「1500 元 + 性价比 + 学生党」精准价格 + 人群',
+          reusable: ['价格锚点「1500 元」', '身份「学生党」', '关键词「性价比」'] },
+        { title: '机械键盘 DIY 入门 · 一篇看懂选轴',          creator: '键盘修行人', emoji: '⌨️', cover: 0, likes: 17.4, collects: 15.8, comments: 2.6,
+          hook: '痛点直击', struct: '教程体',   angle: '「DIY 入门 + 一篇看懂」入门 + 工具属性',
+          reusable: ['入门标签', '专业话题「选轴」', '工具承诺'] },
+        { title: '智能家居真实使用 1 年后,我后悔的 3 件事',  creator: '智能整屋研究室', emoji: '🏠', cover: 1, likes: 32.6, collects: 28.4, comments: 7.2,
+          hook: '反共识',   struct: '故事流',   angle: '「1 年后我后悔」反广告 + 具体「3 件事」',
+          reusable: ['时间长度「1 年」', '反 KOL「后悔」', '数字「3 件事」'] },
+        { title: '桌面充电整理:这 3 个小工具救了我',         creator: '阿星的桌面', emoji: '🔌', cover: 2, likes: 16.4, collects: 14.6, comments: 2.4,
+          hook: '痛点直击', struct: '清单体',   angle: '「救了我」情绪 + 「3 个小工具」具体',
+          reusable: ['情绪化「救了我」', '数字「3 个」', '具体痛点「充电整理」'] },
+        { title: '复古相机 vs 数码相机,新手到底买哪个 📷',  creator: '复古胶片日记', emoji: '📷', cover: 3, likes: 21.8, collects: 18.6, comments: 4.6,
+          hook: '对比',     struct: '对比测评', angle: '二元对比 + 「新手到底买哪个」入门视角',
+          reusable: ['二元对比', '身份「新手」', '互动式问句'] },
+        { title: '极简数码桌:我只留了 5 件',                  creator: '数码极简主义', emoji: '✨', cover: 4, likes: 19.4, collects: 17.6, comments: 3.4,
+          hook: '反差对比', struct: '清单体',   angle: '「只留了 5 件」断舍离感强',
+          reusable: ['「只留了」反差', '数字「5 件」', '风格词「极简」'] },
+        { title: '❗ Hi-Fi 入门 5000 元怎么选?避坑指南',     creator: 'HiFi 老炮', emoji: '🎵', cover: 5, likes: 18.6, collects: 16.4, comments: 3.8,
+          hook: '痛点直击', struct: '教程体',   angle: '「入门 + 5000 元 + 避坑」三重锚点',
+          reusable: ['emoji ❗', '价格锚点「5000 元」', '入门 + 避坑'] },
+        { title: '桌搭灯光氛围:这 3 种搭配最显高级',         creator: '极客桌面', emoji: '💡', cover: 0, likes: 17.8, collects: 15.4, comments: 3.2,
+          hook: '痛点直击', struct: '清单体',   angle: '「最显高级」承诺 + 「3 种」具体数字',
+          reusable: ['热词「氛围」', '数字「3 种」', '抽象词「高级」'] },
+        { title: '复古影像所探店 · 拍照氛围感拉满',           creator: '复古影像所', emoji: '🎞️', cover: 1, likes: 20.4, collects: 17.2, comments: 4.4,
+          hook: '场景化',   struct: '故事流',   angle: '「探店 + 氛围感拉满」场景 + 强承诺',
+          reusable: ['场景「探店」', '热词「氛围感」', '「拉满」'] },
+      ],
+    };
+
+    /* ============================================================
+       TOPIC_TEMPLATES —— 5 品类 × 5 个差异化角度 = 25 个选题
+         5 个角度固定:痛点直击 / 场景沉浸 / 数据测评 / 反差对比 / 故事讲述
+       ============================================================ */
+    const TOPIC_TEMPLATES = {
+      '服饰穿搭': {
+        placeholder: '潮汕手工银饰新中式项链',
+        topics: [
+          { angle: '痛点直击型', title: '搭白 T 也撑场!潮汕手工银饰让基础款瞬间高级', hook: '反共识',   suitable: '腰部' },
+          { angle: '场景沉浸型', title: '新中式约会戴这条银饰,他多看了我 3 眼', hook: '故事',     suitable: '腰部 / 尾部' },
+          { angle: '数据测评型', title: '试戴 10 条新中式项链后,这条性价比 NO.1', hook: '数据冲击', suitable: 'KOL / 腰部' },
+          { angle: '反差对比型', title: '快时尚项链 vs 潮汕手工银饰,价差 5 倍但...', hook: '反差对比', suitable: 'KOL' },
+          { angle: '故事讲述型', title: '潮汕老银匠的女儿告诉我:好银饰得这样选', hook: '故事',     suitable: '尾部' },
+        ],
+      },
+      '美妆个护': {
+        placeholder: '含 5% 烟酰胺的油皮控油精华',
+        topics: [
+          { angle: '痛点直击型', title: '油皮姐妹必看!这只精华让我夏天告别油田', hook: '痛点直击', suitable: '腰部' },
+          { angle: '场景沉浸型', title: '早八通勤前 30 秒,这只精华救了我的脸', hook: '场景化',   suitable: '腰部' },
+          { angle: '数据测评型', title: '5% 烟酰胺 30 天打卡:皮肤变化全记录', hook: '数据冲击', suitable: 'KOL' },
+          { angle: '反差对比型', title: '大牌烟酰胺 vs 这只平价精华,真实差距让我惊到', hook: '反差对比', suitable: 'KOL / 腰部' },
+          { angle: '故事讲述型', title: '我用 5% 烟酰胺 1 年了,皮肤医生说...',   hook: '故事',     suitable: '腰部 / 尾部' },
+        ],
+      },
+      '食品饮料': {
+        placeholder: '五常稻花香米 2024 新米',
+        topics: [
+          { angle: '痛点直击型', title: '挑米踩雷 3 次后,我只买五常稻花香新米', hook: '反共识',   suitable: '腰部' },
+          { angle: '场景沉浸型', title: '一锅五常新米,让我妈给我打了 8 分', hook: '故事',     suitable: '腰部' },
+          { angle: '数据测评型', title: '五常米 vs 普通米,真实差距实测 7 项', hook: '数据冲击', suitable: 'KOL' },
+          { angle: '反差对比型', title: '同价位米对比 5 款,五常新米完胜 4 项指标', hook: '反差对比', suitable: 'KOL / 腰部' },
+          { angle: '故事讲述型', title: '五常米农老张:好米的秘密在这 3 个细节',   hook: '故事',     suitable: '腰部 / 尾部' },
+        ],
+      },
+      '家居生活': {
+        placeholder: '景德镇手工青花瓷餐具套装',
+        topics: [
+          { angle: '痛点直击型', title: '租房党也能用的高级餐具:景德镇青花瓷套装', hook: '痛点直击', suitable: '腰部' },
+          { angle: '场景沉浸型', title: '换上这套景德镇餐具后,我家餐桌变美了', hook: '场景化',   suitable: '腰部' },
+          { angle: '数据测评型', title: '景德镇 5 家工坊横评,这套青花瓷工艺最稳', hook: '数据冲击', suitable: 'KOL' },
+          { angle: '反差对比型', title: '宜家餐具 vs 景德镇手工青花瓷,差距不止价格', hook: '反差对比', suitable: 'KOL / 腰部' },
+          { angle: '故事讲述型', title: '景德镇老瓷匠的故事:一件好瓷得烧 30 道工序', hook: '故事',     suitable: '尾部' },
+        ],
+      },
+      '数码3C': {
+        placeholder: '复古胶片相机 + 桌搭灯组合',
+        topics: [
+          { angle: '痛点直击型', title: '桌面氛围感差?复古相机 + 桌搭灯一招搞定', hook: '痛点直击', suitable: '腰部' },
+          { angle: '场景沉浸型', title: '约会前在桌前拍照,这套组合让对方多看了 3 张', hook: '场景化',   suitable: '腰部' },
+          { angle: '数据测评型', title: '测评 5 种复古胶片相机 + 桌搭灯组合,这套审美最高', hook: '数据冲击', suitable: 'KOL' },
+          { angle: '反差对比型', title: '极简桌面 vs 复古桌面,氛围感差了 10 倍', hook: '反差对比', suitable: 'KOL / 腰部' },
+          { angle: '故事讲述型', title: '我用胶片相机记录桌前 1 年,这是 30 张精选',   hook: '故事',     suitable: '腰部 / 尾部' },
+        ],
+      },
+    };
+
+    /* ============================================================
+       CREATORS_DATA / HOT_NOTES / TOPIC_TEMPLATES 装配前置完成
+       ============================================================ */
+
     // 产业带 GMV 曲线生成(沿用品类形态、缩放到产业带量级、加种子小抖动)
     function genBeltGmvCurve(catCurve, beltGmv, seed) {
       const catSum = catCurve.reduce((a, b) => a + b, 0);
@@ -5128,6 +6185,9 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
         beltsSubtitle:     BELTS_SUBTITLES[cat],
         aiRecommendations: AI_RECOMMENDATIONS[cat] || [],
         merchants:         enrichedMerchants,
+        creators:          CREATORS_DATA[cat] || [],
+        hotNotes:          HOT_NOTES[cat] || [],
+        topicTemplate:     TOPIC_TEMPLATES[cat] || { placeholder: '', topics: [] },
       };
     });
 
@@ -7165,6 +8225,456 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
         sugUl.appendChild(li);
       });
     }
+
+    /* ============================================================
+       模块 5:达人 × 内容协同
+       ============================================================ */
+
+    // 筛选范围常量
+    const CR_TIER_FILTERS = [
+      { value: 'ALL',  label: '全部量级' },
+      { value: 'KOL',  label: '头部 KOL(100w+)' },
+      { value: '腰部', label: '腰部(10-100w)' },
+      { value: '尾部', label: '尾部(1-10w)' },
+    ];
+    const CR_ENGAGE_FILTERS = [
+      { value: 'ALL', label: '全部互动率' },
+      { value: 'H',   label: '高(8%+)' },
+      { value: 'M',   label: '中(3-8%)' },
+      { value: 'L',   label: '低(<3%)' },
+    ];
+    const CR_BIZ_FILTERS = [
+      { value: 'ALL', label: '全部商业产出' },
+      { value: 'H',   label: '高产(20+/月)' },
+      { value: 'M',   label: '中产(5-20/月)' },
+      { value: 'L',   label: '低产(<5/月)' },
+    ];
+
+    // state 加 creators 筛选
+    state.creators = { tier: 'ALL', engage: 'ALL', biz: 'ALL' };
+
+    function pillClass(tier) {
+      if (tier === 'KOL')  return 'pill-kol';
+      if (tier === '腰部') return 'pill-mid';
+      return 'pill-tail';
+    }
+
+    function tierShort(tier) {
+      if (tier === 'KOL') return '头部 KOL';
+      return tier;
+    }
+
+    function createCreatorCard(c) {
+      const card = document.createElement('div');
+      card.className = 'creator-card';
+
+      const head = document.createElement('div');
+      head.className = 'creator-head';
+
+      const avatar = document.createElement('span');
+      avatar.className = 'creator-avatar';
+      avatar.style.background = c.avatarBg;
+      avatar.textContent = c.emoji;
+
+      const name = document.createElement('span');
+      name.className = 'creator-name';
+      const nameText = document.createElement('span');
+      nameText.textContent = c.name;
+      const cert = document.createElement('span');
+      cert.className = 'creator-cert';
+      cert.textContent = '✓';
+      name.appendChild(nameText);
+      name.appendChild(cert);
+
+      const tierPill = document.createElement('span');
+      tierPill.className = 'creator-tier-pill ' + pillClass(c.tier);
+      tierPill.textContent = tierShort(c.tier);
+
+      head.appendChild(avatar);
+      head.appendChild(name);
+      head.appendChild(tierPill);
+
+      const tagline = document.createElement('div');
+      tagline.className = 'creator-tagline';
+      tagline.textContent = c.tagline;
+
+      const stats = document.createElement('div');
+      stats.className = 'creator-stats';
+      const mkS = (k, v, u) => {
+        const row = document.createElement('div');
+        row.className = 'creator-stat-row';
+        const ke = document.createElement('span');
+        ke.className = 'creator-stat-key';
+        ke.textContent = k;
+        const ve = document.createElement('span');
+        ve.className = 'creator-stat-val';
+        ve.textContent = v;
+        if (u) {
+          const ue = document.createElement('span');
+          ue.className = 'unit';
+          ue.textContent = u;
+          ve.appendChild(ue);
+        }
+        row.appendChild(ke);
+        row.appendChild(ve);
+        return row;
+      };
+      stats.appendChild(mkS('粉丝',     c.fans + '',                 '万'));
+      stats.appendChild(mkS('互动率',   c.engageRate.toFixed(1),     '%'));
+      stats.appendChild(mkS('商业笔记', c.bizNotes + '',             '/月'));
+      stats.appendChild(mkS('合作报价', '¥' + c.price.toLocaleString(), ''));
+
+      const tags = document.createElement('div');
+      tags.className = 'creator-tags';
+      c.tags.forEach(t => {
+        const tag = document.createElement('span');
+        tag.className = 'creator-tag';
+        tag.textContent = t;
+        tags.appendChild(tag);
+      });
+
+      const hit = document.createElement('div');
+      hit.className = 'creator-hit';
+      const hitLabel = document.createElement('span');
+      hitLabel.className = 'creator-hit-label';
+      hitLabel.textContent = '近期爆文:';
+      const hitTitle = document.createElement('span');
+      hitTitle.className = 'creator-hit-title';
+      hitTitle.textContent = c.recentHit;
+      hit.appendChild(hitLabel);
+      hit.appendChild(hitTitle);
+
+      card.appendChild(head);
+      card.appendChild(tagline);
+      card.appendChild(stats);
+      card.appendChild(tags);
+      card.appendChild(hit);
+      return card;
+    }
+
+    function matchEngageFilter(rate, f) {
+      if (f === 'ALL') return true;
+      if (f === 'H')   return rate >= 8;
+      if (f === 'M')   return rate >= 3 && rate < 8;
+      if (f === 'L')   return rate < 3;
+      return true;
+    }
+    function matchBizFilter(n, f) {
+      if (f === 'ALL') return true;
+      if (f === 'H')   return n >= 20;
+      if (f === 'M')   return n >= 5 && n < 20;
+      if (f === 'L')   return n < 5;
+      return true;
+    }
+
+    function renderCreatorsList() {
+      const cat = state.category;
+      const all = MOCK_DATA[cat].creators || [];
+      let list = [...all];
+      if (state.creators.tier !== 'ALL') list = list.filter(c => c.tier === state.creators.tier);
+      list = list.filter(c => matchEngageFilter(c.engageRate, state.creators.engage));
+      list = list.filter(c => matchBizFilter(c.bizNotes, state.creators.biz));
+
+      // 同步下拉
+      crTierDropdown.setItems(CR_TIER_FILTERS,   state.creators.tier);
+      crEngageDropdown.setItems(CR_ENGAGE_FILTERS, state.creators.engage);
+      crBizDropdown.setItems(CR_BIZ_FILTERS,     state.creators.biz);
+
+      document.getElementById('cr-count').textContent = list.length;
+
+      const listEl = document.getElementById('creators-list');
+      listEl.replaceChildren();
+      if (list.length === 0) {
+        const empty = document.createElement('div');
+        empty.style.cssText = 'padding:40px 12px;text-align:center;color:var(--text-3);font-size:13px';
+        empty.textContent = '当前筛选条件下没有达人,试试调整。';
+        listEl.appendChild(empty);
+        return;
+      }
+      list.forEach(c => listEl.appendChild(createCreatorCard(c)));
+    }
+
+    function createHotNoteCard(n, idx) {
+      const card = document.createElement('div');
+      card.className = 'hot-note-card';
+      card.onclick = () => openNotePanel(n);
+
+      const cover = document.createElement('div');
+      cover.className = 'hot-note-cover g' + (n.cover % 6);
+      cover.textContent = n.emoji;
+
+      const body = document.createElement('div');
+      body.className = 'hot-note-body';
+
+      const title = document.createElement('div');
+      title.className = 'hot-note-title';
+      title.textContent = n.title;
+
+      const meta = document.createElement('div');
+      meta.className = 'hot-note-meta';
+      const creator = document.createElement('span');
+      creator.className = 'hot-note-creator';
+      creator.textContent = '@' + n.creator;
+      const engage = document.createElement('span');
+      engage.className = 'hot-note-engage';
+      // 互动率近似 = (likes+collects+comments) / (likes*10) * 100, but simpler: derive from data
+      const engageRate = ((n.likes + n.collects + n.comments) / (n.likes * 12) * 100).toFixed(1);
+      engage.textContent = engageRate + '%';
+      meta.appendChild(creator);
+      meta.appendChild(engage);
+
+      const numbers = document.createElement('div');
+      numbers.className = 'hot-note-numbers';
+      const mkN = (label, val) => {
+        const span = document.createElement('span');
+        span.textContent = label + ' ';
+        const v = document.createElement('span');
+        v.className = 'hot-note-num-val';
+        v.textContent = val + ' 万';
+        span.appendChild(v);
+        return span;
+      };
+      numbers.appendChild(mkN('赞', n.likes));
+      numbers.appendChild(mkN('收', n.collects));
+
+      body.appendChild(title);
+      body.appendChild(meta);
+      body.appendChild(numbers);
+
+      card.appendChild(cover);
+      card.appendChild(body);
+      return card;
+    }
+
+    function renderHotNotes() {
+      const grid = document.getElementById('hot-notes-grid');
+      if (!grid) return;
+      grid.replaceChildren();
+      const notes = (MOCK_DATA[state.category].hotNotes || []).slice(0, 20);
+      notes.forEach((n, i) => grid.appendChild(createHotNoteCard(n, i)));
+    }
+
+    // 爆文 AI 拆解面板
+    function openNotePanel(n) {
+      const panel = document.getElementById('note-panel');
+      document.getElementById('note-panel-title').textContent = '《' + n.title + '》· AI 内容拆解';
+      const content = document.getElementById('note-panel-content');
+      content.replaceChildren();
+
+      // 数据区
+      const numWrap = document.createElement('div');
+      numWrap.className = 'note-breakdown-numbers';
+      const mkCell = (label, v, u) => {
+        const cell = document.createElement('div');
+        cell.className = 'note-breakdown-num-cell';
+        const l = document.createElement('div');
+        l.className = 'note-breakdown-num-label';
+        l.textContent = label;
+        const val = document.createElement('div');
+        val.className = 'note-breakdown-num-val';
+        val.textContent = v;
+        if (u) {
+          const ue = document.createElement('span');
+          ue.className = 'note-breakdown-num-unit';
+          ue.textContent = ' ' + u;
+          val.appendChild(ue);
+        }
+        cell.appendChild(l);
+        cell.appendChild(val);
+        return cell;
+      };
+      const engageRate = ((n.likes + n.collects + n.comments) / (n.likes * 12) * 100).toFixed(1);
+      numWrap.appendChild(mkCell('点赞',   n.likes,      '万'));
+      numWrap.appendChild(mkCell('收藏',   n.collects,   '万'));
+      numWrap.appendChild(mkCell('评论',   n.comments,   '万'));
+      numWrap.appendChild(mkCell('互动率', engageRate,   '%'));
+      content.appendChild(numWrap);
+
+      // 钩子 / 结构 / 选题 / 复用要素
+      const mkSection = (icon, label, valueText, detailText) => {
+        const sec = document.createElement('div');
+        sec.className = 'note-breakdown-section';
+        const head = document.createElement('div');
+        head.style.cssText = 'display:flex;align-items:baseline;gap:6px;margin-bottom:6px';
+        const ic = document.createElement('span');
+        ic.className = 'note-breakdown-icon';
+        ic.textContent = icon;
+        const lab = document.createElement('span');
+        lab.className = 'note-breakdown-label';
+        lab.textContent = label + ':';
+        const val = document.createElement('span');
+        val.className = 'note-breakdown-value';
+        val.textContent = valueText;
+        head.appendChild(ic);
+        head.appendChild(lab);
+        head.appendChild(val);
+        const det = document.createElement('div');
+        det.className = 'note-breakdown-detail';
+        det.textContent = detailText;
+        sec.appendChild(head);
+        sec.appendChild(det);
+        return sec;
+      };
+      content.appendChild(mkSection('🎯', '钩子类型', n.hook,   n.angle));
+      content.appendChild(mkSection('📐', '结构特征', n.struct, getStructDetail(n.struct)));
+      content.appendChild(mkSection('💡', '创作者', '@' + n.creator, '来自模块 5 达人池,跨模块叙事'));
+
+      // 可复用要素
+      const reuseSec = document.createElement('div');
+      reuseSec.className = 'note-breakdown-section';
+      const reuseHead = document.createElement('div');
+      reuseHead.style.cssText = 'display:flex;align-items:baseline;gap:6px;margin-bottom:6px';
+      const reIc = document.createElement('span');
+      reIc.className = 'note-breakdown-icon';
+      reIc.textContent = '🔑';
+      const reLab = document.createElement('span');
+      reLab.className = 'note-breakdown-label';
+      reLab.textContent = '可复用要素:';
+      reuseHead.appendChild(reIc);
+      reuseHead.appendChild(reLab);
+      reuseSec.appendChild(reuseHead);
+      const reUl = document.createElement('ul');
+      reUl.className = 'note-breakdown-list';
+      n.reusable.forEach(r => {
+        const li = document.createElement('li');
+        li.textContent = r;
+        reUl.appendChild(li);
+      });
+      reuseSec.appendChild(reUl);
+      content.appendChild(reuseSec);
+
+      panel.classList.add('open');
+    }
+
+    function closeNotePanel() {
+      document.getElementById('note-panel').classList.remove('open');
+    }
+
+    function getStructDetail(s) {
+      const map = {
+        '清单体':   '用编号 / 数字组织内容,降低阅读门槛,适合「N 件」「Top N」类标题',
+        '故事流':   '第一人称叙事节奏,情绪流转 + 时间推进,代入感强',
+        '对比测评': '二元或多元对比,数据 / 体验维度并列,信任度高',
+        '教程体':   '步骤化教学,工具属性强,适合入门型搜索流量',
+        '问答体':   '提问 + 回答的对话结构,适合社区互动型用户',
+        '三段式':   '现象 / 原因 / 建议三段式,逻辑紧凑,适合短篇深度',
+      };
+      return map[s] || '内容结构清晰,符合品类用户阅读习惯';
+    }
+
+    document.getElementById('note-panel-close').onclick = closeNotePanel;
+    // 共享 ESC:重写之前那个 ESC handler 已经存在,note-panel 也跟随关闭
+    // 但之前的 ESC 只关 coach-sub-panel / coach-modal,需要在文档级别补一个 note-panel 关闭
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && document.getElementById('note-panel').classList.contains('open')) {
+        closeNotePanel();
+      }
+    });
+
+    // 选题生成器
+    function renderTopicGen() {
+      const tmpl = MOCK_DATA[state.category].topicTemplate;
+      const input = document.getElementById('topic-input');
+      input.value = '';
+      input.placeholder = tmpl.placeholder;
+      const results = document.getElementById('topic-results');
+      results.replaceChildren();
+      const hint = document.createElement('div');
+      hint.className = 'topic-gen-hint';
+      hint.textContent = '基于当前品类预填示例,点击「生成 5 个选题 →」启动 AI';
+      results.appendChild(hint);
+    }
+
+    async function generateTopics() {
+      cancelTypewriters();
+      const tmpl = MOCK_DATA[state.category].topicTemplate;
+      const input = document.getElementById('topic-input');
+      const userInput = input.value.trim();
+      const results = document.getElementById('topic-results');
+      results.replaceChildren();
+
+      // 如果用户改了输入,显示降级提示
+      if (userInput && userInput !== tmpl.placeholder) {
+        const hint = document.createElement('div');
+        hint.className = 'topic-gen-hint';
+        hint.style.background = 'var(--brand-light)';
+        hint.style.color = 'var(--brand)';
+        hint.textContent = `基于您的输入「${userInput}」,系统已为您生成 5 个选题方向(演示版以预填示例为准)`;
+        results.appendChild(hint);
+        await new Promise(r => setTimeout(r, 400));
+      }
+
+      // 依次打字机渲染 5 个选题
+      for (let i = 0; i < tmpl.topics.length; i++) {
+        const t = tmpl.topics[i];
+        const item = document.createElement('div');
+        item.className = 'topic-result';
+        const head = document.createElement('div');
+        head.className = 'topic-result-head';
+        const num = document.createElement('span');
+        num.className = 'topic-result-num';
+        num.textContent = '选题 ' + (i + 1);
+        const angle = document.createElement('span');
+        angle.className = 'topic-result-angle';
+        angle.textContent = t.angle;
+        head.appendChild(num);
+        head.appendChild(angle);
+
+        const titleEl = document.createElement('div');
+        titleEl.className = 'topic-result-title typewriter-cursor';
+
+        const meta = document.createElement('div');
+        meta.className = 'topic-result-meta';
+        const hookSpan = document.createElement('span');
+        const hookStrong = document.createElement('strong');
+        hookStrong.textContent = '钩子:';
+        hookSpan.appendChild(hookStrong);
+        hookSpan.appendChild(document.createTextNode(' ' + t.hook));
+        const suitSpan = document.createElement('span');
+        const suitStrong = document.createElement('strong');
+        suitStrong.textContent = '适用达人:';
+        suitSpan.appendChild(suitStrong);
+        suitSpan.appendChild(document.createTextNode(' ' + t.suitable));
+        meta.appendChild(hookSpan);
+        meta.appendChild(suitSpan);
+
+        item.appendChild(head);
+        item.appendChild(titleEl);
+        item.appendChild(meta);
+        results.appendChild(item);
+
+        await typewriter(titleEl, t.title, 36);
+        titleEl.classList.remove('typewriter-cursor');
+        await new Promise(r => setTimeout(r, 180));
+      }
+    }
+
+    document.getElementById('topic-gen-btn').onclick = generateTopics;
+
+    // 绑定 3 个达人筛选下拉
+    const crTierDropdown = bindDropdown({
+      triggerId: 'cr-tier-trigger', menuId: 'cr-tier-menu', valueId: 'cr-tier-value',
+      onSelect: v => { state.creators.tier = v; renderCreatorsList(); },
+    });
+    const crEngageDropdown = bindDropdown({
+      triggerId: 'cr-engage-trigger', menuId: 'cr-engage-menu', valueId: 'cr-engage-value',
+      onSelect: v => { state.creators.engage = v; renderCreatorsList(); },
+    });
+    const crBizDropdown = bindDropdown({
+      triggerId: 'cr-biz-trigger', menuId: 'cr-biz-menu', valueId: 'cr-biz-value',
+      onSelect: v => { state.creators.biz = v; renderCreatorsList(); },
+    });
+
+    // 模块 5 总入口(rerenderAll 触发)
+    function renderCreators() {
+      // 切品类时重置筛选
+      state.creators = { tier: 'ALL', engage: 'ALL', biz: 'ALL' };
+      renderCreatorsList();
+      renderHotNotes();
+      renderTopicGen();
+    }
+
+    moduleRenderers.creators = renderCreators;
 
     /* ============================================================
        初始化
