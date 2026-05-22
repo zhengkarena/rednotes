@@ -2534,6 +2534,23 @@
     .empty-state-title { font-size: 14px; color: var(--text-2); font-weight: 600; }
     .empty-state-desc { font-size: 12px; color: var(--text-3); }
 
+    /* ========== 顶部聚焦徽章 ========== */
+    .focus-indicator {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 10px;
+      background: var(--brand-light);
+      color: var(--brand);
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: opacity 0.2s ease;
+      cursor: default;
+    }
+    .focus-indicator.hidden { display: none; }
+    .focus-indicator::before { content: '🎯'; font-size: 11px; line-height: 1; }
+    .focus-indicator .belt-name { color: var(--brand); }
+
     /* 通用 Modal(Step 3 引入,Step 7 复用) */
     .modal-mask {
       position: fixed;
@@ -2736,6 +2753,9 @@
     </div>
 
     <div class="topbar-right">
+      <div class="focus-indicator hidden" id="focus-indicator" title="顶部产地下拉的聚焦状态;主要驱动产业带作战图,模块 1 GMV 折线同步切换到该产业带口径">
+        聚焦 <span class="belt-name" id="focus-belt-name"></span>
+      </div>
       <div class="dropdown" id="region-dropdown">
         <button class="dropdown-trigger" id="region-trigger" type="button">
           <span class="dropdown-value" id="region-value">全部产地</span>
@@ -7796,6 +7816,9 @@ KPI 那个 158.3 亿是全平台所有 3C 商家加总(包括大量个体卖家�
       ];
       regionDropdown.setItems(items, firstBelt || 'ALL');
 
+      // 顶部聚焦徽章
+      if (typeof updateFocusIndicator === 'function') updateFocusIndicator();
+
       rerenderAll();
     }
 
@@ -7934,7 +7957,19 @@ KPI 那个 158.3 亿是全平台所有 3C 商家加总(包括大量个体卖家�
       if (!dom) return;
       const chart = getOrCreateChart('gmv', dom);
 
-      const days = data.gmvCurve.map((_, i) => `${i + 1}日`);
+      // 顶部产地下拉聚焦了产业带?用产业带级曲线
+      const beltCtx = (state.belt && state.belt !== 'ALL')
+        ? (data.belts || []).find(b => b.name === state.belt) : null;
+      const seriesData = beltCtx ? beltCtx.gmvCurve : data.gmvCurve;
+      const seriesName = beltCtx ? `本平台 · ${state.belt}` : '本平台';
+      // benchmark 按比例缩放(产业带级没有 benchmark 数据)
+      const catSum = data.gmvCurve.reduce((a, b) => a + b, 0);
+      const factor = beltCtx ? (beltCtx.gmv / catSum) : 1;
+      const benchmarkData = beltCtx
+        ? data.benchmarkCurve.map(v => +(v * factor).toFixed(2))
+        : data.benchmarkCurve;
+
+      const days = seriesData.map((_, i) => `${i + 1}日`);
 
       const option = {
         ...BASE_CHART_OPTION,
@@ -7975,9 +8010,9 @@ KPI 那个 158.3 亿是全平台所有 3C 商家加总(包括大量个体卖家�
         },
         series: [
           {
-            name: '本平台',
+            name: seriesName,
             type: 'line',
-            data: data.gmvCurve,
+            data: seriesData,
             smooth: 0.3,
             showSymbol: false,
             symbol: 'circle',
@@ -7999,7 +8034,7 @@ KPI 那个 158.3 亿是全平台所有 3C 商家加总(包括大量个体卖家�
           {
             name: '行业 Top3 平均',
             type: 'line',
-            data: data.benchmarkCurve,
+            data: benchmarkData,
             smooth: 0.3,
             showSymbol: false,
             lineStyle: { width: 1.5, color: '#9B9B9B', type: 'dashed' },
@@ -8012,12 +8047,19 @@ KPI 那个 158.3 亿是全平台所有 3C 商家加总(包括大量个体卖家�
       chart.setOption(option, { notMerge: true });
 
       // 更新口径说明 tooltip
-      const sum = data.gmvCurve.reduce((a, b) => a + b, 0);
+      const sum = seriesData.reduce((a, b) => a + b, 0);
       const tip = document.getElementById('gmv-info-tip');
-      tip.textContent =
-        `全平台总 GMV ${data.kpi.gmv.toFixed(1)} 亿(KPI 卡片口径)。` +
-        `本图展示重点产业带覆盖商家口径,30 天累计 ${sum.toFixed(1)} 亿,` +
-        `包含部分跨产业带商家——差额即为渗透空间,也是本系统的目标。`;
+      if (beltCtx) {
+        tip.textContent =
+          `本图已聚焦「${state.belt}」产业带,30 天累计 ${sum.toFixed(1)} 亿,` +
+          `占品类大盘约 ${(sum / catSum * 100).toFixed(0)}%。` +
+          `KPI 卡片仍为全平台口径(${data.kpi.gmv.toFixed(1)} 亿)—— 这是多口径下钻设计。`;
+      } else {
+        tip.textContent =
+          `全平台总 GMV ${data.kpi.gmv.toFixed(1)} 亿(KPI 卡片口径)。` +
+          `本图展示重点产业带覆盖商家口径,30 天累计 ${sum.toFixed(1)} 亿,` +
+          `包含部分跨产业带商家——差额即为渗透空间,也是本系统的目标。`;
+      }
     }
 
     // 品类热力散点图
@@ -9052,13 +9094,28 @@ KPI 那个 158.3 亿是全平台所有 3C 商家加总(包括大量个体卖家�
       if (foundLabel) valueEl.textContent = foundLabel;
     }
 
+    // 顶部聚焦徽章更新
+    function updateFocusIndicator() {
+      const el = document.getElementById('focus-indicator');
+      if (!el) return;
+      const isAll = !state.belt || state.belt === 'ALL';
+      el.classList.toggle('hidden', isAll);
+      if (!isAll) {
+        document.getElementById('focus-belt-name').textContent = state.belt;
+      }
+    }
+
     // setBelt:模块 3 专用 setter(地图气泡点击 / 顶部下拉)
     // 注意:不再触发模块 4 的 renderMerchantsList —— 模块 4 用独立的 state.merchants.filterBelt
+    // 但会联动:① 顶部聚焦徽章 ② 模块 1 GMV 折线图(切换到该产业带口径)
     function setBelt(beltName) {
       state.belt = beltName;
 
       // 同步顶部产地下拉
       syncRegionDropdownSelection(beltName);
+
+      // 顶部聚焦徽章
+      updateFocusIndicator();
 
       // 模块 3:地图气泡 highlight(不重渲)
       const chart = charts.get('belts-map');
@@ -9073,6 +9130,11 @@ KPI 那个 158.3 亿是全平台所有 3C 商家加总(包括大量个体卖家�
 
       // 模块 3:详情面板
       renderBeltsDetail(beltName);
+
+      // 模块 1:GMV 折线图 联动(用产业带口径曲线)
+      if (charts.get('gmv')) {
+        renderGMVChart(MOCK_DATA[state.category]);
+      }
     }
 
     // AI 推荐区:20 个商家卡片(横滚)
