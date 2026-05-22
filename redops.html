@@ -2790,7 +2790,7 @@
 
           <div class="chart-card">
             <div class="chart-card-header">
-              <span class="chart-card-title">行业 GMV 30 天趋势</span>
+              <span class="chart-card-title" id="gmv-chart-title">行业 GMV 30 天趋势</span>
               <span class="chart-card-caliber">· 重点产业带覆盖商家口径</span>
             </div>
             <div class="chart-info" tabindex="0">
@@ -7833,8 +7833,28 @@ KPI 那个 158.3 亿是全平台所有 3C 商家加总(包括大量个体卖家�
       document.querySelectorAll('.range-pill').forEach(el => el.classList.remove('active'));
       pill.classList.add('active');
       state.range = Number(pill.dataset.range);
-      rerenderAll();
+      // 只重渲受时间范围影响的图表(GMV 折线 + belts 详情面板的 mini GMV)
+      if (charts.get('gmv')) renderGMVChart(MOCK_DATA[state.category]);
+      if (state.module === 'belts' && state.belt && state.belt !== 'ALL') {
+        const belt = (MOCK_DATA[state.category].belts || []).find(b => b.name === state.belt);
+        if (belt && typeof renderBeltsMiniGmv === 'function') renderBeltsMiniGmv(belt);
+      }
+      // AI 助手全屏视图右上"近 X 天"标签
+      const r = document.getElementById('ai-full-range');
+      if (r) r.textContent = '近 ' + state.range + ' 天';
     });
+
+    // 时间窗口切片(7 天取最后 7;30 天原样;90 天前 60 天用 88% / 94% 系数合成"历史回填",生产版直接读 90 天真实数据)
+    function sliceCurveForRange(curve, range) {
+      if (range === 7)  return curve.slice(-7);
+      if (range === 30) return curve;
+      if (range === 90) {
+        const a = curve.map(v => +(v * 0.88).toFixed(2));
+        const b = curve.map(v => +(v * 0.94).toFixed(2));
+        return [...a, ...b, ...curve];
+      }
+      return curve;
+    }
 
     /* ============================================================
        模块渲染注册表
@@ -7960,14 +7980,22 @@ KPI 那个 158.3 亿是全平台所有 3C 商家加总(包括大量个体卖家�
       // 顶部产地下拉聚焦了产业带?用产业带级曲线
       const beltCtx = (state.belt && state.belt !== 'ALL')
         ? (data.belts || []).find(b => b.name === state.belt) : null;
-      const seriesData = beltCtx ? beltCtx.gmvCurve : data.gmvCurve;
+      const baseSeries = beltCtx ? beltCtx.gmvCurve : data.gmvCurve;
       const seriesName = beltCtx ? `本平台 · ${state.belt}` : '本平台';
       // benchmark 按比例缩放(产业带级没有 benchmark 数据)
       const catSum = data.gmvCurve.reduce((a, b) => a + b, 0);
       const factor = beltCtx ? (beltCtx.gmv / catSum) : 1;
-      const benchmarkData = beltCtx
+      const baseBenchmark = beltCtx
         ? data.benchmarkCurve.map(v => +(v * factor).toFixed(2))
         : data.benchmarkCurve;
+
+      // 时间范围切片(7 / 30 / 90)
+      const seriesData    = sliceCurveForRange(baseSeries,    state.range);
+      const benchmarkData = sliceCurveForRange(baseBenchmark, state.range);
+
+      // 更新图表标题里的天数
+      const titleEl = document.getElementById('gmv-chart-title');
+      if (titleEl) titleEl.textContent = `行业 GMV ${state.range} 天趋势`;
 
       const days = seriesData.map((_, i) => `${i + 1}日`);
 
@@ -8049,16 +8077,19 @@ KPI 那个 158.3 亿是全平台所有 3C 商家加总(包括大量个体卖家�
       // 更新口径说明 tooltip
       const sum = seriesData.reduce((a, b) => a + b, 0);
       const tip = document.getElementById('gmv-info-tip');
+      const rangeNote = state.range === 90
+        ? '(90 天视图基于近 30 天数据 + 前 60 天合成回填,生产版直读历史库)'
+        : `(近 ${state.range} 天)`;
       if (beltCtx) {
         tip.textContent =
-          `本图已聚焦「${state.belt}」产业带,30 天累计 ${sum.toFixed(1)} 亿,` +
+          `本图已聚焦「${state.belt}」产业带 ${rangeNote},累计 ${sum.toFixed(1)} 亿,` +
           `占品类大盘约 ${(sum / catSum * 100).toFixed(0)}%。` +
           `KPI 卡片仍为全平台口径(${data.kpi.gmv.toFixed(1)} 亿)—— 这是多口径下钻设计。`;
       } else {
         tip.textContent =
           `全平台总 GMV ${data.kpi.gmv.toFixed(1)} 亿(KPI 卡片口径)。` +
-          `本图展示重点产业带覆盖商家口径,30 天累计 ${sum.toFixed(1)} 亿,` +
-          `包含部分跨产业带商家——差额即为渗透空间,也是本系统的目标。`;
+          `本图展示重点产业带覆盖商家口径 ${rangeNote},累计 ${sum.toFixed(1)} 亿,` +
+          `差额即为渗透空间,也是本系统的目标。`;
       }
     }
 
@@ -8823,12 +8854,14 @@ KPI 那个 158.3 亿是全平台所有 3C 商家加总(包括大量个体卖家�
       const dom = document.getElementById('belts-mini-gmv');
       if (!dom) return;
       const chart = getOrCreateChart('belts-mini-gmv', dom);
-      const days = belt.gmvCurve.map((_, i) => `${i + 1}日`);
+      const beltSeries = (typeof sliceCurveForRange === 'function')
+        ? sliceCurveForRange(belt.gmvCurve, state.range) : belt.gmvCurve;
+      const days = beltSeries.map((_, i) => `${i + 1}日`);
 
       const series = [{
         name: '产业带 GMV',
         type: 'line',
-        data: belt.gmvCurve,
+        data: beltSeries,
         smooth: 0.3,
         showSymbol: false,
         lineStyle: { width: 2, color: '#FF2442' },
@@ -8847,12 +8880,14 @@ KPI 那个 158.3 亿是全平台所有 3C 商家加总(包括大量个体卖家�
 
       // 杭州四季青 ↔ 素白衣橱 对比线(口径方案 c)
       if (belt.name === '杭州四季青') {
-        const suCurve = belt.gmvCurve.map((v, i) => {
+        const su30 = belt.gmvCurve.map((v, i) => {
           let mult = 0.04;
           if (i < 16) mult *= 1 + 0.05 * (i / 16);
           else mult *= 0.95 * (1 - 0.4 * (i - 16) / 13);
           return +(v * mult).toFixed(2);
         });
+        const suCurve = (typeof sliceCurveForRange === 'function')
+          ? sliceCurveForRange(su30, state.range) : su30;
         series.push({
           name: '素白衣橱',
           type: 'line',
@@ -8908,7 +8943,8 @@ KPI 那个 158.3 亿是全平台所有 3C 商家加总(包括大量个体卖家�
         series: series,
       }, { notMerge: true });
       const sub = document.getElementById('belts-mini-gmv-sub');
-      if (sub) sub.textContent = `· 累计 ${belt.gmv.toFixed(1)} 亿`;
+      const beltSum = beltSeries.reduce((a, b) => a + b, 0);
+      if (sub) sub.textContent = `· 近 ${state.range} 天累计 ${beltSum.toFixed(1)} 亿`;
     }
 
     // 详情面板:头部商家 Top 10 列表(支持 breakdown 商家显示 ⚠️ + 拆解 popup)
