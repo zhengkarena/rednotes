@@ -1894,6 +1894,608 @@
     }
     .note-breakdown-num-unit { font-size: 11px; color: var(--text-2); font-weight: 500; }
 
+    /* ========== AI 助手浮窗(400×600)========== */
+    .ai-chat-pop {
+      position: fixed;
+      right: 28px; bottom: 100px;
+      width: 400px; height: 600px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+      z-index: 200;
+      display: flex; flex-direction: column;
+      transform: translateY(20px) scale(0.96);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      overflow: hidden;
+    }
+    .ai-chat-pop.open { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
+
+    .ai-chat-head {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, #FFF0F2, #FFFFFF);
+    }
+    .ai-chat-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, #FF6B6B, #FF2442);
+      color: #FFFFFF;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .ai-chat-head-info { flex: 1; min-width: 0; }
+    .ai-chat-head-title { font-size: 14px; font-weight: 700; color: var(--text-1); }
+    .ai-chat-head-sub { font-size: 11px; color: var(--text-3); display: flex; align-items: center; gap: 4px; }
+    .ai-chat-head-sub::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--success); display: inline-block;
+    }
+    .ai-chat-head-actions { display: flex; gap: 4px; }
+    .ai-chat-iconbtn {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: none; border: none; cursor: pointer;
+      color: var(--text-2);
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .ai-chat-iconbtn:hover { background: var(--brand-light); color: var(--brand); }
+    .ai-chat-iconbtn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .ai-chat-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 18px;
+      display: flex; flex-direction: column; gap: 12px;
+      background: var(--bg);
+    }
+    .ai-chat-welcome {
+      background: var(--card);
+      padding: 16px;
+      border-radius: 14px;
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text-1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .ai-chat-welcome b { color: var(--brand); }
+    .ai-chat-welcome-list { margin: 8px 0; padding-left: 18px; color: var(--text-2); font-size: 12.5px; }
+    .ai-chat-welcome-list li { margin-bottom: 3px; }
+    .ai-chat-quicks {
+      display: flex; flex-direction: column; gap: 8px;
+      margin-top: 12px;
+    }
+    .ai-chat-quick {
+      padding: 10px 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 12.5px;
+      color: var(--text-1);
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-cn);
+    }
+    .ai-chat-quick:hover {
+      border-color: var(--brand);
+      background: var(--brand-light);
+      color: var(--brand);
+      transform: translateX(2px);
+    }
+
+    .ai-bubble {
+      display: flex; gap: 8px;
+      max-width: 95%;
+      animation: bubbleIn 0.2s ease-out;
+    }
+    @keyframes bubbleIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .ai-bubble.user { align-self: flex-end; flex-direction: row-reverse; }
+    .ai-bubble-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .ai-bubble.user .ai-bubble-avatar {
+      background: var(--brand);
+      color: #FFFFFF;
+    }
+    .ai-bubble.ai .ai-bubble-avatar {
+      background: linear-gradient(135deg, #FFE0E5, #FFC1CD);
+    }
+    .ai-bubble-content {
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 13px;
+      line-height: 1.75;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .ai-bubble.user .ai-bubble-content {
+      background: var(--brand-light);
+      color: var(--text-1);
+    }
+    .ai-bubble.ai .ai-bubble-content {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text-1);
+    }
+
+    .ai-chat-foot {
+      padding: 12px 18px;
+      border-top: 1px solid var(--border);
+      display: flex; gap: 8px;
+      background: var(--card);
+    }
+    .ai-chat-input {
+      flex: 1;
+      padding: 9px 14px;
+      background: var(--bg);
+      border: 1px solid transparent;
+      border-radius: 20px;
+      font-family: var(--font-cn);
+      font-size: 13px;
+      color: var(--text-1);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .ai-chat-input:focus { background: var(--card); border-color: var(--brand); }
+    .ai-chat-input::placeholder { color: var(--text-3); }
+    .ai-chat-send {
+      padding: 0 14px;
+      background: var(--brand);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 20px;
+      font-family: var(--font-cn);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .ai-chat-send:hover { background: var(--brand-dark); }
+
+    /* ========== AI 助手全屏视图 ========== */
+    .ai-full {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 18px;
+      height: calc(100vh - var(--top-h) - 64px);
+    }
+    .ai-full-main {
+      background: var(--card);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .ai-full-context {
+      padding: 14px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 14px;
+      background: linear-gradient(90deg, #FFF8F9, #FFFFFF);
+    }
+    .ai-full-context-label { font-size: 12px; color: var(--text-3); }
+    .ai-full-context-value {
+      font-size: 13px; font-weight: 600; color: var(--brand);
+      padding: 3px 10px;
+      background: var(--brand-light);
+      border-radius: 6px;
+    }
+    .ai-full-context-actions { margin-left: auto; display: flex; gap: 6px; }
+
+    .ai-full-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 0;
+      display: flex; justify-content: center;
+    }
+    .ai-full-thread {
+      width: 800px;
+      max-width: 92%;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .ai-full-thread .ai-bubble-content { font-size: 14px; padding: 14px 18px; line-height: 1.85; }
+    .ai-full-thread .ai-bubble-avatar { width: 36px; height: 36px; font-size: 18px; }
+
+    .ai-full-foot {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      background: var(--card);
+    }
+    .ai-full-input-row {
+      width: 800px;
+      max-width: 92%;
+      margin: 0 auto;
+      display: flex; gap: 10px;
+      align-items: center;
+    }
+    .ai-full-input {
+      flex: 1;
+      padding: 12px 18px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      font-family: var(--font-cn);
+      font-size: 14px;
+      color: var(--text-1);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .ai-full-input:focus { background: var(--card); border-color: var(--brand); }
+    .ai-full-tools { display: flex; gap: 4px; }
+    .ai-full-tool {
+      width: 36px; height: 36px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      cursor: pointer;
+      color: var(--text-2);
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .ai-full-tool:hover { border-color: var(--brand); color: var(--brand); }
+    .ai-full-tool svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .ai-full-send {
+      padding: 0 22px; height: 44px;
+      background: var(--brand); color: #FFFFFF;
+      border: none; border-radius: 22px;
+      font-family: var(--font-cn);
+      font-size: 14px; font-weight: 600;
+      cursor: pointer;
+    }
+    .ai-full-send:hover { background: var(--brand-dark); }
+
+    /* 全屏视图右侧 历史对话栏 */
+    .ai-full-sidebar {
+      background: var(--card);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-card);
+      padding: 18px 16px;
+      display: flex; flex-direction: column;
+      overflow-y: auto;
+    }
+    .ai-full-sidebar-title {
+      font-size: 13px; font-weight: 700; color: var(--text-1);
+      margin-bottom: 14px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .ai-history-item {
+      padding: 12px 14px;
+      background: var(--bg);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+    .ai-history-item:hover { border-color: var(--brand); background: var(--card); }
+    .ai-history-item-title {
+      font-size: 12.5px; color: var(--text-1); font-weight: 600;
+      line-height: 1.4;
+      overflow: hidden; text-overflow: ellipsis;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    }
+    .ai-history-item-time {
+      font-size: 10.5px; color: var(--text-3);
+      margin-top: 4px;
+    }
+
+    /* ========== 数据上传 Modal ========== */
+    .upload-mask {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(2px);
+      z-index: 300;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .upload-mask.open { opacity: 1; pointer-events: auto; }
+    .upload-modal {
+      width: 720px;
+      max-height: 80vh;
+      background: var(--card);
+      border-radius: 18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      transform: scale(0.96);
+      transition: transform 0.25s ease;
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .upload-mask.open .upload-modal { transform: scale(1); }
+
+    .upload-head {
+      padding: 22px 28px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .upload-title { font-size: 18px; font-weight: 700; color: var(--text-1); margin-bottom: 4px; }
+    .upload-subtitle { font-size: 13px; color: var(--text-2); }
+
+    .upload-tabs {
+      display: flex; gap: 4px;
+      padding: 0 28px;
+      border-bottom: 1px solid var(--border);
+    }
+    .upload-tab {
+      padding: 12px 20px;
+      font-family: var(--font-cn);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-2);
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      transition: color 0.2s ease;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .upload-tab:hover { color: var(--text-1); }
+    .upload-tab.active { color: var(--brand); }
+    .upload-tab.active::after {
+      content: '';
+      position: absolute;
+      left: 14px; right: 14px; bottom: -1px;
+      height: 2px;
+      background: var(--brand);
+      border-radius: 1px;
+    }
+
+    .upload-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 22px 28px;
+    }
+
+    .upload-drop {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 36px 24px;
+      text-align: center;
+      background: var(--bg);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-bottom: 18px;
+    }
+    .upload-drop:hover, .upload-drop.dragover {
+      border-color: var(--brand);
+      background: var(--brand-light);
+    }
+    .upload-drop-icon { font-size: 32px; margin-bottom: 10px; }
+    .upload-drop-title { font-size: 14px; font-weight: 600; color: var(--text-1); margin-bottom: 4px; }
+    .upload-drop-desc { font-size: 12px; color: var(--text-3); }
+
+    .upload-links { display: flex; gap: 16px; margin-bottom: 18px; }
+    .upload-link {
+      font-size: 12px; color: var(--brand); cursor: pointer;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .upload-link:hover { text-decoration: underline; }
+
+    .upload-fields {
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 12px;
+    }
+    .upload-fields-title { font-weight: 600; color: var(--text-1); margin-bottom: 8px; }
+    .upload-fields-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; }
+    .upload-fields-list li {
+      color: var(--text-2); font-size: 12px;
+      display: flex; gap: 6px;
+    }
+    .upload-fields-list li code {
+      font-family: var(--font-num); color: var(--brand); font-weight: 600;
+    }
+
+    .upload-preview {
+      margin-top: 18px;
+      padding: 16px;
+      background: rgba(0,181,120,0.04);
+      border: 1px solid rgba(0,181,120,0.18);
+      border-radius: 12px;
+    }
+    .upload-preview-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 10px; }
+    .upload-preview-filename {
+      font-size: 13px; font-weight: 600; color: var(--text-1);
+      font-family: var(--font-num);
+    }
+    .upload-preview-meta { font-size: 11px; color: var(--text-3); }
+    .upload-preview-table-wrap { overflow-x: auto; }
+    .upload-preview-table {
+      width: 100%; border-collapse: collapse; font-size: 11.5px;
+      margin: 8px 0;
+    }
+    .upload-preview-table th, .upload-preview-table td {
+      padding: 5px 10px;
+      border: 1px solid #E0EDE5;
+      text-align: left;
+      font-family: var(--font-num);
+      color: var(--text-1);
+      white-space: nowrap;
+    }
+    .upload-preview-table th { background: rgba(0,181,120,0.08); color: var(--success); font-weight: 600; }
+    .upload-preview-check {
+      font-size: 12px; color: var(--success); margin-top: 8px;
+    }
+
+    /* API 卡片 */
+    .api-list { display: flex; flex-direction: column; gap: 12px; }
+    .api-card {
+      padding: 16px 18px;
+      background: var(--bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .api-card.pending { background: rgba(255,149,0,0.04); border-color: rgba(255,149,0,0.20); }
+    .api-card-head {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 10px;
+    }
+    .api-card-icon { font-size: 20px; }
+    .api-card-name { flex: 1; font-size: 14px; font-weight: 600; color: var(--text-1); }
+    .api-card-status {
+      padding: 2px 8px; border-radius: 6px;
+      font-size: 11px; font-weight: 600;
+      white-space: nowrap;
+    }
+    .api-card-status.connected { background: rgba(0,181,120,0.10); color: var(--success); }
+    .api-card-status.pending   { background: rgba(255,149,0,0.12); color: var(--warn); }
+    .api-card-meta {
+      font-size: 12px; color: var(--text-2);
+      line-height: 1.7;
+      font-family: var(--font-num);
+      margin-bottom: 12px;
+    }
+    .api-card-meta .label { color: var(--text-3); font-family: var(--font-cn); margin-right: 4px; }
+    .api-card-actions { display: flex; gap: 8px; }
+    .api-btn {
+      padding: 6px 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: var(--font-cn);
+      font-size: 12px;
+      color: var(--text-1);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .api-btn:hover { border-color: var(--brand); color: var(--brand); }
+    .api-btn.primary {
+      background: var(--brand); color: #FFFFFF; border-color: var(--brand);
+    }
+    .api-btn.primary:hover { background: var(--brand-dark); color: #FFFFFF; }
+
+    .upload-bottom-actions {
+      display: flex; gap: 14px;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      font-size: 12px;
+    }
+    .upload-bottom-actions a {
+      color: var(--brand); cursor: pointer; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .upload-bottom-actions a:hover { text-decoration: underline; }
+
+    .upload-disclaimer {
+      margin-top: 16px;
+      padding: 12px 14px;
+      background: rgba(75,99,255,0.04);
+      border-left: 3px solid #4B63FF;
+      border-radius: 0 8px 8px 0;
+      font-size: 11.5px;
+      color: var(--text-2);
+      line-height: 1.7;
+    }
+    .upload-disclaimer-links {
+      margin-top: 8px;
+      display: flex; gap: 14px;
+      font-size: 11px;
+      color: var(--text-3);
+    }
+    .upload-disclaimer-links a { color: var(--text-3); cursor: pointer; }
+    .upload-disclaimer-links a:hover { color: var(--brand); }
+
+    .upload-foot {
+      padding: 14px 28px;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: flex-end; gap: 10px;
+      background: var(--card);
+    }
+    .upload-foot-btn {
+      padding: 10px 22px;
+      font-family: var(--font-cn);
+      font-size: 13px; font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text-1);
+      transition: all 0.2s ease;
+    }
+    .upload-foot-btn:hover { background: var(--bg); }
+    .upload-foot-btn.primary {
+      background: var(--brand); color: #FFFFFF; border-color: var(--brand);
+    }
+    .upload-foot-btn.primary:hover { background: var(--brand-dark); }
+
+    /* API 二级 Modal(配置编辑 + 日志查看)*/
+    .api-sub-mask {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.32);
+      z-index: 310;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .api-sub-mask.open { opacity: 1; pointer-events: auto; }
+    .api-sub-modal {
+      width: 520px; max-height: 80vh;
+      background: var(--card);
+      border-radius: 14px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.25);
+      display: flex; flex-direction: column;
+      overflow: hidden;
+      transform: scale(0.96);
+      transition: transform 0.2s ease;
+    }
+    .api-sub-mask.open .api-sub-modal { transform: scale(1); }
+    .api-sub-head {
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .api-sub-title { font-size: 14px; font-weight: 700; color: var(--text-1); }
+    .api-sub-body { padding: 20px 24px; overflow-y: auto; }
+
+    .api-form-row {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 14px;
+    }
+    .api-form-label {
+      width: 110px; font-size: 12px; color: var(--text-2); text-align: right; flex-shrink: 0;
+    }
+    .api-form-input {
+      flex: 1;
+      padding: 8px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: var(--font-num);
+      font-size: 13px;
+      color: var(--text-1);
+      outline: none;
+    }
+    .api-form-input:focus { border-color: var(--brand); background: var(--card); }
+
+    .api-log-text {
+      font-family: 'SF Mono', 'JetBrains Mono', Menlo, monospace;
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--text-1);
+      background: #1F1F1F;
+      color: #B5E0C5;
+      padding: 14px 16px;
+      border-radius: 8px;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .api-log-text .info { color: #B5E0C5; }
+    .api-sub-foot {
+      padding: 12px 22px;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: flex-end; gap: 10px;
+    }
+
     /* 通用 Modal(Step 3 引入,Step 7 复用) */
     .modal-mask {
       position: fixed;
@@ -2389,9 +2991,60 @@
     </section>
 
     <section id="assistant" class="module">
-      <div class="placeholder-block">
-        <div class="ph-title">模块 6：AI 助手工作台</div>
-        <div class="ph-desc">全局对话 · 预设问题 · 数据上传 Modal（Step 7 实现）</div>
+      <div class="ai-full">
+        <div class="ai-full-main">
+          <div class="ai-full-context">
+            <span class="ai-full-context-label">当前上下文:</span>
+            <span class="ai-full-context-value" id="ai-full-cat">服饰穿搭</span>
+            <span class="ai-full-context-label">·</span>
+            <span class="ai-full-context-value" id="ai-full-range">近 30 天</span>
+            <div class="ai-full-context-actions">
+              <button class="ai-chat-iconbtn" id="ai-full-clear" title="清空对话">
+                <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/></svg>
+              </button>
+              <button class="ai-chat-iconbtn" id="ai-full-min" title="最小化为浮窗">
+                <svg viewBox="0 0 24 24"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="ai-full-body" id="ai-full-body">
+            <div class="ai-full-thread" id="ai-full-thread"></div>
+          </div>
+          <div class="ai-full-foot">
+            <div class="ai-full-input-row">
+              <div class="ai-full-tools">
+                <button class="ai-full-tool" title="图片上传(演示)"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></button>
+                <button class="ai-full-tool" title="语音输入(演示)"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg></button>
+                <button class="ai-full-tool" title="快捷问题"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></button>
+              </div>
+              <input type="text" class="ai-full-input" id="ai-full-input" placeholder="问我任何关于本品类运营的问题..." />
+              <button class="ai-full-send" id="ai-full-send">发送 →</button>
+            </div>
+          </div>
+        </div>
+        <aside class="ai-full-sidebar">
+          <div class="ai-full-sidebar-title">📋 历史对话</div>
+          <div class="ai-history-item">
+            <div class="ai-history-item-title">分析了潮汕产业带本周表现 + 引出 8 家持牌商家招商方案</div>
+            <div class="ai-history-item-time">昨天 16:42 · 食品饮料</div>
+          </div>
+          <div class="ai-history-item">
+            <div class="ai-history-item-title">生成了素白衣橱本周陪跑周报 + 转化漏斗诊断</div>
+            <div class="ai-history-item-time">前天 10:18 · 服饰穿搭</div>
+          </div>
+          <div class="ai-history-item">
+            <div class="ai-history-item-title">推荐景德镇 3 个新中式手作商家招商话术</div>
+            <div class="ai-history-item-time">3 天前 14:36 · 家居生活</div>
+          </div>
+          <div class="ai-history-item">
+            <div class="ai-history-item-title">对比抖音 / 淘宝美妆品类客单价差异</div>
+            <div class="ai-history-item-time">本周一 09:25 · 美妆个护</div>
+          </div>
+          <div class="ai-history-item">
+            <div class="ai-history-item-title">桌搭赛道 SPU 缺口分析 + 松山湖商家挖掘</div>
+            <div class="ai-history-item-time">上周五 17:08 · 数码 3C</div>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -2502,6 +3155,97 @@
       </button>
     </header>
     <div class="coach-sub-content" id="note-panel-content"></div>
+  </div>
+
+  <!-- ========== AI 助手浮窗对话框 ========== -->
+  <div class="ai-chat-pop" id="ai-chat-pop">
+    <header class="ai-chat-head">
+      <div class="ai-chat-avatar">🤖</div>
+      <div class="ai-chat-head-info">
+        <div class="ai-chat-head-title">RedOps AI 助手</div>
+        <div class="ai-chat-head-sub">在线 · <span id="ai-chat-cat">服饰穿搭</span></div>
+      </div>
+      <div class="ai-chat-head-actions">
+        <button class="ai-chat-iconbtn" id="ai-chat-clear" title="清空对话">
+          <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/></svg>
+        </button>
+        <button class="ai-chat-iconbtn" id="ai-chat-expand" title="全屏视图">
+          <svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+        </button>
+        <button class="ai-chat-iconbtn" id="ai-chat-close" title="关闭">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </header>
+    <div class="ai-chat-body" id="ai-chat-body"></div>
+    <div class="ai-chat-foot">
+      <input type="text" class="ai-chat-input" id="ai-chat-input" placeholder="问问我..." />
+      <button class="ai-chat-send" id="ai-chat-send">发送</button>
+    </div>
+  </div>
+
+  <!-- ========== 数据上传 Modal ========== -->
+  <div class="upload-mask" id="upload-mask">
+    <div class="upload-modal" id="upload-modal-el">
+      <header class="upload-head">
+        <div class="upload-title">接入企业内部数据</div>
+        <div class="upload-subtitle">对接小红书内部数据中台后可立即投入生产使用</div>
+      </header>
+      <div class="upload-tabs" id="upload-tabs"></div>
+      <div class="upload-body" id="upload-body"></div>
+      <footer class="upload-foot">
+        <button class="upload-foot-btn" id="upload-cancel">取消</button>
+        <button class="upload-foot-btn primary" id="upload-confirm">确认上传</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ========== API 配置编辑 二级 Modal ========== -->
+  <div class="api-sub-mask" id="api-edit-mask">
+    <div class="api-sub-modal">
+      <header class="api-sub-head">
+        <span class="api-sub-title" id="api-edit-title">编辑配置</span>
+        <button class="ai-chat-iconbtn" id="api-edit-close" title="关闭">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </header>
+      <div class="api-sub-body">
+        <div class="api-form-row"><label class="api-form-label">Endpoint URL</label>
+          <input class="api-form-input" id="api-edit-url" type="text" /></div>
+        <div class="api-form-row"><label class="api-form-label">Access Key</label>
+          <input class="api-form-input" id="api-edit-ak" type="password" value="••••••••••••••••" /></div>
+        <div class="api-form-row"><label class="api-form-label">Secret</label>
+          <input class="api-form-input" id="api-edit-sk" type="password" value="••••••••••••••••••••••••" /></div>
+        <div class="api-form-row"><label class="api-form-label">同步频率</label>
+          <input class="api-form-input" type="text" value="每日 03:00" /></div>
+        <div class="api-form-row"><label class="api-form-label">超时 (秒)</label>
+          <input class="api-form-input" type="text" value="30" /></div>
+        <div class="api-form-row"><label class="api-form-label">重试次数</label>
+          <input class="api-form-input" type="text" value="3" /></div>
+      </div>
+      <footer class="api-sub-foot">
+        <button class="upload-foot-btn" id="api-edit-cancel">取消</button>
+        <button class="upload-foot-btn primary" id="api-edit-save">保存</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- ========== API 日志 二级 Modal ========== -->
+  <div class="api-sub-mask" id="api-log-mask">
+    <div class="api-sub-modal" style="width:640px">
+      <header class="api-sub-head">
+        <span class="api-sub-title" id="api-log-title">查看同步日志</span>
+        <button class="ai-chat-iconbtn" id="api-log-close" title="关闭">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </header>
+      <div class="api-sub-body">
+        <pre class="api-log-text" id="api-log-text"></pre>
+      </div>
+      <footer class="api-sub-foot">
+        <button class="upload-foot-btn" id="api-log-ok">关闭</button>
+      </footer>
+    </div>
   </div>
 
   <!-- ========== AI 浮窗 ========== -->
@@ -6140,6 +6884,659 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
        CREATORS_DATA / HOT_NOTES / TOPIC_TEMPLATES 装配前置完成
        ============================================================ */
 
+    /* ============================================================
+       ASSISTANT —— AI 助手数据(50 个预设回答 + 路由 + 兜底)
+       数据闭环约束:每条回答里的商家/产业带/达人名称必须来自前 6 模块
+       ============================================================ */
+
+    const ASSISTANT_INTENTS = [
+      { id: 'kpi',         keywords: ['KPI','口径','对不上','不一致','差异','为什么','怎么算','加起来'] },
+      { id: 'trends',      keywords: ['趋势','机会','挖掘','蓝海','热门赛道','新机会'] },
+      { id: 'belts',       keywords: ['产业带','商圈','地区','产地','区域'] },
+      { id: 'merchants',   keywords: ['商家','陪跑','诊断','健康度','待陪跑','谁需要','跟进'] },
+      { id: 'creators',    keywords: ['达人','内容','笔记','博主','KOL','腰部','尾部'] },
+      { id: 'bd',          keywords: ['招商','话术','邀约','邮件','BD','合作邮件'] },
+      { id: 'report',      keywords: ['周报','汇报','总结','简报','本周','周度'] },
+      { id: 'showcase',    keywords: ['showcase','案例','标杆','对外','宣发','典范','成长故事'] },
+      { id: 'competitor',  keywords: ['竞品','对比','友商','抖音','淘宝','拼多多','别家','其他平台'] },
+      { id: 'newMerchant', keywords: ['新商','潜力','挖掘新','站外','反向','新店','一键触达'] },
+    ];
+
+    const QUICK_QUESTIONS = {
+      '服饰穿搭': [
+        '📊 这周服饰产业带表现如何?',
+        '🔍 找出 GMV Top 5 但内容弱的商家',
+        '📝 生成新中式连衣裙招商话术',
+        '💡 本月有哪些服饰趋势机会?',
+      ],
+      '美妆个护': [
+        '📊 上海奉贤美妆产业带渗透率分析',
+        '🔍 列出健康度异常的美妆商家',
+        '📝 生成早C晚A 套装招商话术',
+        '💡 本月美妆趋势机会有哪些?',
+      ],
+      '食品饮料': [
+        '📊 阳澄湖大闸蟹季节运营策略',
+        '🔍 找出潮汕需重点陪跑的商家',
+        '📝 生成五常米招商话术',
+        '💡 本月食品蓝海赛道有哪些?',
+      ],
+      '家居生活': [
+        '📊 景德镇陶瓷产业带分析',
+        '🔍 找出健康度异常的家居商家',
+        '📝 生成新中式餐具招商话术',
+        '💡 本月家居趋势机会?',
+      ],
+      '数码3C': [
+        '📊 华强北和松山湖产业带对比',
+        '🔍 找出 3C 待陪跑的商家',
+        '📝 生成桌搭外设招商话术',
+        '💡 本月 3C 蓝海赛道?',
+      ],
+    };
+
+    // 50 个预设回答(5 品类 × 10 intent)
+    const ASSISTANT_RESPONSES = {
+      '服饰穿搭': {
+        trends:
+`本月服饰品类 Top 3 蓝海赛道:
+
+① 多巴胺穿搭:近 7 天搜索 +340%,但供给只有 23 家,缺口指数 8.7/10。建议从广州十三行引入色彩快反小工厂 5-8 家。
+② 新中式连衣裙:客单价 480 元(高出大盘 38%),复购率 22%。已识别 14 家潜力商家,主要在杭州四季青。
+③ Y2K 复古:18-24 岁人群渗透率 47%,平台大盘只有 12%,强人群差异化。
+
+要不要我把这三个赛道的潜力商家挖掘清单导出来?`,
+        belts:
+`本品类 5 个核心产业带表现:
+
+• 广州十三行(GMV 78 亿,渗透率 36.3%)—— 超级产业带,稚野风物领跑
+• 杭州四季青(65 亿,34.3%)—— 超级产业带,⚠️ 素白衣橱近 14 日 GMV 环比 -28%,触发预警
+• 虎门服装(32 亿,29.4%)—— 标杆,川山衣坊男装链路顶配
+• 深圳南油(38.6 亿,31.2%)—— 标杆,潮牌街头风(鹿衣社、月隐)
+• 海宁皮革城(24.8 亿,25.2%)—— 成长,苏意皮坊三代手作工艺
+
+建议本周陪跑同学优先跟进杭州四季青的素白衣橱预警。`,
+        merchants:
+`当前服饰品类有 4 个商家需要立即陪跑:
+
+① 素白衣橱(超级标杆)—— 转化力 48 异常,近 14 日 GMV 环比 -28%,系统已触发高危预警
+② 鹿衣社(标杆)—— 健康度均值 76,达人力强但商品力可加强
+③ 雾里(潜力)—— 健康度 57,所有维度都偏低,需要基础建设
+④ 缦言衣坊(成长)—— 健康度 68,推动 5 篇直挂改造可拉升转化
+
+是否先打开素白衣橱的工作台看一眼?`,
+        creators:
+`本品类高匹配达人 Top 5(按转化潜力):
+
+• 衣记小柒(KOL,120w 粉)—— 新中式连衣裙垂类,深度合作偏好,选品严格
+• 老钱风衣橱(腰部,42w 粉)—— 老钱风通勤,高客单女性受众
+• 沐沐爱穿搭(腰部,38w 粉)—— 多巴胺色系,互动率 12.8%
+• 念川衣谱(尾部,8.6w 粉)—— 新中式日常,转化率 14.5% 行业领先
+• 阿野的衣橱(KOL,88w 粉)—— 山系户外女装,匹配栖野家商家
+
+要不要给「素白衣橱」匹配一份合作清单?`,
+        bd:
+`基于服饰品类 30 天数据,给你一段招商邮件正文:
+
+—— —— ——
+窗口期还剩 60 天。距离春节服饰高峰还有 60 天,新中式连衣裙过去 30 天笔记数 +186%、户外功能服 +88%,但站内匹配商家不足 95 家。
+
+我们这次给到产业带快反商家的就三件事:春节专题资源位日均 30 万曝光、Top 20 时尚达人池直通车、90 天 GMV 扶持期。
+
+7 天审核 + 3 周首批上架 + 60 天首笔 GMV,过线就进陪跑池。
+
+回我:王思雨 / wangsiyu.bd@xiaohongshu.com
+—— —— ——
+
+完整版在「产业带作战图 → AI 商家推荐」里可以一键导出。`,
+        kpi:
+`哦你看到了 —— 这两个数字口径不一样。
+
+KPI 卡片那个 285.6 亿是全平台所有服饰商家加起来的总盘子。
+
+折线那个 336.9 亿是我们这边运营在重点跟的产业带商家。因为有些大商家会跨产业带运营(比如同时在广州十三行 + 杭州四季青都有店),在两个口径里都会被算到,所以加起来会比 KPI 还大一点。
+
+这个差额其实就是我们这岗位的价值 —— 把还没被产业带运营覆盖的商家,转化成可触达、可陪跑的渗透空间。本月「品类渗透率 38.5%」就是这个对照表的核心指标。`,
+        report:
+`服饰品类本周运营简报(11/04 - 11/10):
+
+• 大盘 GMV 同比 +42.3%,环比 +8.1%,稳态增长
+• 新商入驻 1,842 家(同比 +18.5%)
+• 多巴胺穿搭话题持续走热,缺口指数 8.7/10
+• ⚠️ 杭州四季青头部「素白衣橱」健康度预警,转化力跌至 48
+• 老钱风内容跑赢供给 +156%,需向海宁皮革定向输出选品
+
+下周重点:启动素白衣橱应急陪跑 + 多巴胺赛道商家招商。
+
+—— 王思雨 / 服饰行业运营组`,
+        showcase:
+`本品类可对外宣发的 3 个标杆商家:
+
+• 稚野风物(广州十三行)—— 90 天 GMV 620万→1820万,典型「设计师 + 快反工厂」内容化样本
+• 鹿衣社(深圳南油)—— 90 天 GMV 480万→1420万,潮牌「Y2K 复古」赛道头部
+• 苏意皮坊(海宁皮革城)—— 90 天 GMV 1200万→2120万,「老手艺新表达」皮草工艺标杆
+
+要不要看其中某一家的完整 showcase 文案?在「商家陪跑舱」里点对应商家「生成 showcase」就能直接出。`,
+        competitor:
+`和抖音/淘宝的服饰品类对比(基于公开数据):
+
+• GMV 总盘:小红书排第 3,但 30 天增速 +42% 高于行业均值
+• 客单价:小红书 280-580 元为主力段,显著高于抖音(180-380 元)
+• 复购率:小红书 22%,高于抖音(14%)和淘宝(18%)
+• 内容化能力:小红书核心差异点 —— 笔记互动率是赛道第一
+
+我们的优势集中在「品质女性高客单 + 复购」,适合主推中高端品牌。`,
+        newMerchant:
+`基于站外数据反向识别的服饰潜力新商 Top 5:
+
+• 拂晓衣社(新中式)—— 杭州 3 名设计师工作室,小批量精工,意向评分 9.2
+• 海宁老李皮草(皮草)—— SC + 出口资质,日产 80 件,意向评分 9.4
+• 织造数码(快反)—— 前优衣库 SCM 团队,7 天打样,意向评分 9.5
+• 版型库(数字化)—— 阿里 P7 离职团队,版型库 5000+,意向评分 9.6
+• 蓝橙(站外大商)—— 京东自营 TOP30,年销 3.6 亿,意向评分 9.4
+
+要不要把 Top 5 的触达清单发给 BD 团队?`,
+      },
+
+      '美妆个护': {
+        trends:
+`美妆品类 Top 3 蓝海赛道:
+
+① 早C晚A 套装:搜索环比 +220%,合规品牌覆盖仅 150 家,缺口 9.4/10
+② 男士护肤:18-24 岁人群心智 31%,GMV +88%,但供给薄弱
+③ 复古油皮护肤:18 岁人群内容互动 10%+,但匹配 SKU 不足
+
+建议优先引入功效型护肤标杆 3-5 家,品牌画像主要分布在上海奉贤 / 广州白云。`,
+        belts:
+`本品类双中心格局:
+
+• 广州白云(GMV 56.4 亿,渗透率 32.5%)—— 国产美妆制造主力,肌研社 / 白皙研究所领跑
+• 上海奉贤(42.3 亿,28%)—— 国际美妆品牌中国研发高地,黛沃肌肤 / 韵颜
+
+奉贤渗透率仅 28%,挖掘空间最大。系统已基于站外数据反向识别 47 家潜力商家。`,
+        merchants:
+`当前美妆品类 Top 5 待陪跑商家:
+
+① 净肤记(潜力)—— 健康度全维偏低,需流量扶持
+② 染色师(成长)—— 转化力 62,需要直挂改造
+③ 川流美研(成长)—— 长三角研发新势力,内容侧需扩量
+④ 时颜小研(潜力)—— 新锐品牌,需要内容冷启
+⑤ 男士护肤探员合作的商家 —— 男士赛道可深度联动`,
+        creators:
+`美妆品类 Top 5 高匹配达人:
+
+• 成分学姐(KOL,156w)—— 早C晚A,成分党专业,深度合作偏好
+• 阿露皮研所(KOL,92w)—— 油皮护肤研究,配方深度拆解
+• 笙笙的护肤日记(腰部,38w)—— 早八妆通勤,高产 22 篇/月
+• 抗老研究员阿M(腰部,28w)—— 抗衰精华深度,35+ 女性垂类
+• 配方手记(尾部,3.6w)—— 成分配方深度,互动率 17.4% 行业领先`,
+        bd:
+`品牌方负责人 钧鉴:
+
+致信目的:向贵司同步小红书美妆功效赛道近 30 天数据,发起合规商家定向招募。
+
+美妆 GMV 同比 +56.8%,早C晚A 组合搜索环比 +220%,18-24 岁年轻女性贡献该子赛道 71% 的 GMV。
+
+入驻资质:中检院功效报告 / 标签符合《化妆品标签管理办法》/ 提供试用装。
+
+权益:双11 期间品类页 Top 3 / 50+「成分党」达人池 / 奉贤产业带 1V1 对接。
+
+商务窗口至 11 月 22 日 17:00。回复:林晓晴 / linxiaoqing.bd@xiaohongshu.com`,
+        kpi:
+`你看到的数字差异是真实存在的。
+
+KPI 那个 198.4 亿是全平台所有美妆商家加起来的总盘子(包括我们没有直接运营的中长尾)。
+
+折线那个 30 天累加是我们重点跟的两个产业带(广州白云 + 上海奉贤)覆盖商家的口径,因为有几家头部品牌跨两个产业带运营,会被重复计数。
+
+差额是我们这岗位的「渗透空间」。本月美妆品类渗透率 32.8%,还有近 67% 的盘子等着接入。`,
+        report:
+`美妆品类本周运营简报(11/04-11/10):
+
+• 大盘 GMV 同比 +56.8%,环比 +22.4%(大促前爬坡明显)
+• 双11 倒计时 11 天,早C晚A 套装搜索 +220%
+• 上海奉贤产业带渗透率 28%,挖掘 47 家潜力商家
+• 男士护肤赛道 GMV +88%,客单价 280 元,值得场景化套装试点
+• 净肤记(潜力)需流量扶持
+
+下周:推进双11「功效护肤」品类页 Top 3 资源位排期。
+
+—— 林晓晴 / 美妆行业运营组`,
+        showcase:
+`美妆品类可对外宣发的 3 个标杆:
+
+• 肌研社(广州白云)—— 90 天 GMV 1420万→2820万,油皮护肤赛道内容力 Top 1
+• 白皙研究所(广州白云)—— 90 天 GMV 920万→1820万,国货美白功效线代表
+• 韵颜(上海奉贤)—— 90 天 GMV 880万→1680万,国际研发标准国货品牌
+
+在「商家陪跑舱」对应商家点「生成 showcase」可一键出 300 字对外文案。`,
+        competitor:
+`美妆品类对比(公开数据):
+
+• GMV 总盘:小红书排第 2(仅次于抖音直播)
+• 客单价:小红书主力 380-980 元,显著高于抖音(180-580 元)
+• 内容侧:小红书「成分党」社区是核心壁垒,科普类内容转化率高
+• 用户画像:18-30 岁女性占 78%,与美妆主力人群高度重合
+
+我们的差异化在「专业内容 + 高客单 + 复购」三轴,适合主推功效型 + 国际品牌。`,
+        newMerchant:
+`站外反向识别美妆潜力新商 Top 5:
+
+• 香界(店主设计)—— 前欧莱雅配方师,5 人调香,小众沙龙香水,9.1
+• 清研生物(转型技术)—— 前珀莱雅 R&D 6 人,自建实验室,9.4
+• 净研实验室(转型技术)—— 化妆品 OEM 转 DTC,8 人研发,9.1
+• 海蓝韵(站外大商)—— 天猫国际美妆 TOP50,日韩代理,9.0
+• 京颜社(站外大商)—— 京东国际年 GMV 1.2 亿,9.1
+
+是否一键加入 BD 触达队列?`,
+      },
+
+      '食品饮料': {
+        trends:
+`食品品类 Top 3 蓝海赛道:
+
+① 潮汕牛肉丸:近 30 天笔记数 +412%,但持牌商家仅 17 家,缺口 9.5/10
+② 阳澄湖大闸蟹:窗口期还剩 24 天,Top 5 商家 GMV 已达 2.6 亿,复购率 31%
+③ 低卡轻食:工作日 19-21 点搜索量是周末同时段 2.3 倍,但「即食方便」标签覆盖仅 41%
+
+建议本周内联动潮汕食品工业协会,定向引入 8-10 家持牌商家。`,
+        belts:
+`5 个地理标志产业带表现:
+
+• 五常(GMV 22 亿,渗透率 30%)—— 标杆,稻乡纪事领跑
+• 阳澄湖(14.6 亿,32%)—— 成长,蟹满堂大闸蟹品牌头号
+• 潮汕(18.4 亿,17%)—— ⚠️ 持牌商家不足,挖掘空间最大
+• 安溪(12.3 亿,23%)—— 成长,茶语山房铁观音内容种草王
+• 武夷山(8.2 亿,21%)—— 潜力,大红袍堂非遗世家
+
+潮汕渗透率最低,本周优先级最高。`,
+        merchants:
+`本品类 Top 5 待陪跑:
+
+① 茶语山房(标杆)—— 内容强转化弱,转化力 62,需直挂改造
+② 老枞水仙(潜力)—— 健康度均值 57,需基础建设
+③ 阳澄一品(成长)—— 季节限定,需精细化运营节奏
+④ 大红袍堂(成长)—— 客单价段拓展机会大
+⑤ 林记牛肉丸(成长)—— 笔记产出节奏可优化`,
+        creators:
+`食品品类 Top 5 高匹配达人:
+
+• 阿渔记(KOL,102w)—— 江南水鲜,对应阳澄湖大闸蟹季节
+• 潮汕食事(腰部,32w)—— 潮汕牛肉丸 + 美食探店,互动 12.4%
+• 阿森的茶桌(腰部,28w)—— 安溪铁观音茶事专业垂类
+• 稻香小厨(KOL,96w)—— 五常米家常菜,高产 KOL
+• 巷尾老味道(尾部,8.4w)—— 老字号探店,互动率 16.2%
+
+要不要给茶语山房匹配阿森的茶桌做内容直挂?`,
+        bd:
+`潮汕的乡亲、五常的米农、安溪的茶人:
+
+我是小红书电商食品行业运营。本应当面递的话,只能先发到您邮箱。
+
+近一个月潮汕牛肉丸笔记 +412%,五常米复购 31%,安溪铁观音互动是茶类均值 2.7 倍。
+
+平台能给到:顺丰冷链合作通道 / 产地溯源认证 / 「地方风味」话题日均 25 万曝光。
+
+请您配合:24h 出货 / 产地直发 / 每季 1 次达人产地探访。
+
+陈志远 / chenzhiyuan.bd@xiaohongshu.com —— 小红书电商生态合作部`,
+        kpi:
+`你看到的差异是真实业务里常见的多口径现象。
+
+KPI 那个 142.7 亿是全平台所有食品商家加总(包括很多中小卖家、个体户)。
+
+折线那个是我们重点跟的 5 个地理标志产业带(潮汕、阳澄湖、五常、安溪、武夷山)覆盖商家的口径。
+
+差额是「未覆盖的渗透空间」。食品品类的特殊性是:很多地方特产商家还没接入小红书。本月品类渗透率 28.6%,还有 71% 空间可吃。`,
+        report:
+`食品品类本周简报(11/04-11/10):
+
+• GMV 同比 +38.2%,环比 +11.5%
+• ⚠️ 潮汕牛肉丸内容暴涨但持牌商家不足(17 家)
+• 阳澄湖大闸蟹窗口期还剩 24 天,需冲量
+• 五常米品牌化样本「稻乡纪事」可作 showcase 候选
+• 安溪铁观音「茶语山房」内容种草强但商品转化弱,需直挂改造
+
+下周:联动潮汕政府招商办引入 8-10 家持牌商家。
+
+—— 陈志远 / 生态合作部`,
+        showcase:
+`食品可对外宣发的 3 个标杆:
+
+• 稻乡纪事(五常)—— 90 天 GMV 1420万→2680万,中国稻米品牌化样本
+• 潮巷牛肉(潮汕)—— 90 天 GMV 580万→1820万,潮汕 3 代手艺数字化
+• 蟹满堂(阳澄湖)—— 90 天 GMV 1180万→2420万,大闸蟹季节限定 IP 标杆
+
+3 份完整 showcase 可在「商家陪跑舱」对应商家点击生成。`,
+        competitor:
+`食品类对比(公开数据):
+
+• GMV 总盘:小红书排第 4,但产地直采品类增速领先行业
+• 客单价:小红书主力 88-280 元,显著高于拼多多(38-128 元)
+• 用户画像:小红书 25-35 岁品质女性高复购为主
+• 内容化:「地方风味」「家宴」话题是核心壁垒
+
+我们的差异化在「地理标志背书 + 品质高客单」,适合产地直采品牌。`,
+        newMerchant:
+`站外反向识别食品潜力新商 Top 5:
+
+• 潮巷三代(手艺人)—— 潮汕牛肉丸老字号,SC + 地理标志,9.5
+• 稻米合作社(手艺人)—— 五常市合作社,优质米证,9.2
+• 蟹农世家(手艺人)—— 阳澄湖蟹农,自营 300 亩蟹塘,9.3
+• 盒选(转型技术)—— 前盒马 P7 离职,12 人团队,9.5
+• 京鲜(站外大商)—— 京东自营生鲜年销 2.8 亿,9.3`,
+      },
+
+      '家居生活': {
+        trends:
+`家居 Top 3 蓝海赛道:
+
+① 新中式餐具:GMV +96%,景德镇承接率仅 23%,2200 万 GMV 流失到 1688 等站外
+② 侘寂风:客单 580 元(高出大盘 62%),25-30 岁女性渗透 38%
+③ 露营风家居:户外向人群渗透 52%,站内供给只有 134 家,集中度过高(CR3=58%)
+
+建议本月内引入 15-20 家景德镇手作工作室。`,
+        belts:
+`4 个核心产业带:
+
+• 南通家纺(GMV 32.2 亿,渗透率 37.8%)—— 超级,棉本家纺领跑
+• 东莞家具(28.4 亿,31.4%)—— 标杆,无垠木作原木设计派
+• 佛山陶瓷(24.6 亿,30.2%)—— 标杆,⚠️ 白塘瓷舍缺货预警
+• 景德镇陶瓷(14.2 亿,23%)—— 成长,栖息陶坊新中式手作
+
+景德镇渗透最低,优先挖掘对象。`,
+        merchants:
+`家居 Top 5 待陪跑商家:
+
+① 白塘瓷舍(标杆)—— 商品力 55 异常,主推 SKU 缺货 12 天
+② 山泉瓷屋(潜力)—— 健康度 55,需基础建设
+③ 浮光釉瓷(成长)—— 客单价拓展空间大
+④ 一缕苎麻(成长)—— 苎麻纤维需场景化教育
+⑤ 落日松林(成长)—— 北欧风转型期需指导`,
+        creators:
+`家居 Top 5 高匹配达人:
+
+• 栖野居物志(KOL,88w)—— 新中式家居美学,高客单受众
+• 小满的家(KOL,96w)—— 北欧极简家居,高产 KOL
+• 侘寂工房(腰部,38w)—— 侘寂风家居,美学审美高
+• 景德镇巡瓷记(腰部,22w)—— 景德镇瓷器 + 工坊探店
+• 子居(尾部,8.2w)—— 一人食的家居布置,互动率 15.8%`,
+        bd:
+`致每一位认真做家居的主理人:
+
+新中式餐具今年 GMV 同比 +96%,侘寂风 +112%,景德镇手作品类复购率 26% —— 做家居的人都知道,复购率超过 20% 意味着用户开始把你当「家庭的一部分」。
+
+小红书今年想做一件长期的事:沉淀家居内容资产,做出 3-5 年回头看依然有意义的 showcase 案例。
+
+我们提供:主题专区长效资源位 / 25 位生活方式达人共创 / 产业带 1V1 专属运营。
+
+苏明哲 / suminzhe.bd@xiaohongshu.com —— 小红书电商家居行业运营组`,
+        kpi:
+`你发现的差异是真实业务里常见的多口径现象。
+
+KPI 那个 118.2 亿是全平台所有家居商家的盘子。
+
+折线那个是我们重点跟的 4 个产业带(佛山、东莞、南通、景德镇)覆盖商家的口径。
+
+差额就是「未覆盖的渗透空间」。家居品类有大量站外大商(天猫、京东、1688)还没接入小红书内容化,本月渗透率 22.4%,这就是我们要去吃的市场。`,
+        report:
+`家居品类本周简报(11/04-11/10):
+
+• GMV 同比 +24.6%,环比 +4.2%(稳态)
+• ⚠️ 白塘瓷舍缺货预警,已联系景德镇分包工坊
+• 新中式餐具 GMV +96%,景德镇承接率仅 23%(机会)
+• 侘寂风客单价 580 元,高于大盘 62%
+• 露营风家居 CR3 集中度过高,需引入 30 家新商
+
+下周:推进景德镇手作商家 15-20 家定向招商。
+
+—— 苏明哲 / 家居行业运营组`,
+        showcase:
+`家居 3 个标杆:
+
+• 棉本家纺(南通)—— 90 天 GMV 1380万→2680万,南通棉麻床品赛道头号
+• 无垠木作(东莞)—— 90 天 GMV 1180万→2120万,东莞家具原木设计派
+• 栖息陶坊(景德镇)—— 90 天 GMV 680万→1380万,景德镇新中式手作典范
+
+3 份完整 showcase 可在「商家陪跑舱」对应商家点击生成。`,
+        competitor:
+`家居对比(公开数据):
+
+• GMV 总盘:小红书排第 4,但侘寂/新中式赛道领先行业
+• 客单价:小红书主力 280-880 元,高于淘宝中低端段
+• 用户画像:25-35 岁品质女性,装修期年龄段
+• 内容化:「家居美学」「一人居改造」话题是核心壁垒
+
+我们的差异化在「家居美学内容 + 长尾复购」,适合原创设计 + 手作品牌。`,
+        newMerchant:
+`家居潜力新商 Top 5:
+
+• 景之器(店主设计)—— 景陶毕业生工作室,3 设计 + 5 手作,9.2
+• 御窑陶匠(手艺人)—— 景德镇御窑 4 代传承,9.4
+• 德化白瓷(手艺人)—— 国家级非遗,年产 5000 件,9.5
+• 严选转(转型技术)—— 前网易严选选品组 8 人,9.3
+• 京家(站外大商)—— 京东自营家具年销 5.8 亿,9.5`,
+      },
+
+      '数码3C': {
+        trends:
+`3C Top 3 蓝海赛道:
+
+① 桌搭赛道:近 30 天笔记数 +228%,但站内匹配 SPU 仅 1.2 万,缺口指数 7.9/10
+② 复古数码:95 后搜索 +340%,客单价 680 元,笔记互动率 11.2%
+③ 智能家居整屋方案:互动量是单品 4.2 倍,但仅 8 家商家具备整屋售卖能力
+
+建议从东莞松山湖引入 20 家小众外设商家,本月新增 SPU 8000+。`,
+        belts:
+`珠三角双产业带格局,集中度行业最高:
+
+• 深圳华强北(GMV 52.6 亿,渗透率 29.8%)—— 超级,方阵智能领跑
+• 东莞松山湖(38.2 亿,28.9%)—— 标杆,微造科技华为系生态
+
+⚠️ 华强北「极客实验室」客诉率 5.8% 超品类警戒线 3%,本周需介入。`,
+        merchants:
+`3C Top 5 待陪跑商家:
+
+① 极客实验室(标杆)—— 复购力 55 异常,客诉率 5.8% 超警戒线
+② 北辰实验室(潜力)—— 健康度均值 57,需基础建设
+③ 像素工房(成长)—— 复购力可加强
+④ 触界实验室(成长)—— 转化力可优化
+⑤ 启橙数研(成长)—— 内容力可提升`,
+        creators:
+`3C Top 5 高匹配达人:
+
+• 桌物笔记(KOL,102w)—— 桌搭外设深度,极客桌面美学
+• 极客阿源(KOL,88w)—— 智能家居全屋方案
+• 像素工房主理人(腰部,32w)—— 复古胶片相机 + 影像改造
+• 声学小研(腰部,28w)—— 小众耳机声学,调音专业
+• 触感小研(尾部,3.6w)—— 触控外设测评,互动率 17.2%`,
+        bd:
+`3C 商家合作提案 v2.4 | 数据更新至 2024-11-08
+
+平台数据(30 天):3C GMV 同比 +32.1% / 环比 +14.8%,桌搭笔记 +228%(SPU 缺口 7.9/10),复古数码 95 后占比 73%,智能家居整屋方案互动量 = 单品 4.2 倍。
+
+权益:「桌搭好物」话题首屏日均 20 万曝光 / 50+ 数码 KOL 首笔 0 佣金 / 季度 8-10 档新品首发独占。
+
+筛选条件:原创设计或独占货源 / 客单价 ¥240-1280 / SKU 迭代周期 ≤ 90 天。
+
+T+5 内回执:周文博 / zhouwenbo.bd@xiaohongshu.com`,
+        kpi:
+`这两个数字口径不一样。
+
+KPI 那个 158.3 亿是全平台所有 3C 商家加总(包括大量个体卖家和小品牌)。
+
+折线那个是我们重点跟的两个产业带(华强北 + 松山湖)覆盖商家的口径。3C 产业带集中度行业最高,所以差额相对小,但仍有空间。
+
+差额就是「未触达的店主级创业者」。本月品类渗透率 18.9%,是 5 个品类里最低的,意味着挖掘空间最大。`,
+        report:
+`3C 本周简报(11/04-11/10):
+
+• GMV 同比 +32.1%,环比 +14.8%
+• ⚠️ 极客实验室客诉超线,本周内启动应急
+• 桌搭赛道笔记 +228%,SPU 缺口仍在
+• 11/14、11/26 两个新品首发档期需对接资源位
+• 智能家居整屋方案样本「方阵智能」可作 showcase
+
+下周:推进东莞松山湖小众外设商家 20 家定向招商。
+
+—— 周文博 / 数码行业运营组`,
+        showcase:
+`3C 3 个标杆:
+
+• 方阵智能(华强北)—— 90 天 GMV 1420万→2420万,智能家居整屋方案领跑
+• 微造科技(松山湖)—— 90 天 GMV 1180万→2180万,松山湖智能硬件研发派
+• 形物所(松山湖)—— 90 天 GMV 880万→1620万,桌搭美学独立设计先锋`,
+        competitor:
+`3C 对比(公开数据):
+
+• GMV 总盘:小红书排第 5(3C 是抖音/京东主战场)
+• 客单价:小红书主力 240-1280 元,「桌搭美学」类目高于行业
+• 用户画像:25-35 岁白领 + 极客向青年
+• 差异化:「桌面美学」「极客好物」内容是核心壁垒
+
+我们的优势是「内容化 + 场景化」,适合小众设计 + 桌搭组合销售。`,
+        newMerchant:
+`3C 潜力新商 Top 5:
+
+• 桌物所(店主设计)—— 深圳工业设计师,3 设计 + 2 工程师,9.3
+• MCU 门(转型技术)—— 前华为终端 4 人,自研 MCU,9.3
+• 米链(转型技术)—— 前小米生态链 6 人,整屋智能方案,9.5
+• 京数(站外大商)—— 京东自营 3C 年销 6.2 亿,9.5
+• 1688 数(站外大商)—— 跨境年外贸 5.8 亿,9.1`,
+      },
+    };
+
+    // 兜底回答模板(每品类用同一模板,运行时填入用户输入)
+    function generateFallback(question, cat) {
+      const trimmedQ = question.length > 24 ? question.slice(0, 24) + '…' : question;
+      const qs = QUICK_QUESTIONS[cat] || [];
+      return `我理解您想了解「${trimmedQ}」相关的内容。
+
+基于当前${cat}数据,建议从以下方向探索:
+· 查看品类趋势词热度图谱(模块 2)
+· 评估重点商家健康度诊断(模块 4)
+· 解析产业带渗透与挖掘机会(模块 3)
+
+您可以试试问:
+[${qs[0] || '本月趋势机会'}]
+[${qs[1] || '商家健康度诊断'}]
+[${qs[2] || '生成招商话术'}]`;
+    }
+
+    function routeQuestion(text) {
+      const lower = (text || '').toLowerCase();
+      for (const intent of ASSISTANT_INTENTS) {
+        if (intent.keywords.some(k => lower.includes(k.toLowerCase()))) return intent.id;
+      }
+      return null;  // fallback
+    }
+
+    /* ============================================================
+       API_ENDPOINTS —— 数据上传 Modal Tab 3 用
+       ============================================================ */
+    const API_ENDPOINTS = [
+      {
+        id: 'commerce', icon: '📊', name: '小红书电商交易中台 API',
+        endpoint: 'api.xhs-commerce.internal/v1/',
+        lastSync: '2024-11-08 03:21',
+        extraLabel: '同步频率', extraValue: '每日 03:00',
+        status: 'connected',
+        logs:
+`[03:00:21] [INFO]  Sync started: merchants endpoint
+[03:00:23] [INFO]  Authenticated, token TTL 3600s
+[03:00:23] [INFO]  Fetching paginated, page_size=500
+[03:00:31] [INFO]  Fetched 18,420 records in 8 pages
+[03:00:31] [INFO]  Validating schema: 28 required fields
+[03:00:42] [INFO]  Validated: 18,420 records (0 errors, 12 warnings)
+[03:00:42] [WARN]  12 records have missing repurchase_rate, defaulted to 0
+[03:00:43] [INFO]  Indexed to vector store (collection: merchants_v3)
+[03:00:43] [INFO]  Sync completed in 22s, next run: 2024-11-09 03:00`,
+      },
+      {
+        id: 'content', icon: '📝', name: '小红书内容数据中台 API',
+        endpoint: 'api.xhs-content.internal/v2/',
+        lastSync: '2024-11-08 03:25',
+        extraLabel: '数据覆盖', extraValue: '笔记 / 互动 / 搜索词',
+        status: 'connected',
+        logs:
+`[03:25:02] [INFO]  Sync started: content endpoint (notes + interactions + search)
+[03:25:04] [INFO]  Authenticated, token TTL 3600s
+[03:25:08] [INFO]  Fetching notes incremental, since=2024-11-07 03:25:00
+[03:25:42] [INFO]  Fetched 142,318 new notes
+[03:26:14] [INFO]  Fetched 2.4M interaction events
+[03:26:38] [INFO]  Fetched 38,202 unique search terms (top 10000 retained)
+[03:26:42] [INFO]  Schema validated, no errors
+[03:26:58] [INFO]  Indexed to vector store + search analytics warehouse
+[03:26:58] [INFO]  Sync completed in 116s, next run: 2024-11-09 03:25`,
+      },
+      {
+        id: 'creator', icon: '🎤', name: '小红书达人系统 API',
+        endpoint: 'api.xhs-creator.internal/v1/',
+        lastSync: '2024-11-08 03:18',
+        extraLabel: '数据范围', extraValue: '达人画像 / 互动数据 / 商业笔记',
+        status: 'connected',
+        logs:
+`[03:18:12] [INFO]  Sync started: creator endpoint
+[03:18:14] [INFO]  Authenticated, token TTL 3600s
+[03:18:18] [INFO]  Fetching active creators (active = bizNotes > 0 last 30d)
+[03:18:28] [INFO]  Fetched 28,420 creator profiles
+[03:18:36] [INFO]  Fetched commercial-note metadata for top 5000
+[03:18:42] [INFO]  Validated: 28,420 records (0 errors)
+[03:18:51] [INFO]  Tagged creator tier (KOL / 腰部 / 尾部) by fan count
+[03:18:52] [INFO]  Indexed to creator-match service
+[03:18:52] [INFO]  Sync completed in 40s, next run: 2024-11-09 03:18`,
+      },
+      {
+        id: 'search', icon: '🔍', name: '小红书搜索词数据 API',
+        endpoint: 'api.xhs-search.internal/v1/',
+        lastSync: null,
+        extraLabel: '配置状态', extraValue: '等待运维分配 access key',
+        status: 'pending',
+        logs: '[尚未连接,暂无日志]',
+      },
+    ];
+
+    /* ============================================================
+       CSV 模板字段定义
+       ============================================================ */
+    const UPLOAD_TABS = [
+      {
+        id: 'merchant', label: '商家数据', icon: '🏪',
+        confirmLabel: '确认上传商家数据',
+        desc: '上传后,系统将自动归一化字段并接入商家健康度计算管线',
+        fields: [
+          { name: 'merchant_id',     desc: '商家 ID(主键,字符串)' },
+          { name: 'category',        desc: '品类(枚举)' },
+          { name: 'gmv_30d',         desc: '近 30 天 GMV(数值,万元)' },
+          { name: 'note_count',      desc: '笔记数(整数)' },
+          { name: 'creator_count',   desc: '合作达人数(整数)' },
+          { name: 'repurchase_rate', desc: '复购率(浮点,0-1)' },
+        ],
+      },
+      {
+        id: 'belt', label: '产业带名录', icon: '🗺️',
+        confirmLabel: '确认上传产业带名录',
+        desc: '上传产业带名录后,系统将自动扩展挖掘池,识别该产业带内的潜力商家',
+        fields: [
+          { name: 'belt_name',      desc: '产业带名称(主键)' },
+          { name: 'region',         desc: '所在地区(省市)' },
+          { name: 'category',       desc: '主营品类' },
+          { name: 'merchant_total', desc: '总商家数(整数)' },
+          { name: 'avg_gmv',        desc: '平均 GMV(万元)' },
+          { name: 'contact_org',    desc: '合作政府/协会名称' },
+        ],
+      },
+      {
+        id: 'api', label: 'API 对接配置', icon: '🔌',
+        confirmLabel: '保存配置',
+        desc: '配置企业内部数据中台 API,接入后所有 AI 模型支持基于内部数据增量训练',
+      },
+    ];
+
+    /* ============================================================
+       Step 7 数据装配完成
+       ============================================================ */
+
     // 产业带 GMV 曲线生成(沿用品类形态、缩放到产业带量级、加种子小抖动)
     function genBeltGmvCurve(catCurve, beltGmv, seed) {
       const catSum = catCurve.reduce((a, b) => a + b, 0);
@@ -8675,6 +10072,479 @@ T+7 入驻 / T+14 首笔达人合作 / T+30 进入「3C 标杆」陪跑池(月�
     }
 
     moduleRenderers.creators = renderCreators;
+
+    /* ============================================================
+       模块 6:AI 助手(浮窗 + 全屏共享对话状态)
+       ============================================================ */
+
+    state.assistant = { messages: [], prevModule: 'dashboard' };
+
+    // 渲染欢迎语 + 快捷问题(浮窗 / 全屏共用)
+    function renderWelcome(container, isPop) {
+      const wel = document.createElement('div');
+      wel.className = 'ai-chat-welcome';
+      const greet = document.createElement('div');
+      greet.innerHTML = '您好,我是 <b>RedOps AI 助手</b>,可以帮你:';
+      wel.appendChild(greet);
+      const ul = document.createElement('ul');
+      ul.className = 'ai-chat-welcome-list';
+      ['分析品类趋势 & 蓝海机会', '评估商家健康度 + 生成陪跑计划', '生成招商话术 / 周报 / showcase', '解释数据口径,跨模块联动分析'].forEach(t => {
+        const li = document.createElement('li'); li.textContent = t; ul.appendChild(li);
+      });
+      wel.appendChild(ul);
+      const tip = document.createElement('div');
+      tip.style.cssText = 'margin-top:8px;color:var(--text-2);font-size:12.5px';
+      tip.textContent = '您可以试试以下问题👇';
+      wel.appendChild(tip);
+      container.appendChild(wel);
+
+      const quicks = document.createElement('div');
+      quicks.className = 'ai-chat-quicks';
+      (QUICK_QUESTIONS[state.category] || []).forEach(q => {
+        const btn = document.createElement('button');
+        btn.className = 'ai-chat-quick';
+        btn.textContent = q;
+        btn.onclick = () => sendQuestion(q.replace(/^[📊🔍📝💡]\s*/, ''));
+        quicks.appendChild(btn);
+      });
+      container.appendChild(quicks);
+    }
+
+    // 渲染单个气泡
+    function renderBubble(container, role, text, streaming) {
+      const bubble = document.createElement('div');
+      bubble.className = 'ai-bubble ' + role;
+      const avatar = document.createElement('div');
+      avatar.className = 'ai-bubble-avatar';
+      avatar.textContent = role === 'user' ? '我' : '🤖';
+      const content = document.createElement('div');
+      content.className = 'ai-bubble-content';
+      bubble.appendChild(avatar);
+      bubble.appendChild(content);
+      container.appendChild(bubble);
+      if (streaming) {
+        typewriter(content, text, 20).then(() => {
+          // scroll
+          container.parentElement.scrollTop = container.parentElement.scrollHeight;
+        });
+      } else {
+        content.textContent = text;
+      }
+      // scroll
+      requestAnimationFrame(() => {
+        container.parentElement.scrollTop = container.parentElement.scrollHeight;
+      });
+    }
+
+    // 重新渲染对话区(浮窗 / 全屏切换时)
+    function rerenderChat(target) {
+      const body = target === 'pop' ? document.getElementById('ai-chat-body') : document.getElementById('ai-full-thread');
+      if (!body) return;
+      body.replaceChildren();
+      if (state.assistant.messages.length === 0) {
+        renderWelcome(body, target === 'pop');
+      } else {
+        state.assistant.messages.forEach(m => renderBubble(body, m.role, m.text, false));
+      }
+      // 头部品类显示
+      const catEl = target === 'pop' ? document.getElementById('ai-chat-cat') : document.getElementById('ai-full-cat');
+      if (catEl) catEl.textContent = state.category;
+    }
+
+    // 发送问题
+    function sendQuestion(text) {
+      const q = (text || '').trim();
+      if (!q) return;
+      // 决定渲染目标(浮窗或全屏)
+      const popOpen = document.getElementById('ai-chat-pop').classList.contains('open');
+      const inFull  = state.module === 'assistant';
+      const container = inFull ? document.getElementById('ai-full-thread')
+                               : document.getElementById('ai-chat-body');
+      // 清欢迎语 if first message
+      if (state.assistant.messages.length === 0) container.replaceChildren();
+
+      // 添加用户消息
+      state.assistant.messages.push({ role: 'user', text: q });
+      renderBubble(container, 'user', q, false);
+
+      // 路由 + 回复
+      const intent = routeQuestion(q);
+      const answer = intent
+        ? (ASSISTANT_RESPONSES[state.category] || {})[intent] || generateFallback(q, state.category)
+        : generateFallback(q, state.category);
+
+      state.assistant.messages.push({ role: 'ai', text: answer });
+      // 流式打字机
+      setTimeout(() => renderBubble(container, 'ai', answer, true), 250);
+    }
+
+    function clearChat() {
+      cancelTypewriters();
+      state.assistant.messages = [];
+      rerenderChat(document.getElementById('ai-chat-pop').classList.contains('open') ? 'pop' : 'full');
+    }
+
+    // 浮窗 open/close
+    function openChatPop() {
+      rerenderChat('pop');
+      document.getElementById('ai-chat-pop').classList.add('open');
+    }
+    function closeChatPop() {
+      document.getElementById('ai-chat-pop').classList.remove('open');
+      cancelTypewriters();
+    }
+
+    // 浮窗 ↔ 全屏切换
+    function expandToFull() {
+      closeChatPop();
+      state.assistant.prevModule = state.module === 'assistant' ? state.assistant.prevModule : state.module;
+      switchModule('assistant');
+    }
+    function minimizeToPopup() {
+      // 回到之前模块
+      switchModule(state.assistant.prevModule || 'dashboard');
+      // 浮窗打开
+      openChatPop();
+    }
+
+    // 事件绑定
+    document.getElementById('ai-fab').onclick = openChatPop;
+    document.getElementById('ai-chat-close').onclick  = closeChatPop;
+    document.getElementById('ai-chat-clear').onclick  = clearChat;
+    document.getElementById('ai-chat-expand').onclick = expandToFull;
+    document.getElementById('ai-chat-send').onclick = () => {
+      const i = document.getElementById('ai-chat-input');
+      sendQuestion(i.value);
+      i.value = '';
+    };
+    document.getElementById('ai-chat-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        sendQuestion(e.target.value);
+        e.target.value = '';
+      }
+    });
+    document.getElementById('ai-full-clear').onclick = clearChat;
+    document.getElementById('ai-full-min').onclick   = minimizeToPopup;
+    document.getElementById('ai-full-send').onclick = () => {
+      const i = document.getElementById('ai-full-input');
+      sendQuestion(i.value);
+      i.value = '';
+    };
+    document.getElementById('ai-full-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        sendQuestion(e.target.value);
+        e.target.value = '';
+      }
+    });
+
+    // 模块 6 入口:rerenderAll 触发时重渲对话
+    moduleRenderers.assistant = () => {
+      document.getElementById('ai-full-cat').textContent = state.category;
+      document.getElementById('ai-full-range').textContent = '近 ' + state.range + ' 天';
+      rerenderChat('full');
+    };
+
+    /* ============================================================
+       数据上传 Modal
+       ============================================================ */
+    state.uploadTab = 'merchant';
+
+    function openUploadModal(tab) {
+      if (tab) state.uploadTab = tab;
+      renderUploadModal();
+      document.getElementById('upload-mask').classList.add('open');
+    }
+    function closeUploadModal() {
+      document.getElementById('upload-mask').classList.remove('open');
+    }
+    document.getElementById('upload-mask').onclick = (e) => {
+      if (e.target.id === 'upload-mask') closeUploadModal();
+    };
+    document.getElementById('upload-cancel').onclick = closeUploadModal;
+    document.getElementById('upload-confirm').onclick = () => {
+      const tabId = state.uploadTab;
+      const tabCfg = UPLOAD_TABS.find(t => t.id === tabId);
+      // 1.5s loading toast
+      tempToast('数据接入中,请稍候...');
+      setTimeout(() => {
+        if (tabId === 'api') tempToast('✅ API 配置已保存');
+        else tempToast('✅ 数据已接入,模型将在 24h 内完成训练融合');
+        closeUploadModal();
+      }, 1500);
+    };
+
+    function renderUploadModal() {
+      // Tabs
+      const tabsEl = document.getElementById('upload-tabs');
+      tabsEl.replaceChildren();
+      UPLOAD_TABS.forEach(t => {
+        const btn = document.createElement('button');
+        btn.className = 'upload-tab' + (t.id === state.uploadTab ? ' active' : '');
+        btn.innerHTML = `<span>${t.icon}</span><span>${t.label}</span>`;
+        btn.onclick = () => { state.uploadTab = t.id; renderUploadModal(); };
+        tabsEl.appendChild(btn);
+      });
+
+      const body = document.getElementById('upload-body');
+      body.replaceChildren();
+
+      const cur = UPLOAD_TABS.find(t => t.id === state.uploadTab);
+      document.getElementById('upload-confirm').textContent = cur.confirmLabel;
+      if (cur.id === 'api') {
+        document.getElementById('upload-confirm').style.display = 'none';
+        renderApiTab(body);
+      } else {
+        document.getElementById('upload-confirm').style.display = '';
+        renderCsvTab(body, cur);
+      }
+
+      // 通用 disclaimer
+      const dis = document.createElement('div');
+      dis.className = 'upload-disclaimer';
+      dis.innerHTML = '💡 本产品采用可插拔数据架构设计。当前演示版本基于模拟数据 + 公开行业数据,对接小红书内部数据中台后可立即投入生产使用。所有 AI 模型支持基于内部数据增量训练,确保输出符合业务实际。';
+      const links = document.createElement('div');
+      links.className = 'upload-disclaimer-links';
+      ['📖 接入指南', '🔒 数据安全', '📞 联系架构组'].forEach(t => {
+        const a = document.createElement('a'); a.textContent = t;
+        a.onclick = () => tempToast('文档跳转(演示)'); links.appendChild(a);
+      });
+      dis.appendChild(links);
+      body.appendChild(dis);
+    }
+
+    function renderCsvTab(body, cfg) {
+      // 拖拽区
+      const drop = document.createElement('div');
+      drop.className = 'upload-drop';
+      drop.innerHTML = `
+        <div class="upload-drop-icon">📤</div>
+        <div class="upload-drop-title">拖拽文件到此处或点击选择</div>
+        <div class="upload-drop-desc">支持 CSV / Excel,单文件 ≤ 50MB</div>
+      `;
+      const fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.accept = '.csv,.txt,.xlsx,.xls';
+      fileInput.style.display = 'none';
+      drop.appendChild(fileInput);
+      drop.onclick = () => fileInput.click();
+      drop.ondragover  = (e) => { e.preventDefault(); drop.classList.add('dragover'); };
+      drop.ondragleave = () => drop.classList.remove('dragover');
+      drop.ondrop = (e) => {
+        e.preventDefault();
+        drop.classList.remove('dragover');
+        if (e.dataTransfer.files.length) handleCsvFile(e.dataTransfer.files[0], body, cfg);
+      };
+      fileInput.onchange = () => {
+        if (fileInput.files.length) handleCsvFile(fileInput.files[0], body, cfg);
+      };
+      body.appendChild(drop);
+
+      // links
+      const links = document.createElement('div');
+      links.className = 'upload-links';
+      const lk1 = document.createElement('a'); lk1.className = 'upload-link'; lk1.textContent = '📄 查看示例文件';
+      lk1.onclick = () => tempToast('示例文件下载(演示)');
+      const lk2 = document.createElement('a'); lk2.className = 'upload-link'; lk2.textContent = '⬇️ 下载模板 CSV';
+      lk2.onclick = () => tempToast('模板下载(演示)');
+      links.appendChild(lk1); links.appendChild(lk2);
+      body.appendChild(links);
+
+      // fields
+      const fields = document.createElement('div');
+      fields.className = 'upload-fields';
+      const ftitle = document.createElement('div');
+      ftitle.className = 'upload-fields-title';
+      ftitle.textContent = '期望字段:';
+      fields.appendChild(ftitle);
+      const flist = document.createElement('ul');
+      flist.className = 'upload-fields-list';
+      cfg.fields.forEach(f => {
+        const li = document.createElement('li');
+        const code = document.createElement('code'); code.textContent = f.name;
+        li.appendChild(code);
+        const desc = document.createElement('span'); desc.textContent = ' — ' + f.desc;
+        li.appendChild(desc);
+        flist.appendChild(li);
+      });
+      fields.appendChild(flist);
+      body.appendChild(fields);
+
+      const desc = document.createElement('div');
+      desc.style.cssText = 'margin-top:12px;font-size:12px;color:var(--text-2);line-height:1.7';
+      desc.textContent = cfg.desc;
+      body.appendChild(desc);
+
+      // preview placeholder
+      const previewWrap = document.createElement('div');
+      previewWrap.id = 'upload-preview-wrap';
+      body.appendChild(previewWrap);
+    }
+
+    function handleCsvFile(file, body, cfg) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target.result || '';
+        const lines = String(text).split(/\r?\n/).filter(l => l.trim().length > 0);
+        const totalRows = Math.max(0, lines.length - 1); // 减表头
+        const header = (lines[0] || '').split(',').map(s => s.trim());
+        const sampleRows = lines.slice(1, 6).map(l => l.split(',').map(s => s.trim()));
+
+        const wrap = document.getElementById('upload-preview-wrap');
+        if (!wrap) return;
+        wrap.replaceChildren();
+        const preview = document.createElement('div');
+        preview.className = 'upload-preview';
+        const head = document.createElement('div');
+        head.className = 'upload-preview-head';
+        const fn = document.createElement('span');
+        fn.className = 'upload-preview-filename';
+        fn.textContent = '📄 ' + file.name;
+        const meta = document.createElement('span');
+        meta.className = 'upload-preview-meta';
+        meta.textContent = `(${(file.size / 1024).toFixed(1)} KB · ${totalRows.toLocaleString()} 行)`;
+        head.appendChild(fn);
+        head.appendChild(meta);
+        preview.appendChild(head);
+
+        const previewTitle = document.createElement('div');
+        previewTitle.style.cssText = 'font-size:12px;color:var(--text-3);margin:6px 0';
+        previewTitle.textContent = '前 5 行预览:';
+        preview.appendChild(previewTitle);
+
+        const tableWrap = document.createElement('div');
+        tableWrap.className = 'upload-preview-table-wrap';
+        const table = document.createElement('table');
+        table.className = 'upload-preview-table';
+        if (header.length) {
+          const thead = document.createElement('thead');
+          const tr = document.createElement('tr');
+          header.forEach(h => { const th = document.createElement('th'); th.textContent = h; tr.appendChild(th); });
+          thead.appendChild(tr); table.appendChild(thead);
+        }
+        const tbody = document.createElement('tbody');
+        sampleRows.forEach(row => {
+          const tr = document.createElement('tr');
+          row.forEach(c => { const td = document.createElement('td'); td.textContent = c; tr.appendChild(td); });
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+        tableWrap.appendChild(table);
+        preview.appendChild(tableWrap);
+
+        const check = document.createElement('div');
+        check.className = 'upload-preview-check';
+        check.textContent = '✓ 字段全部匹配 · ✓ 数据格式校验通过(' + totalRows.toLocaleString() + ' 行)';
+        preview.appendChild(check);
+        wrap.appendChild(preview);
+      };
+      reader.readAsText(file.slice(0, 1024 * 200));  // 只读前 200KB,够取前 5 行
+    }
+
+    function renderApiTab(body) {
+      const list = document.createElement('div');
+      list.className = 'api-list';
+      API_ENDPOINTS.forEach(api => {
+        const card = document.createElement('div');
+        card.className = 'api-card' + (api.status === 'pending' ? ' pending' : '');
+
+        const head = document.createElement('div');
+        head.className = 'api-card-head';
+        const icon = document.createElement('span'); icon.className = 'api-card-icon'; icon.textContent = api.icon;
+        const name = document.createElement('span'); name.className = 'api-card-name'; name.textContent = api.name;
+        const st   = document.createElement('span'); st.className   = 'api-card-status ' + api.status;
+        st.textContent = api.status === 'connected' ? '已连接 ✓' : '待配置';
+        head.appendChild(icon); head.appendChild(name); head.appendChild(st);
+
+        const meta = document.createElement('div');
+        meta.className = 'api-card-meta';
+        const mkLine = (k, v) => {
+          const d = document.createElement('div');
+          const ke = document.createElement('span'); ke.className = 'label'; ke.textContent = k + ':';
+          d.appendChild(ke);
+          d.appendChild(document.createTextNode(' ' + v));
+          return d;
+        };
+        meta.appendChild(mkLine('Endpoint', api.endpoint));
+        if (api.lastSync) meta.appendChild(mkLine('最后同步', api.lastSync));
+        meta.appendChild(mkLine(api.extraLabel, api.extraValue));
+
+        const acts = document.createElement('div');
+        acts.className = 'api-card-actions';
+        if (api.status === 'connected') {
+          const b1 = document.createElement('button'); b1.className = 'api-btn'; b1.textContent = '测试连接';
+          b1.onclick = () => { tempToast('正在测试...'); setTimeout(() => tempToast('✅ 连接正常,延迟 ' + (18 + Math.floor(Math.random() * 12)) + 'ms'), 1000); };
+          const b2 = document.createElement('button'); b2.className = 'api-btn'; b2.textContent = '编辑配置';
+          b2.onclick = () => openApiEditModal(api);
+          const b3 = document.createElement('button'); b3.className = 'api-btn'; b3.textContent = '查看日志';
+          b3.onclick = () => openApiLogModal(api);
+          acts.appendChild(b1); acts.appendChild(b2); acts.appendChild(b3);
+        } else {
+          const b = document.createElement('button'); b.className = 'api-btn primary'; b.textContent = '立即配置 →';
+          b.onclick = () => openApiEditModal(api);
+          acts.appendChild(b);
+        }
+
+        card.appendChild(head);
+        card.appendChild(meta);
+        card.appendChild(acts);
+        list.appendChild(card);
+      });
+      body.appendChild(list);
+
+      const bottomActs = document.createElement('div');
+      bottomActs.className = 'upload-bottom-actions';
+      const a1 = document.createElement('a'); a1.textContent = '+ 添加新数据源';
+      a1.onclick = () => tempToast('新数据源接入(演示)');
+      const a2 = document.createElement('a'); a2.textContent = '📚 查看接入文档';
+      a2.onclick = () => tempToast('接入文档跳转(演示)');
+      bottomActs.appendChild(a1); bottomActs.appendChild(a2);
+      body.appendChild(bottomActs);
+    }
+
+    function openApiEditModal(api) {
+      document.getElementById('api-edit-title').textContent = '编辑配置 · ' + api.name;
+      document.getElementById('api-edit-url').value = api.endpoint;
+      document.getElementById('api-edit-mask').classList.add('open');
+    }
+    function closeApiEditModal() {
+      document.getElementById('api-edit-mask').classList.remove('open');
+    }
+    document.getElementById('api-edit-close').onclick = closeApiEditModal;
+    document.getElementById('api-edit-cancel').onclick = closeApiEditModal;
+    document.getElementById('api-edit-save').onclick = () => {
+      tempToast('✅ 配置已保存');
+      closeApiEditModal();
+    };
+    document.getElementById('api-edit-mask').onclick = (e) => {
+      if (e.target.id === 'api-edit-mask') closeApiEditModal();
+    };
+
+    function openApiLogModal(api) {
+      document.getElementById('api-log-title').textContent = '同步日志 · ' + api.name;
+      document.getElementById('api-log-text').textContent = api.logs;
+      document.getElementById('api-log-mask').classList.add('open');
+    }
+    function closeApiLogModal() {
+      document.getElementById('api-log-mask').classList.remove('open');
+    }
+    document.getElementById('api-log-close').onclick = closeApiLogModal;
+    document.getElementById('api-log-ok').onclick = closeApiLogModal;
+    document.getElementById('api-log-mask').onclick = (e) => {
+      if (e.target.id === 'api-log-mask') closeApiLogModal();
+    };
+
+    // ESC 关闭所有 modal
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'Escape') return;
+      if (document.getElementById('api-log-mask').classList.contains('open'))  return closeApiLogModal();
+      if (document.getElementById('api-edit-mask').classList.contains('open')) return closeApiEditModal();
+      if (document.getElementById('upload-mask').classList.contains('open'))   return closeUploadModal();
+      if (document.getElementById('ai-chat-pop').classList.contains('open'))   return closeChatPop();
+    });
+
+    // 上传按钮(替换之前的 tempToast)
+    document.getElementById('btn-upload-sidebar').onclick =
+    document.getElementById('btn-upload-top').onclick = () => openUploadModal();
 
     /* ============================================================
        初始化
