@@ -162,7 +162,7 @@
       gap: 24px;
     }
     .topbar-title {
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 600;
       color: var(--text-1);
       min-width: 200px;
@@ -182,7 +182,7 @@
     }
     .cat-tab {
       padding: 6px 14px;
-      border-radius: 7px;
+      border-radius: 8px;
       font-size: 13px;
       color: var(--text-2);
       cursor: pointer;
@@ -695,7 +695,7 @@
       margin-bottom: 6px;
       flex-wrap: wrap;
     }
-    .belts-detail-name { font-size: 19px; font-weight: 700; color: var(--text-1); }
+    .belts-detail-name { font-size: 18px; font-weight: 700; color: var(--text-1); }
     .belts-tier-tag {
       display: inline-block;
       padding: 2px 9px;
@@ -803,7 +803,7 @@
       height: 100%;
       background: linear-gradient(90deg, #FFA07A, #FF2442);
       border-radius: 3px;
-      transition: width 0.4s ease;
+      transition: width 0.3s ease;
     }
 
     /* 聚合视图 tier 胶囊 */
@@ -1077,7 +1077,7 @@
       stroke-width: 1.8;
       stroke-linecap: round;
       stroke-linejoin: round;
-      transition: transform 0.25s ease;
+      transition: transform 0.2s ease;
     }
     .merchants-sort-dir.asc svg { transform: rotate(180deg); }
     .merchants-count {
@@ -1256,7 +1256,7 @@
       z-index: 100;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.25s ease;
+      transition: opacity 0.3s ease;
     }
     .coach-mask.open { opacity: 1; pointer-events: auto; }
 
@@ -1907,7 +1907,7 @@
       transform: translateY(20px) scale(0.96);
       opacity: 0;
       pointer-events: none;
-      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       overflow: hidden;
     }
     .ai-chat-pop.open { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
@@ -2196,17 +2196,17 @@
       z-index: 300;
       display: flex; align-items: center; justify-content: center;
       opacity: 0; pointer-events: none;
-      transition: opacity 0.25s ease;
+      transition: opacity 0.3s ease;
     }
     .upload-mask.open { opacity: 1; pointer-events: auto; }
     .upload-modal {
       width: 720px;
       max-height: 80vh;
       background: var(--card);
-      border-radius: 18px;
+      border-radius: 16px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.25);
       transform: scale(0.96);
-      transition: transform 0.25s ease;
+      transition: transform 0.3s ease;
       display: flex; flex-direction: column;
       overflow: hidden;
     }
@@ -2446,7 +2446,7 @@
       display: flex; flex-direction: column;
       overflow: hidden;
       transform: scale(0.96);
-      transition: transform 0.2s ease;
+      transition: transform 0.3s ease;
     }
     .api-sub-mask.open .api-sub-modal { transform: scale(1); }
     .api-sub-head {
@@ -2496,6 +2496,44 @@
       display: flex; justify-content: flex-end; gap: 10px;
     }
 
+    /* ========== 通用骨架屏(switchModule 时短暂闪现)========== */
+    .skeleton-overlay {
+      position: fixed;
+      top: var(--top-h); left: var(--nav-w); right: 0; bottom: 0;
+      background: var(--bg);
+      z-index: 50;
+      display: flex; flex-direction: column;
+      padding: 24px;
+      gap: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .skeleton-overlay.show { opacity: 1; pointer-events: auto; }
+    .skeleton-bar {
+      background: linear-gradient(90deg, #F0F0F0 0%, #FAFAFA 50%, #F0F0F0 100%);
+      background-size: 200% 100%;
+      animation: skeletonShimmer 1.2s linear infinite;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+    @keyframes skeletonShimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* ========== 通用空状态(模块 5 等)========== */
+    .empty-state {
+      grid-column: 1 / -1;
+      padding: 48px 20px;
+      text-align: center;
+      color: var(--text-3);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .empty-state-icon { font-size: 28px; opacity: 0.6; }
+    .empty-state-title { font-size: 14px; color: var(--text-2); font-weight: 600; }
+    .empty-state-desc { font-size: 12px; color: var(--text-3); }
+
     /* 通用 Modal(Step 3 引入,Step 7 复用) */
     .modal-mask {
       position: fixed;
@@ -2521,7 +2559,7 @@
       flex-direction: column;
       box-shadow: 0 24px 64px rgba(0,0,0,0.18);
       transform: translateY(8px) scale(0.98);
-      transition: transform 0.2s ease;
+      transition: transform 0.3s ease;
     }
     .modal-mask.open .modal { transform: translateY(0) scale(1); }
     .modal-header {
@@ -3155,6 +3193,13 @@
       </button>
     </header>
     <div class="coach-sub-content" id="note-panel-content"></div>
+  </div>
+
+  <!-- ========== 通用骨架屏 ========== -->
+  <div class="skeleton-overlay" id="skeleton-overlay">
+    <div class="skeleton-bar" style="height:80px"></div>
+    <div class="skeleton-bar" style="height:320px"></div>
+    <div class="skeleton-bar" style="height:220px"></div>
   </div>
 
   <!-- ========== AI 助手浮窗对话框 ========== -->
@@ -7698,6 +7743,13 @@ KPI 那个 158.3 亿是全平台所有 3C 商家加总(包括大量个体卖家�
       cancelTypewriters();
       state.module = name;
 
+      // 骨架屏短暂闪现(给"在加载内容"的反馈)
+      const sk = document.getElementById('skeleton-overlay');
+      if (sk) {
+        sk.classList.add('show');
+        setTimeout(() => sk.classList.remove('show'), 180);
+      }
+
       document.querySelectorAll('.nav-item').forEach(el => {
         el.classList.toggle('active', el.dataset.module === name);
       });
@@ -9296,8 +9348,11 @@ KPI 那个 158.3 亿是全平台所有 3C 商家加总(包括大量个体卖家�
       grid.replaceChildren();
       if (list.length === 0) {
         const empty = document.createElement('div');
-        empty.className = 'merchants-empty';
-        empty.textContent = '当前筛选条件下没有商家。试试调整等级或产业带筛选。';
+        empty.className = 'empty-state';
+        const icon = document.createElement('div'); icon.className = 'empty-state-icon'; icon.textContent = '🏪';
+        const title = document.createElement('div'); title.className = 'empty-state-title'; title.textContent = '当前筛选条件下没有商家';
+        const desc = document.createElement('div'); desc.className = 'empty-state-desc'; desc.textContent = '试试调整等级或产业带筛选,或切换其他品类';
+        empty.appendChild(icon); empty.appendChild(title); empty.appendChild(desc);
         grid.appendChild(empty);
         return;
       }
@@ -9783,8 +9838,11 @@ KPI 那个 158.3 亿是全平台所有 3C 商家加总(包括大量个体卖家�
       listEl.replaceChildren();
       if (list.length === 0) {
         const empty = document.createElement('div');
-        empty.style.cssText = 'padding:40px 12px;text-align:center;color:var(--text-3);font-size:13px';
-        empty.textContent = '当前筛选条件下没有达人,试试调整。';
+        empty.className = 'empty-state';
+        const icon = document.createElement('div'); icon.className = 'empty-state-icon'; icon.textContent = '🔍';
+        const title = document.createElement('div'); title.className = 'empty-state-title'; title.textContent = '没有符合条件的达人';
+        const desc = document.createElement('div'); desc.className = 'empty-state-desc'; desc.textContent = '试试放宽筛选条件,或切换其他品类';
+        empty.appendChild(icon); empty.appendChild(title); empty.appendChild(desc);
         listEl.appendChild(empty);
         return;
       }
@@ -10555,6 +10613,58 @@ KPI 那个 158.3 亿是全平台所有 3C 商家加总(包括大量个体卖家�
     })();
 
   </script>
+
+  <!--
+    ═══════════════════════════════════════════════════════════
+    RedOps · 面试演示推荐路径(5 分钟版本)
+    ═══════════════════════════════════════════════════════════
+
+    0:00-0:30  打开 RedOps · 自然展示首屏【行业大盘】
+               "我研究了 JD 后做了这个 AI Copilot,
+                让一个运营 = 过去 5 个运营的产能..."
+               停留观察 4 KPI CountUp + GMV 折线 + 5 条 AI 洞察打字
+
+    0:30-1:00  切换 5 个品类 Tab(服饰 → 美妆 → 食品 → 家居 → 3C)
+               展示所有图表 setOption 平滑过渡 + AI 洞察栏实时变化
+               "数据是模拟的,但形态符合业务实际(双 11 爬坡、周末效应、新品尖峰)"
+
+    1:00-2:00  跳【产业带作战图】
+               切回服饰品类,点击「广州十三行」气泡(或顶部下拉选)
+               展示:地图气泡 highlight + 右侧详情 + 漏斗图
+               底部:AI 商家推荐 20 个潜力商家横滚
+
+    2:00-3:00  跳【商家陪跑舱】
+               默认 GMV 降序,「素白衣橱」排第 1(转化力 48 红色凹陷雷达)
+               点击「进入陪跑 →」打开工作台:
+                 - 雷达大图 vs 同 tier 平均虚线
+                 - 30/60/90 三阶段陪跑计划
+                 - 问题诊断(红卡)+ 优化建议(绿卡)
+                 - 点「生成本周陪跑周报」→ 二级弹层打字机出 1100 字周报
+               "这就是 AI Copilot 把运营从重复劳动里解放出来"
+
+    3:00-4:00  跳【达人 × 内容】
+               展示达人池 15 个 + 筛选(KOL/腰部/尾部 × 互动率 × 商业产出)
+               点击右上爆文卡片(如「30 岁姐姐的新中式连衣裙合集」)
+               展示:AI 拆解 钩子/结构/复用要素
+               跳【AI 助手】(导航):
+                 输入「为什么 KPI 和折线对不上」
+                 → 触发口语化口径解释钩子
+               "这个产品设计了真实业务的多口径,不是简单 demo"
+
+    4:00-4:30  右上角点【上传数据】
+               展示 3 个 Tab:
+                 - 商家数据:拖一个 CSV 进来,真实读取前 5 行预览
+                 - 产业带名录:同上
+                 - API 对接配置:4 个企业内网 API + 测试连接 + 查看日志
+               "对接小红书内部数据中台,模型 24h 内可投产"
+
+    4:30-5:00  收尾
+               "这个产品覆盖 JD 全部职责:
+                  挖趋势(模块 1+2)→ 产业带运营(模块 3)→
+                  商家陪跑(模块 4)→ 达人协同(模块 5)→ AI 助手随时召唤(模块 6)。
+                我希望加入团队,把这个想法和小红书真实数据结合起来。"
+    ═══════════════════════════════════════════════════════════
+  -->
 
 </body>
 </html>
